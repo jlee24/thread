@@ -94,9 +94,8 @@ export default class App extends React.Component {
                  </TouchableOpacity>
                }
                keyExtractor={item => item.id}
-               // horizontal={true}
-               // numRows={1}
-               numColumns={2}
+               horizontal={true}
+               numRows={1}
               //  ItemSeparatorComponent={this.renderSeparator}
               //  ListHeaderComponent={this.renderHeader}
             />
@@ -120,7 +119,6 @@ export default class App extends React.Component {
                  </TouchableOpacity>
                }
                keyExtractor={item => item.id}
-               horizontal={false}
                numColumns={2}
               //  ItemSeparatorComponent={this.renderSeparator}
               //  ListHeaderComponent={this.renderHeader}
