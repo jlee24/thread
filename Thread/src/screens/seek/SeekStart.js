@@ -1,24 +1,30 @@
 import React, { Component } from "react";
-import { LayoutAnimation, RefreshControl } from "react-native";
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
-// import { ListItem } from 'react-native-elements';
+import { LayoutAnimation, RefreshControl, TouchableOpacity } from "react-native";
+import { Button, FlatList, Image, StyleSheet, Text, View } from 'react-native';
 
+import UploadIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Searchbar } from 'react-native-paper';
-
-// <Image
-//   style={{width: 50, height: 50}}
-//   source={require({ path })}
-// />
 
 function Item({ info }) {
   return (
-    <View style={styles.item}>
-      <Image
-        style={{width: 100, height: 100}}
-        source={{uri: info.path }}
-      />
-      <Text>{info.name}</Text>
-    </View>
+      <View>
+        <Image
+          style={styles.itemimage}
+          source={{uri: info.path }}
+        />
+        <Text>{info.name}</Text>
+      </View>
+  );
+}
+
+function SelectedItem({ info }) {
+  return (
+      <View>
+        <Image
+          style={styles.selecteditemimage}
+          source={{uri: info.path }}
+        />
+      </View>
   );
 }
 
@@ -27,35 +33,12 @@ export default class App extends React.Component {
   state = {
     query: '',
     data: [],
+    selectedItems: [],
     error: null,
+    refresh: true,
   };
 
-  arrayholder = [
-    {
-      'id': '0',
-      'name': 'Miguel War & Leisure',
-      'tags': 'graphic tee',
-      'path': 'https://cdn.shopify.com/s/files/1/0023/1184/8006/products/GraphicTee-1.jpg'
-    },
-    {
-      'id': '1',
-      'name': 'Fresh Pinch',
-      'tags': 'graphic tee',
-      'path': 'https://cdn.shopify.com/s/files/1/1845/1285/products/FreshPinch_White.gif'
-    },
-    {
-      'id': '2',
-      'name': 'Y3',
-      'tags': 'graphic tee',
-      'path': 'https://media.yoox.biz/items/12/12330633dm_14g_f.jpg'
-    },
-    {
-      'id': '3',
-      'name': 'Matilda',
-      'tags': 'graphic tee',
-      'path': 'http://peanutsausage.com/wp-content/uploads/2017/09/Mathilda-Leon-The-Professional.jpg'
-    },
-  ];
+  arrayholder = require('../../../assets/database.json');
 
   updateSearch = async (search) => {
     this.setState({ query: search });
@@ -71,11 +54,30 @@ export default class App extends React.Component {
     }
   };
 
+  changeSelection = (item) => {
+    const match = this.arrayholder.indexOf(item);
+    const match_item = this.arrayholder[match];
+    match_item['selected'] = !match_item['selected'];
+    this.arrayholder[match] = match_item;
+    this.setState({data: this.state.data})
+
+    const selectedItems = this.arrayholder.filter(arrayItem => {
+       return arrayItem.selected;
+    });
+    this.setState({selectedItems: selectedItems});
+  }
+
   render() {
+    const { navigate } = this.props.navigation;
     const { query } = this.state;
 		return (
-
         <View style={{flex: 1, flexDirection: 'column'}}>
+          <View style={styles.next}>
+            <Button
+              title="Next"
+              onPress={() => navigate('SeekInfo')}
+            />
+          </View>
           <View style={styles.container}>
             <Text style={styles.question}>what are you seeking?</Text>
             <Searchbar
@@ -85,13 +87,52 @@ export default class App extends React.Component {
               value={query}
             />
           </View>
+          <View style={styles.selections}>
+            <TouchableOpacity activeOpacity = { .3 } onPress={ this.callFun }>
+              <Image
+                style={styles.icon}
+                source={{uri: "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/upload-photo-icon.png" }}
+              />
+            </TouchableOpacity>
+            <FlatList
+              data={this.state.selectedItems}
+              extraData={this.state}
+              renderItem={({ item }) =>
+                <TouchableOpacity
+                  onPress={() => this.changeSelection(item)}
+                  style={[
+                    styles.selecteditem,
+                    { backgroundColor: item.selected ? '#6e3b6e' : '#f9c2ff' },
+                  ]}
+                >
+                  <SelectedItem
+                    info={item}
+                   />
+                 </TouchableOpacity>
+               }
+               keyExtractor={item => item.id}
+               horizontal={true}
+               numRows={1}
+              //  ItemSeparatorComponent={this.renderSeparator}
+              //  ListHeaderComponent={this.renderHeader}
+            />
+          </View>
           <View style={styles.results}>
             <FlatList
               data={this.state.data}
+              extraData={this.state}
               renderItem={({ item }) =>
-                <Item
-                  info={item}
-                 />
+                <TouchableOpacity
+                  onPress={() => this.changeSelection(item)}
+                  style={[
+                    styles.item,
+                    { backgroundColor: item.selected ? '#6e3b6e' : '#f9c2ff' },
+                  ]}
+                >
+                  <Item
+                    info={item}
+                   />
+                 </TouchableOpacity>
                }
                keyExtractor={item => item.id}
                horizontal={false}
@@ -109,44 +150,71 @@ export default class App extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 2,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    top: 100,
+    top: 10,
   },
   question: {
     color: "#121212",
     fontSize: 24,
     fontFamily: "ibm-plex-sans-regular",
-    // top: 50,
-    // width: 300,
-    // height: 50,
     width: '80%',
   },
   searchbar: {
     marginTop: 15,
-    // width: 300,
     width: '80%',
     borderRadius: 10,
   },
   results: {
     marginLeft: 5,
-    // marginTop:50,
-    // height: 300,
-    // width: 400,
-    flex:1,
+    flex:3,
     width: '90%',
     alignItems: 'center',
     justifyContent: 'center',
   },
   item: {
-    // width: '40%',
     margin: 10,
-    width: 125,
-    height: 125,
+    width: 130,
+    height: 130,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  itemimage: {
+    width: 100,
+    height: 100,
+  },
+  selections: {
+    marginLeft: 40,
+    width: '90%',
+    height: 100,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+  },
+  selecteditem: {
+    marginBottom: 10,
+    marginLeft: 5,
+    width: 75,
+    height: 75,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  selecteditemimage: {
+    width: 60,
+    height: 60,
+  },
+  icon: {
+    width: 60,
+    height: 60,
+    marginRight: 15,
+  },
+  next: {
+    // top:-50,
+    width: 100,
+    height: "5%",
+    alignSelf: 'flex-end',
+    justifyContent: 'flex-end',
   }
-
 });

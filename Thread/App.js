@@ -58,7 +58,7 @@ const SeekStackNavigation = createStackNavigator(
 const TabNavigator = createBottomTabNavigator(
   {
     SeekStart: {
-      screen: SeekStart,
+      screen: SeekStackNavigation,
       navigationOptions: {
         tabBarIcon: iconFn.seekIcon('binoculars'),
       },
@@ -122,25 +122,3 @@ function handleFinishLoading(setLoadingComplete) {
 }
 
 export default App;
-
-
-// Export it as the root component
-
-// export default App;
-
-// export default function App() {
-//   return (
-//     <View style={styles.container}>
-//       <Text>Open up App.js to start working on your app!</Text>
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
