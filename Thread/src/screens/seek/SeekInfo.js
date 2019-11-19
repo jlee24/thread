@@ -1,15 +1,22 @@
 import React, { Component } from "react";
 import { LayoutAnimation, RefreshControl } from "react-native";
-import { StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View } from 'react-native';
 
 
 export default class App extends React.Component {
 render() {
-    		return (
-      		<View style={styles.container}>
-        			<Text>Seek Info Form</Text>
-      		</View>
-    		);
+        const { navigate } = this.props.navigation;
+        return (
+        <View style={styles.container}>
+          <Text>Seek Info Form</Text>
+          <View style={styles.submit}>
+          <Button
+            title="Post seek!"
+            onPress={() => navigate('SeekSuccess')}
+          />
+          </View>
+        </View>
+        );
   	}
 }
 
