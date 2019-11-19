@@ -9,6 +9,7 @@ render() {
         return (
         <View style={styles.container}>
           <Text>Seek Info Form</Text>
+          <Text>yoo</Text>
           <View style={styles.submit}>
           <Button
             title="Post seek!"
