@@ -12,7 +12,7 @@ function Item({ info }) {
           style={styles.itemimage}
           source={{uri: info.path }}
         />
-        <Text>{info.name}</Text>
+        {/*<Text>{info.name}</Text>*/}
       </View>
   );
 }
@@ -111,8 +111,9 @@ export default class App extends React.Component {
                  </TouchableOpacity>
                }
                keyExtractor={item => item.id}
-               horizontal={true}
-               numRows={1}
+               // horizontal={true}
+               // numRows={1}
+               numColumns={2}
               //  ItemSeparatorComponent={this.renderSeparator}
               //  ListHeaderComponent={this.renderHeader}
             />
@@ -168,22 +169,22 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   results: {
-    marginLeft: 5,
     flex:3,
-    width: '90%',
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
   },
   item: {
-    margin: 10,
-    width: 130,
-    height: 130,
+    borderWidth: 0,
+    borderColor: '#F8D7FF',
+    width: 180,
+    height: 180,
     alignItems: 'center',
     justifyContent: 'center',
   },
   itemimage: {
-    width: 100,
-    height: 100,
+    width: 180,
+    height: 180,
   },
   selections: {
     marginLeft: 40,
