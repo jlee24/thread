@@ -1,32 +1,11 @@
 import React, { Component } from "react";
 import { LayoutAnimation, RefreshControl, TouchableOpacity } from "react-native";
-import { Button, FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import { Button, FlatList, Image, StyleSheet, Text, View, TextInput } from 'react-native';
 
 import UploadIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Searchbar } from 'react-native-paper';
-
-function Item({ info }) {
-  return (
-      <View>
-        <Image
-          style={styles.itemimage}
-          source={{uri: info.path }}
-        />
-        <Text>{info.name}</Text>
-      </View>
-  );
-}
-
-function SelectedItem({ info }) {
-  return (
-      <View>
-        <Image
-          style={styles.selecteditemimage}
-          source={{uri: info.path }}
-        />
-      </View>
-  );
-}
+import Item from "../../components/Item";
+import SelectedItem from "../../components/SelectedItem";
 
 export default class App extends React.Component {
 
@@ -70,14 +49,20 @@ export default class App extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     const { query } = this.state;
+    const { selectedItems } = this.state
 		return (
+        /* Outermost View */
         <View style={{flex: 1, flexDirection: 'column'}}>
+          {/* Next Button */}
           <View style={styles.next}>
             <Button
               title="Next"
-              onPress={() => navigate('SeekInfo')}
-            />
+              onPress={() => navigate('SeekInfo', {
+                title: query,
+                items: selectedItems
+              })}/>
           </View>
+          {/* Question and Search Bar */}
           <View style={styles.container}>
             <Text style={styles.question}>what are you seeking?</Text>
             <Searchbar
@@ -87,6 +72,7 @@ export default class App extends React.Component {
               value={query}
             />
           </View>
+          {/* Upload impage icon and Selected items */}
           <View style={styles.selections}>
             <TouchableOpacity activeOpacity = { .3 } onPress={ this.callFun }>
               <Image
@@ -101,8 +87,8 @@ export default class App extends React.Component {
                 <TouchableOpacity
                   onPress={() => this.changeSelection(item)}
                   style={[
-                    styles.selecteditem,
-                    { backgroundColor: item.selected ? '#6e3b6e' : '#f9c2ff' },
+                    styles.selectedItem,
+                    item.selected ? styles.selectedColor : styles.notSelectedColor,
                   ]}
                 >
                   <SelectedItem
@@ -117,6 +103,7 @@ export default class App extends React.Component {
               //  ListHeaderComponent={this.renderHeader}
             />
           </View>
+          {/* Search Results */}
           <View style={styles.results}>
             <FlatList
               data={this.state.data}
@@ -126,7 +113,7 @@ export default class App extends React.Component {
                   onPress={() => this.changeSelection(item)}
                   style={[
                     styles.item,
-                    { backgroundColor: item.selected ? '#6e3b6e' : '#f9c2ff' },
+                    item.selected ? styles.selectedColor : styles.notSelectedColor,
                   ]}
                 >
                   <Item
@@ -135,7 +122,6 @@ export default class App extends React.Component {
                  </TouchableOpacity>
                }
                keyExtractor={item => item.id}
-               horizontal={false}
                numColumns={2}
               //  ItemSeparatorComponent={this.renderSeparator}
               //  ListHeaderComponent={this.renderHeader}
@@ -168,22 +154,22 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   results: {
-    marginLeft: 5,
     flex:3,
-    width: '90%',
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
   },
   item: {
-    margin: 10,
-    width: 130,
-    height: 130,
+    borderWidth: 0,
+    borderColor: '#F8D7FF',
+    width: 180,
+    height: 180,
     alignItems: 'center',
     justifyContent: 'center',
   },
   itemimage: {
-    width: 100,
-    height: 100,
+    width: 180,
+    height: 180,
   },
   selections: {
     marginLeft: 40,
@@ -193,7 +179,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
   },
-  selecteditem: {
+  selectedItem: {
     marginBottom: 10,
     marginLeft: 5,
     width: 75,
@@ -201,9 +187,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  selecteditemimage: {
-    width: 60,
-    height: 60,
+  selectedColor: {
+    backgroundColor: '#6e3b6e'
+  },
+  notSelectedColor: {
+    backgroundColor: '#f9c2ff'
   },
   icon: {
     width: 60,
