@@ -15,10 +15,15 @@ import { AppLoading } from "expo";
 import * as Font from "expo-font";
 import Size from "./src/screens/Size";
 import Profile from "./src/screens/Profile";
-import SeekScreen from './src/screens/SeekScreen';
+
+// Seek Flow
+import SeekStart from './src/screens/seek/SeekStart';
+import SeekInfo from './src/screens/seek/SeekInfo';
+import SeekSuccess from './src/screens/seek/SeekSuccess';
+
 import SpotScreen from './src/screens/SpotScreen';
 
-const StackNavigation = createStackNavigator(
+const ProfileStackNavigation = createStackNavigator(
   {
     Profile: {
       screen: Profile
@@ -32,11 +37,28 @@ const StackNavigation = createStackNavigator(
   }
 );
 
+const SeekStackNavigation = createStackNavigator(
+  {
+    SeekStart: {
+      screen: SeekStart
+    },
+    SeekInfo: {
+      screen: SeekInfo
+    },
+    SeekSuccess: {
+      screen: SeekSuccess
+    },
+  },
+  {
+    initialRoute: 'SeekStart',
+  }
+);
+
 // Create our main tab navigator for moving between the 3 views
 const TabNavigator = createBottomTabNavigator(
   {
-    Seek: {
-      screen: SeekScreen,
+    SeekStart: {
+      screen: SeekStackNavigation,
       navigationOptions: {
         tabBarIcon: iconFn.seekIcon('binoculars'),
       },
@@ -48,7 +70,7 @@ const TabNavigator = createBottomTabNavigator(
       },
     },
     Profile: {
-      screen: StackNavigation,
+      screen: ProfileStackNavigation,
       navigationOptions: {
         tabBarIcon: iconFn.profileIcon('user'),
       },
@@ -83,6 +105,7 @@ function App() {
 async function loadResourcesAsync() {
   await Promise.all([
     Font.loadAsync({
+      "ibm-plex-sans-regular": require("./assets/fonts/ibm-plex-sans-regular.ttf"),
       "arial-regular": require("./assets/fonts/arial-regular.ttf"),
       "roboto-regular": require("./assets/fonts/roboto-regular.ttf"),
       "syncopate-regular": require("./assets/fonts/syncopate-regular.ttf"),
@@ -99,25 +122,3 @@ function handleFinishLoading(setLoadingComplete) {
 }
 
 export default App;
-
-
-// Export it as the root component
-
-// export default App;
-
-// export default function App() {
-//   return (
-//     <View style={styles.container}>
-//       <Text>Open up App.js to start working on your app!</Text>
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });

@@ -1,0 +1,51 @@
+[
+  {
+    "id": "0",
+    "name": "Miguel War & Leisure",
+    "tags": "graphic tee",
+    "path": "https://cdn.shopify.com/s/files/1/0023/1184/8006/products/GraphicTee-1.jpg",
+    "selected": false,
+  },
+  {
+    "id": "1",
+    "name": "Fresh Pinch",
+    "tags": "graphic tee",
+    "path": "https://cdn.shopify.com/s/files/1/1845/1285/products/FreshPinch_White.gif",
+    "selected": false,
+  },
+  {
+    "id": "2",
+    "name": "Y3",
+    "tags": "graphic tee",
+    "path": "https://media.yoox.biz/items/12/12330633dm_14g_f.jpg",
+    "selected": false,
+  },
+  {
+    "id": "3",
+    "name": "Matilda",
+    "tags": "graphic tee",
+    "path": "http://peanutsausage.com/wp-content/uploads/2017/09/Mathilda-Leon-The-Professional.jpg",
+    "selected": false,
+  },
+  {
+    "id":"4",
+    "name": "Toucan",
+    "tags": "graphic tee",
+    "path": "https://m.media-amazon.com/images/I/A1T2DchlmbL._CLa%7C2140,2000%7C61WOCljhqiL.png%7C0,0,2140,2000+648.0,529.0,809.0,971.0._UX522_.png",
+    "selected": false,
+  },
+  {
+    "id":"5",
+    "name": "WinTour",
+    "tags": "graphic tee",
+    "path": "https://cdn.shoplightspeed.com/shops/614089/files/6241930/image.jpg",
+    "selected": false,
+  },
+  {
+    "id": "6",
+    "name": "Empowered Girls",
+    "tags": "graphic tee",
+    "path": "https://cdn.shopify.com/s/files/1/0897/1240/products/EmpoweredGirls.png",
+    "selected": false,
+  }
+];
