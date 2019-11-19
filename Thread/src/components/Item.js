@@ -11,7 +11,7 @@ function Item({ info }) {
           style={styles.itemImage}
           source={{uri: info.path }}
         />
-        <Text>{info.name}</Text>
+        {/*<Text>{info.name}</Text>*/}
       </View>
   );
 }
