@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { LayoutAnimation, RefreshControl, TouchableOpacity } from "react-native";
-import { Button, FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import { Button, FlatList, Image, StyleSheet, Text, View, TextInput } from 'react-native';
 
 import UploadIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Searchbar } from 'react-native-paper';
@@ -49,6 +49,7 @@ export default class App extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     const { query } = this.state;
+    const { selectedItems } = this.state
 		return (
         /* Outermost View */
         <View style={{flex: 1, flexDirection: 'column'}}>
@@ -56,8 +57,10 @@ export default class App extends React.Component {
           <View style={styles.next}>
             <Button
               title="Next"
-              onPress={() => navigate('SeekInfo')}
-            />
+              onPress={() => navigate('SeekInfo', {
+                title: query,
+                items: selectedItems
+              })}/>
           </View>
           {/* Question and Search Bar */}
           <View style={styles.container}>
