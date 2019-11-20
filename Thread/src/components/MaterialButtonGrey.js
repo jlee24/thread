@@ -7,7 +7,7 @@ function MaterialButtonGrey(props) {
   return (
     <TouchableOpacity
       onPress={() => props.navigation.navigate('Size')}
-      /* Conditional navigation not supported at the moment */ style={[
+       /*Conditional navigation not supported at the moment */ style={[
         styles.container,
         props.style
       ]}
@@ -34,10 +34,12 @@ const styles = StyleSheet.create({
     },
     shadowColor: "#000",
     shadowOpacity: 0.35,
-    shadowRadius: 5
+    shadowRadius: 5,
+    marginTop: 15,
+    marginBottom: 15
   },
   caption: {
-    width: 28,
+    width: 50,
     color: "rgba(0,0,0,1)",
     alignSelf: "center",
     justifyContent: "space-between",
