@@ -164,10 +164,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  itemimage: {
-    width: 180,
-    height: 180,
-  },
   selections: {
     marginLeft: 40,
     width: '90%',

@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
   itemImage: {
     width: 180,
     height: 180,
+    borderWidth: 2,
   },
 });
 
