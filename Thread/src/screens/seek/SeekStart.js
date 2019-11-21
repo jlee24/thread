@@ -103,6 +103,7 @@ static navigationOptions = ({navigation}) => {
 }
 
   componentDidMount() {
+    firebase.initializeApp(firebaseConfig);
     //if updating title
     this.props.navigation.setParams({
       title: "", //or whatever the default value is
