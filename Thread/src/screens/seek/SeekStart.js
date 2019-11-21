@@ -13,6 +13,7 @@ import { Button, FlatList, Image, StyleSheet, Text, View, TextInput } from 'reac
 import UploadIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Searchbar } from 'react-native-paper';
 import Item from "../../components/Item";
+import CurrencyIcon from "../../components/CurrencyIcon";
 import SelectedItem from "../../components/SelectedItem";
 
 import * as ImagePicker from 'expo-image-picker';
@@ -165,6 +166,10 @@ export default class App extends React.Component {
               style={ styles.icon }
               source={{uri: "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/seek_bubbles/bubble3.png" }}
             />
+            <View style={ styles.spacer }/>
+            <View style={ styles.currencyContainer }>
+                <CurrencyIcon amount={8}/>
+            </View>
           </View>
 
           {/* Question and Search Bar */}
@@ -220,7 +225,7 @@ export default class App extends React.Component {
                     >
                       <Item
                         info={item}
-                        isSelected={true}
+                        isSelected={item.selected}
                         style={[
                           item.selected ? styles.selectedBorder : styles.notSelectedBorder
                         ]}
@@ -246,16 +251,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   seekBubbles: {
+    width: '100%',
+    flexDirection: 'row',
     position: 'absolute',
     top: 32,
     left: 44,
-    flexDirection: 'row',
+  },
+  spacer: {
+    width: 12,
+  },
+  currencyContainer: {
+    marginTop: 20,
   },
   searchContainer: {
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 16,
+    marginBottom: 24,
   },
   question: {
     textAlign: 'center',
@@ -284,7 +296,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     marginLeft: 40,
-    marginBottom: 15,
+    marginBottom: 24,
   },
   selectedItem: {
     marginLeft: 5,
@@ -292,13 +304,6 @@ const styles = StyleSheet.create({
     height: 72,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  selectedBorder: {
-    borderWidth: 2,
-    borderColor: '#7adbc9',
-  },
-  notSelectedBorder: {
-    borderWidth: 0,
   },
   icon: {
     width: 72,
