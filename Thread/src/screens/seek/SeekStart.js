@@ -197,7 +197,7 @@ export default class App extends React.Component {
                     >
                       <Item
                         info={item}
-                        isSelected={true}
+                        isSelected={item.selected}
                         style={[
                           item.selected ? styles.selectedBorder : styles.notSelectedBorder
                         ]}
@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 16,
+    marginBottom: 24,
   },
   question: {
     textAlign: 'center',
@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     marginLeft: 40,
-    marginBottom: 15,
+    marginBottom: 24,
   },
   selectedItem: {
     marginLeft: 5,
@@ -276,13 +276,6 @@ const styles = StyleSheet.create({
     height: 72,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  selectedBorder: {
-    borderWidth: 2,
-    borderColor: '#7adbc9',
-  },
-  notSelectedBorder: {
-    borderWidth: 0,
   },
   icon: {
     width: 72,
