@@ -13,6 +13,7 @@ import { Button, FlatList, Image, StyleSheet, Text, View, TextInput } from 'reac
 import UploadIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Searchbar } from 'react-native-paper';
 import Item from "../../components/Item";
+import CurrencyIcon from "../../components/CurrencyIcon";
 import SelectedItem from "../../components/SelectedItem";
 
 import * as ImagePicker from 'expo-image-picker';
@@ -137,6 +138,10 @@ export default class App extends React.Component {
               style={ styles.icon }
               source={{uri: "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/seek_bubbles/bubble3.png" }}
             />
+            <View style={ styles.spacer }/>
+            <View style={ styles.currencyContainer }>
+                <CurrencyIcon amount={8}/>
+            </View>
           </View>
 
           {/* Question and Search Bar */}
@@ -218,10 +223,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   seekBubbles: {
+    width: '100%',
+    flexDirection: 'row',
     position: 'absolute',
     top: 32,
     left: 44,
-    flexDirection: 'row',
+  },
+  spacer: {
+    width: 12,
+  },
+  currencyContainer: {
+    marginTop: 20,
   },
   searchContainer: {
     backgroundColor: '#fff',
