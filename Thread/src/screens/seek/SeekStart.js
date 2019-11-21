@@ -1,5 +1,13 @@
 import React, { Component } from "react";
-import { LayoutAnimation, RefreshControl, TouchableOpacity } from "react-native";
+import {
+  LayoutAnimation,
+  RefreshControl,
+  TouchableOpacity,
+  ActivityIndicator,
+  AsyncStorage,
+  StatusBar,
+} from "react-native";
+
 import { Button, FlatList, Image, StyleSheet, Text, View, TextInput } from 'react-native';
 
 import UploadIcon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -7,7 +15,59 @@ import { Searchbar } from 'react-native-paper';
 import Item from "../../components/Item";
 import SelectedItem from "../../components/SelectedItem";
 
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
+import * as firebase from 'firebase';
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCfF3iTUzsqphpDyYV94Rmoz-E4drDlSuU",
+    authDomain: "thread-ca0bb.firebaseapp.com",
+    databaseURL: "https://thread-ca0bb.firebaseio.com",
+    projectId: "thread-ca0bb",
+    storageBucket: "thread-ca0bb.appspot.com",
+    messagingSenderId: "642322348698",
+    appId: "1:642322348698:web:2d29abda75aae0ebe2fd23",
+    measurementId: "G-BSTC9VG2QX"
+  };
+
 export default class App extends React.Component {
+  componentDidMount = () => {
+    firebase.initializeApp(firebaseConfig);
+  }
+
+  getPermissionAsync = async (permission) => {
+    const { status } = await Permissions.askAsync(permission);
+    if (status !== 'granted') {
+      alert('Sorry, we need camera roll or camera permissions to make this work!');
+    }
+  }
+
+  uploadImage = async(uri) => {
+    const name = await AsyncStorage.getItem('name');
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    let splitURI = uri.split('/');
+    let filename = splitURI[splitURI.length - 1];
+    var ref = firebase.storage().ref().child(name+'/'+filename);
+    let task = ref.put(blob);
+    return {task, ref};
+  };
+
+  uploadFromLibrary = async () => {
+    await this.getPermissionAsync(Permissions.CAMERA_ROLL);
+    let result = await ImagePicker.launchImageLibraryAsync();
+    if (!result.cancelled) {
+      //uri is the local name of the image on phone
+      let res = await this.uploadImage(result.uri);
+
+      //To save where the image is, we can do 2 things.
+      //1) just keep track of the url by putting it in the user data in firebase or locally
+      //2) don't get the url until you need it. i.e., you know the user folder in storage, so why get url right now? Get it when you need it
+      await res.task;
+      let url = await res.ref.getDownloadURL();
+      console.log(url);
+    }
+  }
 
   state = {
     query: '',
@@ -74,7 +134,7 @@ export default class App extends React.Component {
           </View>
           {/* Upload impage icon and Selected items */}
           <View style={styles.selections}>
-            <TouchableOpacity activeOpacity = { .3 } onPress={ this.callFun }>
+            <TouchableOpacity activeOpacity = { .3 } onPress={ this.uploadFromLibrary }>
               <Image
                 style={styles.icon}
                 source={{uri: "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/upload-photo-icon.png" }}
