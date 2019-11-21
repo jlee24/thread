@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-<<<<<<< HEAD
 import {
   LayoutAnimation,
   RefreshControl,

@@ -13,16 +13,16 @@ export default class App extends React.Component {
 
 render() {
         const { navigate } = this.props.navigation;
+        const post_title = this.props.navigation.getParam('title');
         const items = this.props.navigation.getParam('items');
         return (
         <View style={styles.container}>
-        <Text>title: {post_title}</Text>
         <Text style={styles.question}>create seek</Text>
             <Searchbar 
             /* Need to get rid of the search icon */
               style={styles.searchbar}
-              value={post_title}
-
+              value={post_title} />
+            
             <View style={styles.selections}>
             <FlatList
               data={items}
