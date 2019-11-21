@@ -125,7 +125,7 @@ static navigationOptions = ({navigation}) => {
        this.setState({ data: newData });
     }
     this.props.navigation.setParams({
-      title: this.state.query
+      title: search
     });
   };
 
@@ -141,7 +141,7 @@ static navigationOptions = ({navigation}) => {
     });
     this.setState({selectedItems: selectedItems});
     this.props.navigation.setParams({
-      items: this.state.selectedItems
+      items: selectedItems
     });
   }
 

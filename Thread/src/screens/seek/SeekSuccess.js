@@ -10,7 +10,7 @@ render() {
         <View style={styles.container}>
             <Text style={styles.header}>{"Your seek, "}{JSON.stringify(post_title)}{", has been submitted!"}</Text>
             <Text style={styles.basic}>{"We\'ll ping you when it\'s been spotted."}</Text>
-            <Button style={styles.basic}
+            <Button style={styles.home}
               title="Back to home"
               onPress={() => navigate('SeekStart')}
             />
@@ -32,9 +32,14 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 24,
     fontFamily: "ibm-plex-sans-regular",
+    width: '75%',
+    marginBottom: 30
   },
   basic: {
     marginTop: 15
+  },
+  home: {
+    marginTop: 30
   }
 
 });

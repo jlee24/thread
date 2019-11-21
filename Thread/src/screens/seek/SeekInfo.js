@@ -15,34 +15,23 @@ export default class App extends React.Component {
       headerRight:
           <Button
            title='Finish'
-           onPress={() => navigation.navigate('SeekSuccess',
-             {'title': navigation.getParam('title')}
-         )} />
+           onPress={() => 
+            Alert.alert('Confirm Your Seek', 'Post this seek for 2 coins? \n Your current balance is 3 coins.',
+            [{text: 'Continue', onPress: () => navigation.navigate('SeekSuccess', {'title': navigation.getParam('title')})},
+            {text: 'Cancel', style: 'cancel'},],
+            {cancelable: true})
+          } />
       };
     };
 
-  render() {
-          const { navigate } = this.props.navigation;
-          const post_title = this.props.navigation.getParam('title');
-          const items = this.props.navigation.getParam('items');
-          console.log(post_title);
-          console.log(items);
-          return (
-            /*Explore using ScrollView instead of View*/
-          <View style={styles.container}>
-          <Text style={styles.question}>create seek:</Text>
-              <Searchbar
-              /* Need to get rid of the search icon */
-                style={styles.searchbar}
-                value={post_title}
-              />
-
 render() {
-        const { navigate } = this.props.navigation;
+        const navigate = this.props.navigation;
         const post_title = this.props.navigation.getParam('title');
         const items = this.props.navigation.getParam('items');
+
         return (
         <View style={styles.container}>
+
         <Text style={styles.question}>create seek</Text>
             <Searchbar
             /* Need to get rid of the search icon */
@@ -63,21 +52,11 @@ render() {
               horizontal={true}
               numRows={1}/>
               </View>
-
-            <TextInput
-              multiline = {true}
-              placeholder = "Briefly describe what you're looking for, i.e. 'loose-fitting jeans with rips in the knees' "
-              style = {styles.paragraph}
-            />
-            <TextInput label = "Size" placeholder = "M" style={styles.textinput}/>
-            <TextInput label = "Desired Fit" placeholder = "i.e. baggy, snug, slim" style={styles.textinput}/>
-            <TextInput label = "Price Cap" placeholder = "$5.50" style={styles.textinput}/>
-            <View style={styles.submit}>
-            </View>
+          
           <TextInput label = "Description"
             multiline = {true}
             placeholder = "Briefly describe what you're looking for, i.e. 'loose-fitting jeans with rips in the knees' "
-            style={styles.paragraph}/>
+            style={styles.textinput}/>
 
           <TextInput label = "Size" placeholder = "M" style={styles.textinput}/>
           <TextInput label = "Desired Fit" placeholder = "i.e. baggy, snug, slim" style={styles.textinput}/>
@@ -86,29 +65,18 @@ render() {
 
            {/*Google API key: 'AIzaSyCRe3a844-IW3tE5rhaT35Un_-NMxEqpGg'*/}
 
-          <View style={styles.submit}>
-
-           <Button
-        onPress={() => Alert.alert('Confirm Your Seek', 'Post this seek for 2 coins? \n Your current balance is 3 coins.',
-        [{text: 'Continue', onPress: () => navigate('SeekSuccess', {title: post_title})},
-          {text: 'Cancel', style: 'cancel'},],
-        {cancelable: true})}
-        title="Finish"
-        style={styles.finish}
-        />
-
-          </View>
+        </View>
           );
     	}
-  }
+    }
 
 const styles = StyleSheet.create({
+  
   container: {
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-
   },
   searchbar: {
     marginTop: 15,
@@ -136,7 +104,7 @@ const styles = StyleSheet.create({
   },
   textinput: {
     width: '80%',
-    marginTop: 15,
+    marginTop: 15
   },
   selectedItem: {
     marginLeft: 5,
@@ -146,8 +114,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   displayitems: {
-    marginTop: 15,
-    marginBottom: 15
+    marginTop: 15
   },
   headerbutton: {
     color: "#2B8FFF"
@@ -157,7 +124,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     marginLeft: 40,
-    marginBottom: 15,
   },
   finish: {
     backgroundColor: '#7adbc9',
@@ -167,7 +133,7 @@ const styles = StyleSheet.create({
       height: 5,
       width: -5
     },
-    shadowColor: "rgba(178,176,176,1)",
+  shadowColor: "rgba(178,176,176,1)",
     shadowRadius: 10
   }
 });
