@@ -9,14 +9,8 @@ import {
   StatusBar,
 } from "react-native";
 
-import { Button, FlatList, Image, StyleSheet, Text, View, TextInput } from 'react-native';
-||||||| merged common ancestors
-import { LayoutAnimation, RefreshControl, TouchableOpacity } from "react-native";
-import { Button, FlatList, Image, StyleSheet, Text, View, TextInput } from 'react-native';
-=======
 import { LayoutAnimation, RefreshControl, TouchableOpacity } from "react-native";
 import { Button, FlatList, Image, StyleSheet, Text, View, TextInput, Alert } from 'react-native';
->>>>>>> attempted rebase
 
 import UploadIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Searchbar } from 'react-native-paper';
@@ -231,7 +225,37 @@ static navigationOptions = ({navigation}) => {
                   //  ListHeaderComponent={this.renderHeader}
                 />
               </View>
-
+          {/* Upload image icon and Selected items */}
+          <View style={styles.selections}>
+            <TouchableOpacity activeOpacity = { .3 } onPress={ this.callFun }>
+              <Image
+                style={styles.icon}
+                source={{uri: "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/upload-photo-icon.png" }}
+              />
+            </TouchableOpacity>
+            <FlatList
+              data={this.state.selectedItems}
+              extraData={this.state}
+              renderItem={({ item }) =>
+                <TouchableOpacity
+                  onPress={() => this.changeSelection(item)}
+                  style={[
+                    styles.selectedItem,
+                    item.selected ? styles.selectedColor : styles.notSelectedColor,
+                  ]}
+                >
+                  <SelectedItem
+                    info={item}
+                   />
+                 </TouchableOpacity>
+               }
+               keyExtractor={item => item.id}
+               horizontal={true}
+               numRows={1}
+              //  ItemSeparatorComponent={this.renderSeparator}
+              //  ListHeaderComponent={this.renderHeader}
+            />
+          </View>
               {/* Search Results */}
               <View style={styles.results}>
                 <FlatList
@@ -323,13 +347,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  selectedBorder: {
+    borderWidth: 2,
+    borderColor: '#7adbc9',
+  },
+  notSelectedBorder: {
+    borderWidth: 0,
+  },
   icon: {
     width: 72,
     height: 72,
     marginRight: 15,
   },
-<<<<<<< HEAD
-=======
   next: {
     // top:-50,
     width: 100,
@@ -340,5 +369,4 @@ const styles = StyleSheet.create({
   headerbutton: {
     color: "#2B8FFF"
   }
->>>>>>> added coin spending alert
 });

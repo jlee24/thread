@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { LayoutAnimation, RefreshControl, TouchableOpacity } from "react-native";
 import { Searchbar, TextInput } from 'react-native-paper';
-import { Button, StyleSheet, Text, View, FlatList, ScrollView, Alert} from 'react-native';
+import { StyleSheet, Text, View, FlatList, ScrollView, Alert} from 'react-native';
+import { Button } from 'react-native';
 import SelectedItem from "../../components/SelectedItem";
 import MaterialButtonGrey from "../../components/MaterialButtonGrey";
 
@@ -27,14 +28,20 @@ render() {
               style={styles.searchbar}
               value={post_title}
 
+            <View style={styles.selections}>
             <FlatList
               data={items}
               style={styles.displayitems}
               renderItem={({ item }) =>
-                <TouchableOpacity style={[styles.selectedItem, styles.selectedColor]}>
+                <TouchableOpacity style={[styles.selectedItem, 
+                  item.selected ? styles.selectedColor : styles.notSelectedColor,]}>
                   <SelectedItem info={item}/>
                 </TouchableOpacity>
-              }/>
+              }
+              keyExtractor={item => item.id}
+              horizontal={true}
+              numRows={1}/>
+              </View>
 
             <TextInput
               multiline = {true}
@@ -66,7 +73,7 @@ render() {
           {text: 'Cancel', style: 'cancel'},],
         {cancelable: true})}
         title="Finish"
-        style={styles.headerbutton}/>
+        />
 
           </View>
           );
@@ -96,17 +103,20 @@ const styles = StyleSheet.create({
     width: '80%',
     height: 150,
     fontSize: 18,
-    textAlign: 'center'
+    textAlign: 'center',
+
   },
   selectedColor: {
-    backgroundColor: '#6e3b6e'
+    backgroundColor: '#7adbc9'
+  },
+  notSelectedColor: {
+    backgroundColor: '#f9c2ff'
   },
   textinput: {
     width: '80%',
     marginTop: 15,
   },
   selectedItem: {
-    marginTop: 10,
     marginLeft: 5,
     width: 75,
     height: 75,
@@ -114,10 +124,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   displayitems: {
-    /* Temporary way to display a bit more nicely- can remove later*/
-    height: '25%',
+    marginTop: 15,
+    marginBottom: 15
   },
   headerbutton: {
     color: "#2B8FFF"
+  },
+  selections: {
+    marginLeft: 40,
+    width: '90%',
+    height: 125,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start'
   }
 });
