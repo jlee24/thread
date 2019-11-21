@@ -6,12 +6,17 @@ import SelectedItem from "../../components/SelectedItem";
 
 
 export default class App extends React.Component {
-  // post_title = this.props.navigation.state.params.title;
-  // items = this.props.navigation.state.params.items;
-  // state = {
-  //   post_title: this.props.navigation.state.params.title,
-  //   items: this.props.navigation.state.params.items
-  // }
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerRight:
+          <Button
+           title='Finish'
+           onPress={() => navigation.navigate('SeekSuccess',
+             {'title': navigation.getParam('title')}
+         )} />
+      };
+    };
+
   render() {
           const { navigate } = this.props.navigation;
           const post_title = this.props.navigation.getParam('title');
@@ -47,10 +52,6 @@ export default class App extends React.Component {
             <TextInput label = "Desired Fit" placeholder = "i.e. baggy, snug, slim" style={styles.textinput}/>
             <TextInput label = "Price Cap" placeholder = "$5.50" style={styles.textinput}/>
             <View style={styles.submit}>
-            <Button
-              title="Finish"
-              onPress={() => navigate('SeekSuccess', {title: post_title})}
-            />
             </View>
           </View>
           );

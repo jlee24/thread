@@ -173,7 +173,7 @@ export default class App extends React.Component {
           </View>
 
           {/* Question and Search Bar */}
-          <View style={styles.searchContainer}>
+          <View style={this.state.query.length == 0 ? styles.searchContainer : styles.searchContainerWithResults}>
             <Text style={styles.question}>What are you seeking?</Text>
             <Searchbar
               style={styles.searchbar}
@@ -268,6 +268,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 24,
+  },
+  searchContainerWithResults: {
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 230,
+    marginBottom: 20,
   },
   question: {
     textAlign: 'center',
