@@ -123,18 +123,15 @@ export default class App extends React.Component {
     refresh: true,
   };
 
-    static navigationOptions = ({navigation}) =>{
-
-    headerRight: () => {(
-       <Button
-          onPress={navigation.getParam('nextScreen')}
-          title="Next"
-        style={styles.headerbutton}/>)}
-  };
-
-  componentDidMount() {
-    this.props.navigation.setParams({ nextScreen: 'SeekStart' });
+static navigationOptions = ({navigation}) => {
+  return {
+    headerRight: () => (
+      <Button 
+      onPress={() => navigation.navigate('SeekInfo')} 
+      title="Next" 
+      style={styles.headerbutton} />)
   }
+}
 
   arrayholder = require('../../../assets/database.json');
 
