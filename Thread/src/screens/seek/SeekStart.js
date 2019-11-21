@@ -7,8 +7,6 @@ import {
   AsyncStorage,
   StatusBar,
 } from "react-native";
-
-import { LayoutAnimation, RefreshControl, TouchableOpacity } from "react-native";
 import { Button, FlatList, Image, StyleSheet, Text, View, TextInput, Alert } from 'react-native';
 
 import UploadIcon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -92,21 +90,21 @@ export default class App extends React.Component {
 static navigationOptions = ({navigation}) => {
   return {
     headerRight: () => (
-      <Button 
+      <Button
       onPress={() =>
         navigation.navigate('SeekInfo', {
-          title: navigation.getParam('title'), 
+          title: navigation.getParam('title'),
           items: navigation.getParam('items')
   }
-  )} 
-      title="Next" 
+  )}
+      title="Next"
       style={styles.headerbutton} />)
   }
 }
 
   componentDidMount() {
     //if updating title
-    this.props.navigation.setParams({ 
+    this.props.navigation.setParams({
       title: "", //or whatever the default value is
       items: [], //default value
     });
@@ -126,7 +124,7 @@ static navigationOptions = ({navigation}) => {
     } else {
        this.setState({ data: newData });
     }
-    this.props.navigation.setParams({ 
+    this.props.navigation.setParams({
       title: this.state.query
     });
   };
@@ -142,7 +140,7 @@ static navigationOptions = ({navigation}) => {
        return arrayItem.selected;
     });
     this.setState({selectedItems: selectedItems});
-    this.props.navigation.setParams({ 
+    this.props.navigation.setParams({
       items: this.state.selectedItems
     });
   }
