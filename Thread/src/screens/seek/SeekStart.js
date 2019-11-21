@@ -8,6 +8,14 @@ import Item from "../../components/Item";
 import SelectedItem from "../../components/SelectedItem";
 
 export default class App extends React.Component {
+   static navigationOptions = {
+    headerRight: () => (
+      <Button
+        onPress={() => alert('Fix this to navigate properly!')}
+        title="Next"
+      />
+    ),
+  };
 
   state = {
     query: '',
@@ -50,99 +58,118 @@ export default class App extends React.Component {
     const { navigate } = this.props.navigation;
     const { query } = this.state;
     const { selectedItems } = this.state
+
 		return (
         /* Outermost View */
-        <View style={{flex: 1, flexDirection: 'column'}}>
-          {/* Next Button */}
-          <View style={styles.next}>
-            <Button
-              title="Next"
-              onPress={() => navigate('SeekInfo', {
-                title: query,
-                items: selectedItems
-              })}/>
+        <View style={styles.container}>
+          {/* Story Bubbles (TODO: currently placeholders) */}
+          <View style={styles.seekBubbles}>
+            <Image
+              style={ styles.icon }
+              source={{uri: "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/seek_bubbles/bubble1.png" }} 
+            />
+            <Image
+              style={ styles.icon }
+              source={{uri: "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/seek_bubbles/bubble2.png" }} 
+            />
+            <Image
+              style={ styles.icon }
+              source={{uri: "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/seek_bubbles/bubble3.png" }} 
+            />
           </View>
+
           {/* Question and Search Bar */}
-          <View style={styles.container}>
-            <Text style={styles.question}>what are you seeking?</Text>
+          <View style={styles.searchContainer}>
+            <Text style={styles.question}>What are you seeking?</Text>
             <Searchbar
               style={styles.searchbar}
-              placeholder="Type here..."
+              placeholder="e.g. miguel graphic tee"
               onChangeText={this.updateSearch}
               value={query}
             />
           </View>
-          {/* Upload impage icon and Selected items */}
-          <View style={styles.selections}>
-            <TouchableOpacity activeOpacity = { .3 } onPress={ this.callFun }>
-              <Image
-                style={styles.icon}
-                source={{uri: "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/upload-photo-icon.png" }}
-              />
-            </TouchableOpacity>
-            <FlatList
-              data={this.state.selectedItems}
-              extraData={this.state}
-              renderItem={({ item }) =>
-                <TouchableOpacity
-                  onPress={() => this.changeSelection(item)}
-                  style={[
-                    styles.selectedItem,
-                    item.selected ? styles.selectedColor : styles.notSelectedColor,
-                  ]}
-                >
-                  <SelectedItem
-                    info={item}
-                   />
-                 </TouchableOpacity>
-               }
-               keyExtractor={item => item.id}
-               horizontal={true}
-               numRows={1}
-              //  ItemSeparatorComponent={this.renderSeparator}
-              //  ListHeaderComponent={this.renderHeader}
-            />
-          </View>
-          {/* Search Results */}
-          <View style={styles.results}>
-            <FlatList
-              data={this.state.data}
-              extraData={this.state}
-              renderItem={({ item }) =>
-                <TouchableOpacity
-                  onPress={() => this.changeSelection(item)}
-                  style={[
-                    styles.item,
-                    item.selected ? styles.selectedColor : styles.notSelectedColor,
-                  ]}
-                >
-                  <Item
-                    info={item}
-                   />
-                 </TouchableOpacity>
-               }
-               keyExtractor={item => item.id}
-               numColumns={2}
-              //  ItemSeparatorComponent={this.renderSeparator}
-              //  ListHeaderComponent={this.renderHeader}
-            />
-          </View>
-        </View>
+          { this.state.query.length > 0 ? 
+          <View style={styles.resultsContainer}>
+            {/* Upload image icon and Selected items */}
+            <View style={styles.selections}>
+              <TouchableOpacity activeOpacity = { .3 } onPress={ this.callFun }>
+                <Image
+                  style={ styles.icon }
+                  source={{uri: "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/upload_photo_button.png" }} 
+                />
+              </TouchableOpacity>
+              <FlatList
+                data={this.state.selectedItems}
+                extraData={this.state}
+                renderItem={({ item }) =>
+                  <TouchableOpacity
+                    onPress={() => this.changeSelection(item)}
+                    style={[
+                      styles.selectedItem,
+                      item.selected ? styles.selectedBorder : styles.notSelectedBorder,
+                    ]}
+                  >
+                    <SelectedItem info={item}/>
+                  </TouchableOpacity>
+                  }
+                  keyExtractor={item => item.id}
+                  horizontal={true}
+                  numRows={1}
+                  //  ItemSeparatorComponent={this.renderSeparator}
+                  //  ListHeaderComponent={this.renderHeader}
+                />
+              </View>
 
-
+              {/* Search Results */}
+              <View style={styles.results}>
+                <FlatList
+                  data={this.state.data}
+                  extraData={this.state}
+                  renderItem={({ item }) =>
+                    <TouchableOpacity
+                      onPress={() => this.changeSelection(item)}
+                    >
+                      <Item
+                        info={item}
+                        isSelected={true}
+                        style={[
+                          item.selected ? styles.selectedBorder : styles.notSelectedBorder
+                        ]}
+                       />
+                    </TouchableOpacity>
+                  }
+                  keyExtractor={item => item.id}
+                  numColumns={2}
+                  //  ItemSeparatorComponent={this.renderSeparator}
+                  //  ListHeaderComponent={this.renderHeader}
+                />
+              </View>
+            </View> : null}
+          </View>
 		);
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 2,
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  seekBubbles: {
+    position: 'absolute',
+    top: 32,
+    left: 44,
+    flexDirection: 'row',
+  },
+  searchContainer: {
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    top: 10,
+    marginBottom: 16,
   },
   question: {
+    textAlign: 'center',
     color: "#121212",
     fontSize: 24,
     fontFamily: "ibm-plex-sans-regular",
@@ -153,56 +180,40 @@ const styles = StyleSheet.create({
     width: '80%',
     borderRadius: 10,
   },
-  results: {
-    flex:3,
+  resultsContainer: {
+    height: '80%',
     width: '100%',
     alignItems: 'center',
-    justifyContent: 'center',
   },
-  item: {
-    borderWidth: 0,
-    borderColor: '#F8D7FF',
-    width: 180,
-    height: 180,
+  results: {
+    width: '80%',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  itemimage: {
-    width: 180,
-    height: 180,
-  },
   selections: {
-    marginLeft: 40,
-    width: '90%',
-    height: 100,
     flexDirection: 'row',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
+    marginLeft: 40,
+    marginBottom: 15,
   },
   selectedItem: {
-    marginBottom: 10,
     marginLeft: 5,
-    width: 75,
-    height: 75,
+    width: 72,
+    height: 72,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  selectedColor: {
-    backgroundColor: '#6e3b6e'
+  selectedBorder: {
+    borderWidth: 2,
+    borderColor: '#7adbc9',
   },
-  notSelectedColor: {
-    backgroundColor: '#f9c2ff'
+  notSelectedBorder: {
+    borderWidth: 0,
   },
   icon: {
-    width: 60,
-    height: 60,
+    width: 72,
+    height: 72,
     marginRight: 15,
   },
-  next: {
-    // top:-50,
-    width: 100,
-    height: "5%",
-    alignSelf: 'flex-end',
-    justifyContent: 'flex-end',
-  }
 });
