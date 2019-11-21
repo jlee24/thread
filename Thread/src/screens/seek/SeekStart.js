@@ -1,34 +1,85 @@
 import React, { Component } from "react";
+import {
+  LayoutAnimation,
+  RefreshControl,
+  TouchableOpacity,
+  ActivityIndicator,
+  AsyncStorage,
+  StatusBar,
+} from "react-native";
+
 import { LayoutAnimation, RefreshControl, TouchableOpacity } from "react-native";
-import { Button, FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import { Button, FlatList, Image, StyleSheet, Text, View, TextInput, Alert } from 'react-native';
 
 import UploadIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Searchbar } from 'react-native-paper';
+import Item from "../../components/Item";
+import CurrencyIcon from "../../components/CurrencyIcon";
+import SelectedItem from "../../components/SelectedItem";
 
-function Item({ info }) {
-  return (
-      <View>
-        <Image
-          style={styles.itemimage}
-          source={{uri: info.path }}
-        />
-        <Text>{info.name}</Text>
-      </View>
-  );
-}
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
+import * as firebase from 'firebase';
 
-function SelectedItem({ info }) {
-  return (
-      <View>
-        <Image
-          style={styles.selecteditemimage}
-          source={{uri: info.path }}
-        />
-      </View>
-  );
-}
+const firebaseConfig = {
+    apiKey: "AIzaSyCfF3iTUzsqphpDyYV94Rmoz-E4drDlSuU",
+    authDomain: "thread-ca0bb.firebaseapp.com",
+    databaseURL: "https://thread-ca0bb.firebaseio.com",
+    projectId: "thread-ca0bb",
+    storageBucket: "thread-ca0bb.appspot.com",
+    messagingSenderId: "642322348698",
+    appId: "1:642322348698:web:2d29abda75aae0ebe2fd23",
+    measurementId: "G-BSTC9VG2QX"
+  };
 
 export default class App extends React.Component {
+
+  getPermissionAsync = async (permission) => {
+    const { status } = await Permissions.askAsync(permission);
+    if (status !== 'granted') {
+      alert('Sorry, we need camera roll or camera permissions to make this work!');
+    }
+  }
+
+  uploadImage = async(uri) => {
+    const name = await AsyncStorage.getItem('name');
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    let splitURI = uri.split('/');
+    let filename = splitURI[splitURI.length - 1];
+    var ref = firebase.storage().ref().child(name+'/'+filename);
+    let task = ref.put(blob);
+    return {task, ref};
+  };
+
+  uploadFromLibrary = async () => {
+    await this.getPermissionAsync(Permissions.CAMERA_ROLL);
+    let result = await ImagePicker.launchImageLibraryAsync();
+    if (!result.cancelled) {
+      //uri is the local name of the image on phone
+      let res = await this.uploadImage(result.uri);
+
+      //To save where the image is, we can do 2 things.
+      //1) just keep track of the url by putting it in the user data in firebase or locally
+      //2) don't get the url until you need it. i.e., you know the user folder in storage, so why get url right now? Get it when you need it
+      await res.task;
+      let url = await res.ref.getDownloadURL();
+      console.log(url);
+
+      const selectedItems = this.state.selectedItems;
+      const userUpload = {
+        "id": "user" + selectedItems.length.toString(),
+        "name": "User Upload",
+        "tags": "user upload",
+        "path": url,
+        "selected": true,
+      }
+      this.arrayholder.push(userUpload);
+
+      selectedItems.unshift(userUpload)
+      this.setState({selectedItems: selectedItems});
+    }
+  }
 
   state = {
     query: '',
@@ -37,6 +88,29 @@ export default class App extends React.Component {
     error: null,
     refresh: true,
   };
+
+static navigationOptions = ({navigation}) => {
+  return {
+    headerRight: () => (
+      <Button 
+      onPress={() =>
+        navigation.navigate('SeekInfo', {
+          title: navigation.getParam('title'), 
+          items: navigation.getParam('items')
+  }
+  )} 
+      title="Next" 
+      style={styles.headerbutton} />)
+  }
+}
+
+  componentDidMount() {
+    //if updating title
+    this.props.navigation.setParams({ 
+      title: "", //or whatever the default value is
+      items: [], //default value
+    });
+  }
 
   arrayholder = require('../../../assets/database.json');
 
@@ -52,6 +126,9 @@ export default class App extends React.Component {
     } else {
        this.setState({ data: newData });
     }
+    this.props.navigation.setParams({ 
+      title: this.state.query
+    });
   };
 
   changeSelection = (item) => {
@@ -65,98 +142,137 @@ export default class App extends React.Component {
        return arrayItem.selected;
     });
     this.setState({selectedItems: selectedItems});
+    this.props.navigation.setParams({ 
+      items: this.state.selectedItems
+    });
   }
 
   render() {
     const { navigate } = this.props.navigation;
     const { query } = this.state;
+    const { selectedItems } = this.state
+
 		return (
-        <View style={{flex: 1, flexDirection: 'column'}}>
-          <View style={styles.next}>
-            <Button
-              title="Next"
-              onPress={() => navigate('SeekInfo')}
+        /* Outermost View */
+        <View style={styles.container}>
+          {/* Story Bubbles (TODO: currently placeholders) */}
+          <View style={styles.seekBubbles}>
+            <Image
+              style={ styles.icon }
+              source={{uri: "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/seek_bubbles/bubble1.png" }}
             />
+            <Image
+              style={ styles.icon }
+              source={{uri: "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/seek_bubbles/bubble2.png" }}
+            />
+            <Image
+              style={ styles.icon }
+              source={{uri: "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/seek_bubbles/bubble3.png" }}
+            />
+            <View style={ styles.spacer }/>
+            <View style={ styles.currencyContainer }>
+                <CurrencyIcon amount={8}/>
+            </View>
           </View>
-          <View style={styles.container}>
-            <Text style={styles.question}>what are you seeking?</Text>
+
+          {/* Question and Search Bar */}
+          <View style={styles.searchContainer}>
+            <Text style={styles.question}>What are you seeking?</Text>
             <Searchbar
               style={styles.searchbar}
-              placeholder="Type here..."
+              placeholder="e.g. miguel graphic tee"
               onChangeText={this.updateSearch}
               value={query}
             />
           </View>
-          <View style={styles.selections}>
-            <TouchableOpacity activeOpacity = { .3 } onPress={ this.callFun }>
-              <Image
-                style={styles.icon}
-                source={{uri: "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/upload-photo-icon.png" }}
-              />
-            </TouchableOpacity>
-            <FlatList
-              data={this.state.selectedItems}
-              extraData={this.state}
-              renderItem={({ item }) =>
-                <TouchableOpacity
-                  onPress={() => this.changeSelection(item)}
-                  style={[
-                    styles.selecteditem,
-                    { backgroundColor: item.selected ? '#6e3b6e' : '#f9c2ff' },
-                  ]}
-                >
-                  <SelectedItem
-                    info={item}
-                   />
-                 </TouchableOpacity>
-               }
-               keyExtractor={item => item.id}
-               horizontal={true}
-               numRows={1}
-              //  ItemSeparatorComponent={this.renderSeparator}
-              //  ListHeaderComponent={this.renderHeader}
-            />
+          { this.state.query.length > 0 ?
+          <View style={styles.resultsContainer}>
+            {/* Upload image icon and Selected items */}
+            <View style={styles.selections}>
+              <TouchableOpacity activeOpacity = { .3 } onPress={ this.uploadFromLibrary }>
+                <Image
+                  style={ styles.icon }
+                  source={{uri: "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/upload_photo_button.png" }}
+                />
+              </TouchableOpacity>
+              <FlatList
+                data={this.state.selectedItems}
+                extraData={this.state}
+                renderItem={({ item }) =>
+                  <TouchableOpacity
+                    onPress={() => this.changeSelection(item)}
+                    style={[
+                      styles.selectedItem,
+                      item.selected ? styles.selectedBorder : styles.notSelectedBorder,
+                    ]}
+                  >
+                    <SelectedItem info={item}/>
+                  </TouchableOpacity>
+                  }
+                  keyExtractor={item => item.id}
+                  horizontal={true}
+                  numRows={1}
+                  //  ItemSeparatorComponent={this.renderSeparator}
+                  //  ListHeaderComponent={this.renderHeader}
+                />
+              </View>
+              {/* Search Results */}
+              <View style={styles.results}>
+                <FlatList
+                  data={this.state.data}
+                  extraData={this.state}
+                  renderItem={({ item }) =>
+                    <TouchableOpacity
+                      onPress={() => this.changeSelection(item)}
+                    >
+                      <Item
+                        info={item}
+                        isSelected={item.selected}
+                        style={[
+                          item.selected ? styles.selectedBorder : styles.notSelectedBorder
+                        ]}
+                       />
+                    </TouchableOpacity>
+                  }
+                  keyExtractor={item => item.id}
+                  numColumns={2}
+                  //  ItemSeparatorComponent={this.renderSeparator}
+                  //  ListHeaderComponent={this.renderHeader}
+                />
+              </View>
+            </View> : null}
           </View>
-          <View style={styles.results}>
-            <FlatList
-              data={this.state.data}
-              extraData={this.state}
-              renderItem={({ item }) =>
-                <TouchableOpacity
-                  onPress={() => this.changeSelection(item)}
-                  style={[
-                    styles.item,
-                    { backgroundColor: item.selected ? '#6e3b6e' : '#f9c2ff' },
-                  ]}
-                >
-                  <Item
-                    info={item}
-                   />
-                 </TouchableOpacity>
-               }
-               keyExtractor={item => item.id}
-               horizontal={false}
-               numColumns={2}
-              //  ItemSeparatorComponent={this.renderSeparator}
-              //  ListHeaderComponent={this.renderHeader}
-            />
-          </View>
-        </View>
-
-
 		);
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 2,
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  seekBubbles: {
+    width: '100%',
+    flexDirection: 'row',
+    position: 'absolute',
+    top: 32,
+    left: 44,
+  },
+  spacer: {
+    width: 12,
+  },
+  currencyContainer: {
+    marginTop: 20,
+  },
+  searchContainer: {
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    top: 10,
+    marginBottom: 24,
   },
   question: {
+    textAlign: 'center',
     color: "#121212",
     fontSize: 24,
     fontFamily: "ibm-plex-sans-regular",
@@ -167,47 +283,40 @@ const styles = StyleSheet.create({
     width: '80%',
     borderRadius: 10,
   },
+  resultsContainer: {
+    height: '80%',
+    width: '100%',
+    alignItems: 'center',
+  },
   results: {
-    marginLeft: 5,
-    flex:3,
-    width: '90%',
+    width: '80%',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  item: {
-    margin: 10,
-    width: 130,
-    height: 130,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  itemimage: {
-    width: 100,
-    height: 100,
   },
   selections: {
-    marginLeft: 40,
-    width: '90%',
-    height: 100,
     flexDirection: 'row',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
+    marginLeft: 40,
+    marginBottom: 24,
   },
-  selecteditem: {
-    marginBottom: 10,
+  selectedItem: {
     marginLeft: 5,
-    width: 75,
-    height: 75,
+    width: 72,
+    height: 72,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  selecteditemimage: {
-    width: 60,
-    height: 60,
+  selectedBorder: {
+    borderWidth: 2,
+    borderColor: '#7adbc9',
+  },
+  notSelectedBorder: {
+    borderWidth: 0,
   },
   icon: {
-    width: 60,
-    height: 60,
+    width: 72,
+    height: 72,
     marginRight: 15,
   },
   next: {
@@ -216,5 +325,8 @@ const styles = StyleSheet.create({
     height: "5%",
     alignSelf: 'flex-end',
     justifyContent: 'flex-end',
+  },
+  headerbutton: {
+    color: "#2B8FFF"
   }
 });
