@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { LayoutAnimation, RefreshControl, TouchableOpacity } from "react-native";
 import { Searchbar, TextInput } from 'react-native-paper';
-import { StyleSheet, Text, View, FlatList, ScrollView, Alert} from 'react-native';
+import { StyleSheet, Text, View, FlatList, ScrollView, Alert, Tooltip} from 'react-native';
 import { Button } from 'react-native';
 import SelectedItem from "../../components/SelectedItem";
 import MaterialButtonGrey from "../../components/MaterialButtonGrey";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+
 
 
 export default class App extends React.Component {
@@ -18,11 +20,13 @@ export default class App extends React.Component {
 render() {
         const { navigate } = this.props.navigation;
         const post_title = this.props.navigation.getParam('title');
+        console.log(this.props.navigation.getParam('title'));
         const items = this.props.navigation.getParam('items');
         return (
           /*Explore using ScrollView instead of View*/
         <View style={styles.container}>
-        <Text style={styles.question}>create seek:</Text>
+        <Text>title: {post_title}</Text>
+        <Text style={styles.question}>create seek</Text>
             <Searchbar 
             /* Need to get rid of the search icon */
               style={styles.searchbar}
@@ -34,7 +38,7 @@ render() {
               style={styles.displayitems}
               renderItem={({ item }) =>
                 <TouchableOpacity style={[styles.selectedItem, 
-                  item.selected ? styles.selectedColor : styles.notSelectedColor,]}>
+                  item.selected ? styles.selectedBorder : styles.notSelectedBorder,]}>
                   <SelectedItem info={item}/>
                 </TouchableOpacity>
               }
@@ -60,11 +64,15 @@ render() {
           <TextInput label = "Description"
             multiline = {true}
             placeholder = "Briefly describe what you're looking for, i.e. 'loose-fitting jeans with rips in the knees' "
-            style = {styles.paragraph}/>
+            style={styles.paragraph}/>
 
           <TextInput label = "Size" placeholder = "M" style={styles.textinput}/>
           <TextInput label = "Desired Fit" placeholder = "i.e. baggy, snug, slim" style={styles.textinput}/>
           <TextInput label = "Price Cap" placeholder = "$5.50" style={styles.textinput}/>
+          <TextInput label = "Look Near" placeholder = "Savers RWC" style={styles.textinput}/>
+
+           {/*Google API key: 'AIzaSyCRe3a844-IW3tE5rhaT35Un_-NMxEqpGg'*/}
+         
           <View style={styles.submit}>
           
            <Button
@@ -73,6 +81,7 @@ render() {
           {text: 'Cancel', style: 'cancel'},],
         {cancelable: true})}
         title="Finish"
+        style={styles.finish}
         />
 
           </View>
@@ -94,6 +103,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   question: {
+    textAlign: 'center',
     color: "#121212",
     fontSize: 24,
     fontFamily: "ibm-plex-sans-regular",
@@ -102,15 +112,14 @@ const styles = StyleSheet.create({
   paragraph: {
     width: '80%',
     height: 150,
-    fontSize: 18,
     textAlign: 'center',
-
   },
-  selectedColor: {
-    backgroundColor: '#7adbc9'
+  selectedBorder: {
+    borderWidth: 2,
+    borderColor: '#7adbc9',
   },
-  notSelectedColor: {
-    backgroundColor: '#f9c2ff'
+  notSelectedBorder: {
+    borderWidth: 0,
   },
   textinput: {
     width: '80%',
@@ -118,8 +127,8 @@ const styles = StyleSheet.create({
   },
   selectedItem: {
     marginLeft: 5,
-    width: 75,
-    height: 75,
+    width: 72,
+    height: 72,
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -131,11 +140,22 @@ const styles = StyleSheet.create({
     color: "#2B8FFF"
   },
   selections: {
-    marginLeft: 40,
-    width: '90%',
-    height: 125,
     flexDirection: 'row',
     alignItems: 'flex-start',
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    marginLeft: 40,
+    marginBottom: 15,
+  },
+  finish: {
+    backgroundColor: '#7adbc9',
+    marginTop: 30,
+    borderRadius: 12,
+    shadowOffset: {
+      height: 5,
+      width: -5
+    },
+    shadowColor: "rgba(178,176,176,1)",
+    shadowRadius: 10
+
   }
 });

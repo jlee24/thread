@@ -34,33 +34,6 @@ const firebaseConfig = {
   };
 
 export default class App extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      headerRight:
-          <Button
-           title='Next'
-           onPress={() => navigation.navigate('SeekInfo',
-             {'title': navigation.getParam('title')(),
-              'items': navigation.getParam('items')()
-             }
-         )} />
-      };
-    };
-
-  componentDidMount = () => {
-    firebase.initializeApp(firebaseConfig);
-    this.props.navigation.setParams({
-       title: this._query,
-       items: this._selectedItems
-     });
-  }
-
-  _query = () => {
-      return this.state.query;
-  }
-  _selectedItems = () => {
-      return this.state.selectedItems;
-  }
 
   getPermissionAsync = async (permission) => {
     const { status } = await Permissions.askAsync(permission);
@@ -121,11 +94,24 @@ static navigationOptions = ({navigation}) => {
   return {
     headerRight: () => (
       <Button 
-      onPress={() => navigation.navigate('SeekInfo')} 
+      onPress={() =>
+        navigation.navigate('SeekInfo', {
+          title: navigation.getParam('title'), 
+          items: navigation.getParam('items')
+  }
+  )} 
       title="Next" 
       style={styles.headerbutton} />)
   }
 }
+
+  componentDidMount() {
+    //if updating title
+    this.props.navigation.setParams({ 
+      title: "", //or whatever the default value is
+      items: [], //default value
+    });
+  }
 
   arrayholder = require('../../../assets/database.json');
 
@@ -141,6 +127,9 @@ static navigationOptions = ({navigation}) => {
     } else {
        this.setState({ data: newData });
     }
+    this.props.navigation.setParams({ 
+      title: this.state.query
+    });
   };
 
   changeSelection = (item) => {
@@ -154,6 +143,9 @@ static navigationOptions = ({navigation}) => {
        return arrayItem.selected;
     });
     this.setState({selectedItems: selectedItems});
+    this.props.navigation.setParams({ 
+      items: this.state.selectedItems
+    });
   }
 
   render() {
@@ -183,6 +175,12 @@ static navigationOptions = ({navigation}) => {
                 <CurrencyIcon amount={8}/>
             </View>
           </View>
+
+      <Button 
+      onPress={() => navigate('SeekInfo', {title: query, items: selectedItems})} 
+      title="Next" 
+      style={styles.headerbutton} />
+
 
           {/* Question and Search Bar */}
           <View style={styles.searchContainer}>
@@ -225,37 +223,6 @@ static navigationOptions = ({navigation}) => {
                   //  ListHeaderComponent={this.renderHeader}
                 />
               </View>
-          {/* Upload image icon and Selected items */}
-          <View style={styles.selections}>
-            <TouchableOpacity activeOpacity = { .3 } onPress={ this.callFun }>
-              <Image
-                style={styles.icon}
-                source={{uri: "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/upload-photo-icon.png" }}
-              />
-            </TouchableOpacity>
-            <FlatList
-              data={this.state.selectedItems}
-              extraData={this.state}
-              renderItem={({ item }) =>
-                <TouchableOpacity
-                  onPress={() => this.changeSelection(item)}
-                  style={[
-                    styles.selectedItem,
-                    item.selected ? styles.selectedColor : styles.notSelectedColor,
-                  ]}
-                >
-                  <SelectedItem
-                    info={item}
-                   />
-                 </TouchableOpacity>
-               }
-               keyExtractor={item => item.id}
-               horizontal={true}
-               numRows={1}
-              //  ItemSeparatorComponent={this.renderSeparator}
-              //  ListHeaderComponent={this.renderHeader}
-            />
-          </View>
               {/* Search Results */}
               <View style={styles.results}>
                 <FlatList
