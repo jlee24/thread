@@ -4,12 +4,12 @@ import { Button, Image, Text, View } from 'react-native';
 
 {/* SelectedItem is a component for the search results
     selected by the user */}
-function SelectedItem({ info }) {
+function SelectedItem(props) {
   return (
       <View>
         <Image
           style={styles.selectedItemImage}
-          source={{uri: info.path }}
+          source={{uri: props.info.path }}
         />
       </View>
   );
@@ -17,8 +17,10 @@ function SelectedItem({ info }) {
 
 const styles = StyleSheet.create({
   selectedItemImage: {
-    width: 60,
-    height: 60,
+    borderColor: '#7adbc9',
+    borderWidth: 2,
+    width: 72,
+    height: 72,
   },
 });
 
