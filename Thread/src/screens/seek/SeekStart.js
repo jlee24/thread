@@ -8,7 +8,8 @@ import {
   StatusBar,
 } from "react-native";
 
-import { Button, FlatList, Image, StyleSheet, Text, View, TextInput } from 'react-native';
+import { LayoutAnimation, RefreshControl, TouchableOpacity } from "react-native";
+import { Button, FlatList, Image, StyleSheet, Text, View, TextInput, Alert } from 'react-native';
 
 import UploadIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Searchbar } from 'react-native-paper';
@@ -32,33 +33,6 @@ const firebaseConfig = {
   };
 
 export default class App extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      headerRight:
-          <Button
-           title='Next'
-           onPress={() => navigation.navigate('SeekInfo',
-             {'title': navigation.getParam('title')(),
-              'items': navigation.getParam('items')()
-             }
-         )} />
-      };
-    };
-
-  componentDidMount = () => {
-    firebase.initializeApp(firebaseConfig);
-    this.props.navigation.setParams({
-       title: this._query,
-       items: this._selectedItems
-     });
-  }
-
-  _query = () => {
-      return this.state.query;
-  }
-  _selectedItems = () => {
-      return this.state.selectedItems;
-  }
 
   getPermissionAsync = async (permission) => {
     const { status } = await Permissions.askAsync(permission);
@@ -115,6 +89,29 @@ export default class App extends React.Component {
     refresh: true,
   };
 
+static navigationOptions = ({navigation}) => {
+  return {
+    headerRight: () => (
+      <Button 
+      onPress={() =>
+        navigation.navigate('SeekInfo', {
+          title: navigation.getParam('title'), 
+          items: navigation.getParam('items')
+  }
+  )} 
+      title="Next" 
+      style={styles.headerbutton} />)
+  }
+}
+
+  componentDidMount() {
+    //if updating title
+    this.props.navigation.setParams({ 
+      title: "", //or whatever the default value is
+      items: [], //default value
+    });
+  }
+
   arrayholder = require('../../../assets/database.json');
 
   updateSearch = async (search) => {
@@ -129,6 +126,9 @@ export default class App extends React.Component {
     } else {
        this.setState({ data: newData });
     }
+    this.props.navigation.setParams({ 
+      title: this.state.query
+    });
   };
 
   changeSelection = (item) => {
@@ -142,6 +142,9 @@ export default class App extends React.Component {
        return arrayItem.selected;
     });
     this.setState({selectedItems: selectedItems});
+    this.props.navigation.setParams({ 
+      items: this.state.selectedItems
+    });
   }
 
   render() {
@@ -213,7 +216,6 @@ export default class App extends React.Component {
                   //  ListHeaderComponent={this.renderHeader}
                 />
               </View>
-
               {/* Search Results */}
               <View style={styles.results}>
                 <FlatList
@@ -312,9 +314,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  selectedBorder: {
+    borderWidth: 2,
+    borderColor: '#7adbc9',
+  },
+  notSelectedBorder: {
+    borderWidth: 0,
+  },
   icon: {
     width: 72,
     height: 72,
     marginRight: 15,
   },
+  next: {
+    // top:-50,
+    width: 100,
+    height: "5%",
+    alignSelf: 'flex-end',
+    justifyContent: 'flex-end',
+  },
+  headerbutton: {
+    color: "#2B8FFF"
+  }
 });
