@@ -10,20 +10,11 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 
 
 export default class App extends React.Component {
-  // post_title = this.props.navigation.state.params.title;
-  // items = this.props.navigation.state.params.items;
-  // state = {
-  //   post_title: this.props.navigation.state.params.title,
-  //   items: this.props.navigation.state.params.items
-  // }
 
 render() {
         const { navigate } = this.props.navigation;
-        const post_title = this.props.navigation.getParam('title');
-        console.log(this.props.navigation.getParam('title'));
         const items = this.props.navigation.getParam('items');
         return (
-          /*Explore using ScrollView instead of View*/
         <View style={styles.container}>
         <Text>title: {post_title}</Text>
         <Text style={styles.question}>create seek</Text>
@@ -156,6 +147,5 @@ const styles = StyleSheet.create({
     },
     shadowColor: "rgba(178,176,176,1)",
     shadowRadius: 10
-
   }
 });

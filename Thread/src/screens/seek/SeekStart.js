@@ -176,12 +176,6 @@ static navigationOptions = ({navigation}) => {
             </View>
           </View>
 
-      <Button 
-      onPress={() => navigate('SeekInfo', {title: query, items: selectedItems})} 
-      title="Next" 
-      style={styles.headerbutton} />
-
-
           {/* Question and Search Bar */}
           <View style={styles.searchContainer}>
             <Text style={styles.question}>What are you seeking?</Text>
