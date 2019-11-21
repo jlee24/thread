@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { LayoutAnimation, RefreshControl, TouchableOpacity } from "react-native";
 import { Searchbar, TextInput } from 'react-native-paper';
-import { Button, StyleSheet, Text, View, FlatList, ScrollView} from 'react-native';
+import { Button, StyleSheet, Text, View, FlatList, ScrollView, Alert} from 'react-native';
 import SelectedItem from "../../components/SelectedItem";
 import MaterialButtonGrey from "../../components/MaterialButtonGrey";
 
@@ -60,11 +60,14 @@ render() {
           <TextInput label = "Price Cap" placeholder = "$5.50" style={styles.textinput}/>
           <View style={styles.submit}>
           
-          <MaterialButtonGrey
-          caption = "Finish"
-          navigation={this.props.navigation}
-          style={styles.materialButtonGrey}
-          onPress={() => navigate('SeekSuccess', {title: post_title})}/>
+           <Button
+        onPress={() => Alert.alert('Confirm Your Seek', 'Post this seek for 2 coins? \n Your current balance is 3 coins.',
+        [{text: 'Continue', onPress: () => navigate('SeekSuccess', {title: post_title})},
+          {text: 'Cancel', style: 'cancel'},],
+        {cancelable: true})}
+        title="Finish"
+        style={styles.headerbutton}/>
+
           </View>
           );
     	}
@@ -113,5 +116,8 @@ const styles = StyleSheet.create({
   displayitems: {
     /* Temporary way to display a bit more nicely- can remove later*/
     height: '25%',
+  },
+  headerbutton: {
+    color: "#2B8FFF"
   }
 });
