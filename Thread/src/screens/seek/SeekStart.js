@@ -31,8 +31,32 @@ const firebaseConfig = {
   };
 
 export default class App extends React.Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerRight:
+          <Button
+           title='Next'
+           onPress={() => navigation.navigate('SeekInfo',
+             {'title': navigation.getParam('title')(),
+              'items': navigation.getParam('items')()
+             }
+         )} />
+      };
+    };
+
   componentDidMount = () => {
     firebase.initializeApp(firebaseConfig);
+    this.props.navigation.setParams({
+       title: this._query,
+       items: this._selectedItems
+     });
+  }
+
+  _query = () => {
+      return this.state.query;
+  }
+  _selectedItems = () => {
+      return this.state.selectedItems;
   }
 
   getPermissionAsync = async (permission) => {
@@ -66,17 +90,21 @@ export default class App extends React.Component {
       await res.task;
       let url = await res.ref.getDownloadURL();
       console.log(url);
+
+      const selectedItems = this.state.selectedItems;
+      const userUpload = {
+        "id": "user" + selectedItems.length.toString(),
+        "name": "User Upload",
+        "tags": "user upload",
+        "path": url,
+        "selected": true,
+      }
+      this.arrayholder.push(userUpload);
+
+      selectedItems.unshift(userUpload)
+      this.setState({selectedItems: selectedItems});
     }
   }
-
-  static navigationOptions = {
-   headerRight: () => (
-     <Button
-       onPress={() => alert('Fix this to navigate properly!')}
-       title="Next"
-     />
-   ),
- };
 
   state = {
     query: '',

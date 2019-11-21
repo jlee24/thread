@@ -54,6 +54,15 @@ const SeekStackNavigation = createStackNavigator(
   }
 );
 
+SeekStackNavigation.navigationOptions = {
+  title: 'Next',
+  header: ({ navigate }) => ({
+    right: (
+      <Button onPress={() => navigate('SeekInfo')} />
+    )
+  })
+}
+
 // Create our main tab navigator for moving between the 3 views
 const TabNavigator = createBottomTabNavigator(
   {
