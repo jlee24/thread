@@ -1,5 +1,6 @@
 import {
-  createAppContainer
+  createAppContainer,
+  createSwitchNavigator
 } from 'react-navigation'
 
 import {createBottomTabNavigator} from 'react-navigation-tabs';
@@ -10,11 +11,16 @@ import * as iconFn from "./utils/tabBarIcon";
 import { StyleSheet, Text, View } from 'react-native';
 
 import React, { useState } from "react";
-import { StackNavigator, DrawerNavigator } from "react-navigation";
+import { SwitchNavigator, StackNavigator, DrawerNavigator } from "react-navigation";
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
 import Size from "./src/screens/Size";
 import Profile from "./src/screens/Profile";
+
+// Onboarding
+import Loading from './src/screens/onboarding/Loading'
+import SignUp from './src/screens/onboarding/SignUp'
+import Login from './src/screens/onboarding/Login'
 
 // Seek Flow
 import SeekStart from './src/screens/seek/SeekStart';
@@ -22,7 +28,20 @@ import SeekInfo from './src/screens/seek/SeekInfo';
 import SeekSuccess from './src/screens/seek/SeekSuccess';
 
 import SpotScreen from './src/screens/SpotScreen';
+import * as firebase from 'firebase';
 
+const firebaseConfig = {
+    apiKey: "AIzaSyCfF3iTUzsqphpDyYV94Rmoz-E4drDlSuU",
+    authDomain: "thread-ca0bb.firebaseapp.com",
+    databaseURL: "https://thread-ca0bb.firebaseio.com",
+    projectId: "thread-ca0bb",
+    storageBucket: "thread-ca0bb.appspot.com",
+    messagingSenderId: "642322348698",
+    appId: "1:642322348698:web:2d29abda75aae0ebe2fd23",
+    measurementId: "G-BSTC9VG2QX"
+  };
+  
+firebase.initializeApp(firebaseConfig);
 const ProfileStackNavigation = createStackNavigator(
   {
     Profile: {
@@ -53,15 +72,6 @@ const SeekStackNavigation = createStackNavigator(
     initialRoute: 'SeekStart',
   }
 );
-
-SeekStackNavigation.navigationOptions = {
-  title: 'Next',
-  header: ({ navigate }) => ({
-    right: (
-      <Button onPress={() => navigate('SeekInfo')} />
-    )
-  })
-}
 
 // Create our main tab navigator for moving between the 3 views
 const TabNavigator = createBottomTabNavigator(
@@ -95,7 +105,20 @@ const TabNavigator = createBottomTabNavigator(
   },
 );
 
-const AppContainer = createAppContainer(TabNavigator);
+const Onboarding = createSwitchNavigator(
+  {
+    Loading,
+    SignUp,
+    Login,
+    TabNavigator
+  },
+  {
+    initialRouteName: 'Loading'
+  }
+)
+
+// const AppContainer = createAppContainer(TabNavigator);
+const AppContainer = createAppContainer(Onboarding);
 
 function App() {
   const [isLoadingComplete, setLoadingComplete] = useState(false);

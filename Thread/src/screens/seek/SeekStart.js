@@ -19,16 +19,6 @@ import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import * as firebase from 'firebase';
 
-const firebaseConfig = {
-    apiKey: "AIzaSyCfF3iTUzsqphpDyYV94Rmoz-E4drDlSuU",
-    authDomain: "thread-ca0bb.firebaseapp.com",
-    databaseURL: "https://thread-ca0bb.firebaseio.com",
-    projectId: "thread-ca0bb",
-    storageBucket: "thread-ca0bb.appspot.com",
-    messagingSenderId: "642322348698",
-    appId: "1:642322348698:web:2d29abda75aae0ebe2fd23",
-    measurementId: "G-BSTC9VG2QX"
-  };
 
 export default class App extends React.Component {
 
@@ -85,7 +75,9 @@ export default class App extends React.Component {
     selectedItems: [],
     error: null,
     refresh: true,
+    currentUser: null,
   };
+
 
 static navigationOptions = ({navigation}) => {
   return {
@@ -103,7 +95,8 @@ static navigationOptions = ({navigation}) => {
 }
 
   componentDidMount() {
-    firebase.initializeApp(firebaseConfig);
+    const { currentUser } = firebase.auth()
+    this.setState({ currentUser })
     //if updating title
     this.props.navigation.setParams({
       title: "", //or whatever the default value is
