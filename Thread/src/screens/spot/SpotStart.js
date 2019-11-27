@@ -13,8 +13,7 @@ render() {
         			
           <Text>Spot!</Text>
 
-          <Button onPress={() => this.props.navigation.navigate('StoreView')} title="Goodwill">
-          </Button>
+          <Button onPress={() => navigate('StoreView')} title="Goodwill" / >
 
       		</View>
 

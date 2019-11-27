@@ -222,8 +222,8 @@ static navigationOptions = ({navigation}) => {
                         isSelected={item.selected}
                         style={[
                           item.selected ? styles.selectedBorder : styles.notSelectedBorder
-                        ]}
-                       />
+                        ]}/>
+                       <Text style={styles.name}>{item.name}</Text>
                     </TouchableOpacity>
                   }
                   keyExtractor={item => item.id}
@@ -327,5 +327,10 @@ const styles = StyleSheet.create({
   },
   headerbutton: {
     color: "#2B8FFF"
+  },
+  name: {
+    textAlign: 'center',
+    marginBottom: 10,
+    marginTop: 5
   }
 });
