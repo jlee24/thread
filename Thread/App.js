@@ -14,7 +14,6 @@ import React, { useState } from "react";
 import { SwitchNavigator, StackNavigator, DrawerNavigator } from "react-navigation";
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
-import Size from "./src/screens/Size";
 import Profile from "./src/screens/Profile";
 
 // Onboarding
@@ -22,6 +21,7 @@ import Loading from './src/screens/onboarding/Loading'
 import SignUp from './src/screens/onboarding/SignUp'
 import Login from './src/screens/onboarding/Login'
 import BuildProfile from './src/screens/onboarding/BuildProfile'
+import UpdateProfile from './src/screens/onboarding/UpdateProfile'
 
 // Seek Flow
 import SeekStart from './src/screens/seek/SeekStart';
@@ -51,8 +51,8 @@ const ProfileStackNavigation = createStackNavigator(
     Profile: {
       screen: Profile
     },
-    Size: {
-      screen: Size
+    UpdateProfile: {
+      screen: UpdateProfile
     },
   },
   {
