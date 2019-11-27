@@ -31,6 +31,7 @@ import SeekSuccess from './src/screens/seek/SeekSuccess';
 import SpotStart from './src/screens/spot/SpotStart';
 import StoreView from './src/screens/spot/StoreView';
 import ItemView from './src/screens/spot/ItemView';
+import CameraView from './src/screens/spot/CameraView';
 import SpotSuccess from './src/screens/spot/SpotSuccess';
 import * as firebase from 'firebase';
 
@@ -87,6 +88,9 @@ const SpotStackNavigation = createStackNavigator(
     },
     ItemView: {
       screen: ItemView
+    },
+    CameraView: {
+      screen: CameraView
     },
     SpotSuccess: {
       screen: SpotSuccess

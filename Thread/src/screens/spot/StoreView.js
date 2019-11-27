@@ -20,19 +20,23 @@ render() {
           </View>
           <View style={styles.subheader}>
               <Text style={styles.hours}>2.7 miles away</Text>
+              
+            {/* Styling for this button isn't being applied- need to fix*/}
               <Button style={styles.directions} title="Directions"/>
           </View>
           </View>
-          <Button onPress={() => navigate('ItemView')} title="Next" / >
-
                 <View style={styles.results}>
                 <FlatList
                   data={this.arrayholder}
                   style={styles.data}
                   renderItem={({ item }) =>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={() =>
+                        navigate('ItemView', {
+                        itemID: this.arrayholder.indexOf(item),
+                          })}>
                       <Text style={styles.username}> {item.user} </Text>
-                      <Item info={item} />
+                      <Item info={item}/>
+
                       <Text style={styles.name}> {item.name} </Text>
                   </TouchableOpacity>
                   }
@@ -59,7 +63,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: '10%',
+    marginTop: '15%',
     width: '100%',
     justifyContent: 'space-around'
   },
@@ -67,6 +71,7 @@ const styles = StyleSheet.create({
     width: '50%',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: '10%'
   },
   results: {
     width: '80%',
@@ -104,10 +109,10 @@ const styles = StyleSheet.create({
     marginTop: '5%',
   },
   data: {
-    marginTop: '25%'
+    marginTop: '10%'
   },
   directions: {
     backgroundColor: '#7adbc9',
-    borderRadius: 10,
+    borderRadius: 10
   }
 });
