@@ -21,6 +21,7 @@ import Profile from "./src/screens/Profile";
 import Loading from './src/screens/onboarding/Loading'
 import SignUp from './src/screens/onboarding/SignUp'
 import Login from './src/screens/onboarding/Login'
+import BuildProfile from './src/screens/onboarding/BuildProfile'
 
 // Seek Flow
 import SeekStart from './src/screens/seek/SeekStart';
@@ -41,7 +42,7 @@ const firebaseConfig = {
     appId: "1:642322348698:web:2d29abda75aae0ebe2fd23",
     measurementId: "G-BSTC9VG2QX"
   };
-  
+
 firebase.initializeApp(firebaseConfig);
 const ProfileStackNavigation = createStackNavigator(
   {
@@ -125,6 +126,7 @@ const Onboarding = createSwitchNavigator(
     Loading,
     SignUp,
     Login,
+    BuildProfile,
     TabNavigator
   },
   {

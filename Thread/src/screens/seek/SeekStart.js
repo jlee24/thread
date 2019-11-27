@@ -87,8 +87,8 @@ static navigationOptions = ({navigation}) => {
         navigation.navigate('SeekInfo', {
           title: navigation.getParam('title'),
           items: navigation.getParam('items')
-  }
-  )}
+        }
+      )}
       title="Next"
       style={styles.headerbutton} />)
   }
