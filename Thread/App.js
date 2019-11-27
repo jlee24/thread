@@ -27,7 +27,8 @@ import SeekStart from './src/screens/seek/SeekStart';
 import SeekInfo from './src/screens/seek/SeekInfo';
 import SeekSuccess from './src/screens/seek/SeekSuccess';
 
-import SpotScreen from './src/screens/SpotScreen';
+import SpotStart from './src/screens/spot/SpotStart';
+import StoreView from './src/screens/spot/StoreView';
 import * as firebase from 'firebase';
 
 const firebaseConfig = {
@@ -73,6 +74,20 @@ const SeekStackNavigation = createStackNavigator(
   }
 );
 
+const SpotStackNavigation = createStackNavigator(
+  {
+    SpotStart: {
+      screen: SpotStart
+    },
+    StoreView: {
+      screen: StoreView
+    },
+  },
+  {
+    initialRoute: 'SpotStart',
+  }
+);
+
 // Create our main tab navigator for moving between the 3 views
 const TabNavigator = createBottomTabNavigator(
   {
@@ -83,7 +98,7 @@ const TabNavigator = createBottomTabNavigator(
       },
     },
     Spot: {
-      screen: SpotScreen,
+      screen: SpotStackNavigation,
       navigationOptions: {
         tabBarIcon: iconFn.spotIcon('location'),
       },
