@@ -29,6 +29,7 @@ import SeekSuccess from './src/screens/seek/SeekSuccess';
 
 import SpotStart from './src/screens/spot/SpotStart';
 import StoreView from './src/screens/spot/StoreView';
+import ItemView from './src/screens/spot/ItemView';
 import * as firebase from 'firebase';
 
 const firebaseConfig = {
@@ -81,6 +82,9 @@ const SpotStackNavigation = createStackNavigator(
     },
     StoreView: {
       screen: StoreView
+    },
+    ItemView: {
+      screen: ItemView
     },
   },
   {

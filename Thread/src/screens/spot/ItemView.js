@@ -5,19 +5,11 @@ import { StyleSheet, Text, View, FlatList, ScrollView, Alert, Tooltip, Button} f
 
 export default class App extends React.Component {
 render() {
-        const { navigate } = this.props.navigation;
         
     		return (
-
       		<View style={styles.container}>
-        			
-          <Text>Spot!</Text>
-
-          <Button onPress={() => navigate('StoreView')} title="Goodwill" / >
-
+        			<Text>TEST!</Text>
       		</View>
-
-
 
     		);
   	}

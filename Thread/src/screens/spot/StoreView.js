@@ -9,6 +9,8 @@ render() {
     		return (
       		<View style={styles.container}>
         			<Text>TEST!</Text>
+
+              <Button onPress={() => navigate('ItemView')} title="Next" / >
       		</View>
 
     		);
