@@ -44,8 +44,7 @@ export default class SignUp extends React.Component {
                   style={styles.button}>
             Sign Up
           </Button>
-          <Button onPress={() => this.props.navigation.navigate('Login')}
-                  style={styles.button}>
+          <Button onPress={() => this.props.navigation.navigate('Login')}>
             Already have an account? Login
           </Button>
         </View>
