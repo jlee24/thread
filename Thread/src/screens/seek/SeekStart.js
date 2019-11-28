@@ -79,20 +79,20 @@ export default class App extends React.Component {
   };
 
 
-static navigationOptions = ({navigation}) => {
-  return {
-    headerRight: () => (
-      <Button
-      onPress={() =>
-        navigation.navigate('SeekInfo', {
-          title: navigation.getParam('title'),
-          items: navigation.getParam('items')
-        }
-      )}
-      title="Next"
-      style={styles.headerbutton} />)
+  static navigationOptions = ({navigation}) => {
+    return {
+      headerRight: () => (
+        <Button
+        onPress={() =>
+          navigation.navigate('SeekInfo', {
+            title: navigation.getParam('title'),
+            items: navigation.getParam('items')
+          }
+        )}
+        title="Next"
+        style={styles.headerbutton} />)
+    }
   }
-}
 
   componentDidMount() {
     const { currentUser } = firebase.auth()
