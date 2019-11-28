@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import {
   LayoutAnimation,
   RefreshControl,
-  TouchableOpacity,
   ActivityIndicator,
   AsyncStorage,
   StatusBar,
 } from "react-native";
-import { Button, FlatList, Image, StyleSheet, Text, View, TextInput, Alert } from 'react-native';
+
+import { ImageBackground, TouchableOpacity, Button, FlatList, Image, StyleSheet, Text, View, TextInput, Alert } from 'react-native';
 
 import UploadIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Searchbar } from 'react-native-paper';
@@ -148,19 +148,41 @@ static navigationOptions = ({navigation}) => {
         /* Outermost View */
         <View style={styles.container}>
           {/* Story Bubbles (TODO: currently placeholders) */}
+
           <View style={styles.seekBubbles}>
-            <Image
-              style={ styles.icon }
-              source={{uri: "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/seek_bubbles/bubble1.png" }}
-            />
-            <Image
-              style={ styles.icon }
-              source={{uri: "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/seek_bubbles/bubble2.png" }}
-            />
-            <Image
-              style={ styles.icon }
-              source={{uri: "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/seek_bubbles/bubble3.png" }}
-            />
+            
+
+            <ImageBackground
+              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/seek_bubbles/bubble1.png" }}
+              style={ styles.imageWrapper }>
+              <TouchableOpacity 
+                style={ styles.button } 
+                onPress={ () => { alert("handler here") }}>
+                <Text style={ styles.text }>×</Text>
+              </TouchableOpacity>
+            </ImageBackground>
+
+            
+            <ImageBackground
+              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/seek_bubbles/bubble2.png" }}
+              style={ styles.imageWrapper }>
+              <TouchableOpacity 
+                style={ styles.button } 
+                onPress={ () => { alert("handler here") }}>
+                <Text style={ styles.text }>×</Text>
+              </TouchableOpacity>
+            </ImageBackground>
+
+            <ImageBackground
+              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/seek_bubbles/bubble3.png" }}
+              style={ styles.imageWrapper }>
+              <TouchableOpacity 
+                style={ styles.button } 
+                onPress={ () => { alert("handler here") }}>
+                <Text style={ styles.text }>×</Text>
+              </TouchableOpacity>
+            </ImageBackground>
+
             <View style={ styles.spacer }/>
             <View style={ styles.currencyContainer }>
                 <CurrencyIcon amount={8}/>
@@ -240,6 +262,7 @@ static navigationOptions = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
@@ -326,11 +349,37 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   headerbutton: {
-    color: "#2B8FFF"
+    color: "#2B8FFF",
   },
   name: {
     textAlign: 'center',
     marginBottom: 10,
-    marginTop: 5
+    marginTop: 5,
+  },
+  button:{
+    width:72,
+    height:72,
+    backgroundColor:'white',
+    opacity: 0,
+    alignItems:'center',
+    justifyContent:'center',
+    overflow:'hidden',
+    borderRadius:20,
+    position:'absolute',
+    left:0,
+    top:0,
+    marginRight:15,
+  },
+  imageWrapper:{
+     width:72,
+     height:72,
+     borderRadius:0,
+     marginRight:15,
+  },
+  text:{
+    fontSize:40,
+    color:'white',
+    lineHeight:42
   }
+ 
 });
