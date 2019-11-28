@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { LayoutAnimation, RefreshControl } from "react-native";
-import { StyleSheet, Text, View, FlatList, ScrollView, Alert, Tooltip, Button} from 'react-native';
+import { Image, Dimensions, StyleSheet, Text, View, FlatList, ScrollView, Alert, Tooltip, Button} from 'react-native';
+import Drawer from 'react-native-draggable-view'
 
 import SpotMap from "../../components/SpotMap";
 import ShopsPreview from "../../components/ShopsPreview";
@@ -41,7 +42,7 @@ export default class App extends React.Component {
 
   getShopsPreviewData() {
     const haversine = require('haversine')
-    nearestShops = this.getNearestShops(3)
+    nearestShops = this.getNearestShops(4)
     coordCurr = {latitude: this.state.currLocation.lat, longitude: this.state.currLocation.lng}
     for (var i = 0; i < nearestShops.length; i++) {
       shop = nearestShops[i]
@@ -55,18 +56,35 @@ export default class App extends React.Component {
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
+        {/*<Button
+          onPress={() => this.props.navigation.navigate('StoreView')}
+          title={"Click to go to store view"}
+        >
+        </Button>*/}
         <View style={styles.header}>
           <Text style={styles.headerText}>Where would you like to spot?</Text>
         </View>
-        <SpotMap initLocation={this.state.currLocation} shops={this.state.shops}/>
-        <Button
-          onPress={() => this.props.navigation.navigate('StoreView')}
-          title={this.state.shops[0].name}
-        >
-        </Button>
-        <View style={styles.previewContainer}>
-          <ShopsPreview shops={this.getShopsPreviewData()}/>
-        </View>
+        <Drawer
+          initialDrawerSize={0.24}
+          renderContainerView={() => 
+            <View style={{height: 400}}>
+              <SpotMap 
+                initLocation={this.state.currLocation} 
+                shops={this.state.shops}
+              />
+            </View>
+          }
+          renderDrawerView={() => 
+            <ShopsPreview shops={this.getShopsPreviewData()}/>}
+          renderInitDrawerView={() => (
+            <View style={styles.handle}>
+              <Image
+                style={styles.scrollIndicator}
+                source={{uri: "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/scrollIndicator.png" }}
+              />
+            </View>
+          )}
+        />
       </View>
     );
   }
@@ -79,8 +97,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  handle: {
+    backgroundColor: '#FAFAFA',
+    height: 60,
+    width: 360,
+  },
+  scrollIndicator: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 12,
+    marginBottom: 12,
+    borderRadius: 4,
+    width: 44,
+    height: 8,
+  },
   header: {
-    zIndex: 2,
+    zIndex: 3,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     width: '100%',
     height: 48,
@@ -100,7 +132,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     position: 'absolute',
-    top: '12%',
+    top: '92%',
     left: 0,
   }
 });

@@ -10,8 +10,8 @@ function SpotMap(props) {
       initialRegion={{
         latitude: props.initLocation.lat,
         longitude: props.initLocation.lng,
-        latitudeDelta: 0.03,
-        longitudeDelta: 0.03
+        latitudeDelta: 0.04,
+        longitudeDelta: 0.04
       }}
     >
       {/* Mark current location TODO: Make this blue marker */}
@@ -42,6 +42,11 @@ function SpotMap(props) {
 
 const styles = StyleSheet.create({
   map: {
+    position: 'absolute',
+    top: 0,
+    // TODO: Fix this shift hack, has to do with drawer lib
+    left: -(Dimensions.get('window').width - 360)/2,
+    zIndex: -1,
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
   },

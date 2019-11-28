@@ -7,10 +7,6 @@ import ShopPreviewPanel from "./ShopPreviewPanel";
 function ShopsPreview(props) {
   return (
     <View style={styles.container}>
-      <Image
-        style={styles.scrollIndicator}
-        source={{uri: "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/scrollIndicator.png" }}
-      />
       {panels(props.shops)}
     </View>
   );
@@ -26,22 +22,12 @@ function ShopsPreview(props) {
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 12,
-    backgroundColor: 'yellow',
+    backgroundColor: '#FAFAFA',
     marginLeft: 'auto',
     marginRight: 'auto',
-    width: '90%',
+    width: '100%',
     height: '100%',
   },
-  scrollIndicator: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: 12,
-    marginBottom: 12,
-    borderRadius: 6,
-    width: 60,
-    height: 12,
-  }
 });
 
 export default ShopsPreview;
