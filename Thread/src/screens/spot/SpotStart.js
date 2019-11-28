@@ -56,11 +56,6 @@ export default class App extends React.Component {
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
-        {/*<Button
-          onPress={() => this.props.navigation.navigate('StoreView')}
-          title={"Click to go to store view"}
-        >
-        </Button>*/}
         <View style={styles.header}>
           <Text style={styles.headerText}>Where would you like to spot?</Text>
         </View>
@@ -71,6 +66,7 @@ export default class App extends React.Component {
               <SpotMap 
                 initLocation={this.state.currLocation} 
                 shops={this.state.shops}
+                navigation={this.props.navigation}
               />
             </View>
           }

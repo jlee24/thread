@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { StyleSheet } from "react-native";
-import { Dimensions, Image, View } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import { StyleSheet, TouchableOpacity } from "react-native";
+import { Button, Dimensions, Image, Text, View } from 'react-native';
+import MapView, { Marker, Callout } from 'react-native-maps';
 
 function SpotMap(props) {
   return (
@@ -14,30 +14,44 @@ function SpotMap(props) {
         longitudeDelta: 0.04
       }}
     >
-      {/* Mark current location TODO: Make this blue marker */}
-      {markers([{
-        lat: props.initLocation.lat,
-        lng: props.initLocation.lng,
-        id: '-1',
-        name: 'Current Location'
-       }])}
+      {/* Mark current location*/}
+      <Marker
+        key={'-1'}
+        coordinate={{
+          latitude: props.initLocation.lat,
+          longitude: props.initLocation.lng
+        }}
+        title={'Current Location'}
+        pinColor={'blue'}
+      />
       {/* Mark thrift shops */}
-      {markers(props.shops)}
+      {shopMarkers(props.shops, props.navigation)}
     </MapView>
   );
 
-  function markers(locations) {
-    return locations.map( (loc) => {
+  function shopMarkers(shops, navigation, color='red') {
+    return shops.map( (shop) => {
+      const {navigate} = navigation;
       return (
         <Marker
-          key={loc.id}
-          coordinate={{latitude:loc.lat, longitude:loc.lng}}
-          title={loc.name}
-        />
+          key={shop.id}
+          coordinate={{latitude:shop.lat, longitude:shop.lng}}
+          title={shop.name}
+          description={shop.possibleSpots + " possible spots"}
+          pinColor={color}
+          onCalloutPress={() => navigate("StoreView")}
+        >
+          <Callout>
+              <TouchableOpacity
+                  style={styles.callout}>
+                  <Text>{shop.name}</Text>
+                  <Text>{shop.possibleSpots + " possible spots"}</Text>
+              </TouchableOpacity>
+          </Callout>
+        </Marker>
       )
     })
   }
-
 }
 
 const styles = StyleSheet.create({
@@ -49,6 +63,10 @@ const styles = StyleSheet.create({
     zIndex: -1,
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
+  },
+  callout: {
+    backgroundColor: 'white',
+    padding: 12,
   },
 });
 
