@@ -7,6 +7,7 @@ function SpotMap(props) {
   return (
     <MapView
       style={styles.map}
+      showsUserLocation={true}
       initialRegion={{
         latitude: props.initLocation.lat,
         longitude: props.initLocation.lng,
@@ -14,16 +15,6 @@ function SpotMap(props) {
         longitudeDelta: 0.04
       }}
     >
-      {/* Mark current location*/}
-      <Marker
-        key={'-1'}
-        coordinate={{
-          latitude: props.initLocation.lat,
-          longitude: props.initLocation.lng
-        }}
-        title={'Current Location'}
-        pinColor={'blue'}
-      />
       {/* Mark thrift shops */}
       {shopMarkers(props.shops, props.navigation)}
     </MapView>
