@@ -8,12 +8,7 @@ function SpotMap(props) {
     <MapView
       style={styles.map}
       showsUserLocation={true}
-      initialRegion={{
-        latitude: props.initLocation.lat,
-        longitude: props.initLocation.lng,
-        latitudeDelta: 0.04,
-        longitudeDelta: 0.04
-      }}
+      region={props.region}
     >
       {/* Mark thrift shops */}
       {shopMarkers(props.shops, props.navigation)}

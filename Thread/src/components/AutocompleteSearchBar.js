@@ -3,26 +3,26 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 import { Text, View, SafeAreaView } from 'react-native';
 import {Autocomplete, withKeyboardAwareScrollView} from "react-native-dropdown-autocomplete";
 
+
+// Takes in data with "name" property to use in autocomplete,
+// along with an onItemSelection callback
 function AutocompleteSearchBar(props) {
 
   function handleSelectItem(item, index) {
-    const {onDropdownClose} = this.props;
-    onDropdownClose();
-    console.log(item);
+    // TODO: not sure how to use passed in index yet (currently undef)
+    props.onItemSelection(item.id);
   }
 
-  const shopNames = props.data.map(shop => shop.name);
   return (
     <SafeAreaView style={styles.container}>
-      <Autocomplete 
+      <Autocomplete
+        key={item => item.id}
         style={styles.inputBar}
-        data={shopNames} 
-        valueExtractor={item => item} 
+        data={props.data}
+        valueExtractor={item => item.name}
         handleSelectItem={(item, id) => handleSelectItem(item, id)}
         minimumCharactersCount={2}
         highlightText
-        rightContent
-        rightTextExtractor={item => item.properties}
         inputContainerStyle={styles.inputContainer}
         inputStyle={styles.input}
         scrollStyle={styles.scroll}

@@ -10,6 +10,7 @@ import SpotMap from "../../components/SpotMap";
 import ShopsPreview from "../../components/ShopsPreview";
 
 
+const LATLNG_DELTA = 0.04;
 export default class App extends React.Component {
 
   constructor(props) {
@@ -17,9 +18,11 @@ export default class App extends React.Component {
     this.state = {
       isLoading: true,
       shops: require('../../../assets/thriftShops.json'),
-      currLocation: {
-        lat: 37.426431,
-        lng: -122.171881
+      region: {
+        latitude: 37.426431,
+        longitude: -122.171881,
+        latitudeDelta: LATLNG_DELTA,
+        longitudeDelta: LATLNG_DELTA,
       }
     }
   }
@@ -28,9 +31,9 @@ export default class App extends React.Component {
   getNearestShops(n) {
     // Helper for sorting
     const haversine = require('haversine')
-    const currLocation = this.state.currLocation
+    const region = this.state.region
     function isCloser(shopA, shopB) {
-      coordCurr = {latitude: currLocation.lat, longitude: currLocation.lng}
+      coordCurr = {latitude: region.lat, longitude: region.lng}
       coordA = {latitude: shopA.lat, longitude: shopA.lng}
       coordB = {latitude: shopB.lat, longitude: shopB.lng}
       return (haversine(coordA, coordCurr) < haversine(coordB, coordCurr))
@@ -47,7 +50,7 @@ export default class App extends React.Component {
   getShopsPreviewData() {
     const haversine = require('haversine')
     nearestShops = this.getNearestShops(4)
-    coordCurr = {latitude: this.state.currLocation.lat, longitude: this.state.currLocation.lng}
+    coordCurr = {latitude: this.state.region.lat, longitude: this.state.region.lng}
     for (var i = 0; i < nearestShops.length; i++) {
       shop = nearestShops[i]
       coordShop = {latitude: shop.lat, longitude: shop.lng}
@@ -67,6 +70,20 @@ export default class App extends React.Component {
     return shops.filter(shop => shop.name.includes(query));
   }
 
+  onShopMarkerSelection = (shopID) => {
+    const { shops } = this.state;
+    selectedShop = shops.find(shop => shop.id === shopID);
+    this.setState({
+      region: {
+        latitude: selectedShop.lat,
+        longitude: selectedShop.lng,
+        latitudeDelta: LATLNG_DELTA,
+        longitudeDelta: LATLNG_DELTA,
+      }
+    });
+    // TODO: open marker callout
+  }
+
   render() {
     const { navigate } = this.props.navigation;
     const { query } = this.state;
@@ -79,6 +96,7 @@ export default class App extends React.Component {
           {/* Search bar */}
           <AutocompleteSearchBar 
             data={this.state.shops}
+            onItemSelection={this.onShopMarkerSelection}
           />
         </View>
         {/* Map and scroll up shop menu */}
@@ -87,7 +105,7 @@ export default class App extends React.Component {
           renderContainerView={() => 
             <View style={{height: 400}}>
               <SpotMap 
-                initLocation={this.state.currLocation} 
+                region={this.state.region}
                 shops={this.state.shops}
                 navigation={this.props.navigation}
               />
