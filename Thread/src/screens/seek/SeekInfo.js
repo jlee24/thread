@@ -5,7 +5,6 @@ import { StyleSheet, Text, View, FlatList, ScrollView, Alert, Tooltip} from 'rea
 import { Button } from 'react-native';
 import SelectedItem from "../../components/SelectedItem";
 import MaterialButtonGrey from "../../components/MaterialButtonGrey";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 
 
 

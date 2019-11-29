@@ -1,10 +1,14 @@
+<script src="http://localhost:8097"></script>
+
 import React, { Component } from "react";
 import { LayoutAnimation, RefreshControl } from "react-native";
-import { Image, Dimensions, StyleSheet, Text, View, FlatList, ScrollView, Alert, Tooltip, Button} from 'react-native';
+import { Image, Dimensions, StyleSheet, Text, View, FlatList, ScrollView, Alert, Tooltip, TouchableOpacity, Button} from 'react-native';
 import Drawer from 'react-native-draggable-view'
 
+import  AutocompleteSearchBar from "../../components/AutocompleteSearchBar";
 import SpotMap from "../../components/SpotMap";
 import ShopsPreview from "../../components/ShopsPreview";
+
 
 export default class App extends React.Component {
 
@@ -52,13 +56,32 @@ export default class App extends React.Component {
     return nearestShops
   }
 
+  findMatchingShops(query) {
+    if (query === '') {
+      return [];
+    }
+
+    const { shops } = this.state;
+
+    const regex = new RegExp(`${query.trim()}`, 'i');
+    return shops.filter(shop => shop.name.includes(query));
+  }
+
   render() {
     const { navigate } = this.props.navigation;
+    const { query } = this.state;
+
     return (
       <View style={styles.container}>
+        {/* Header with search bar*/}
         <View style={styles.header}>
           <Text style={styles.headerText}>Where would you like to spot?</Text>
+          {/* Search bar */}
+          <AutocompleteSearchBar 
+            data={this.state.shops}
+          />
         </View>
+        {/* Map and scroll up shop menu */}
         <Drawer
           initialDrawerSize={0.24}
           renderContainerView={() => 
@@ -111,7 +134,6 @@ const styles = StyleSheet.create({
     zIndex: 3,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     width: '100%',
-    height: 48,
     position: 'absolute',
     top: 0,
     left: 0,
