@@ -21,6 +21,7 @@ function AutocompleteSearchBar(props) {
         data={props.data}
         valueExtractor={item => item.name}
         handleSelectItem={(item, id) => handleSelectItem(item, id)}
+        placeholder={props.placeholder}
         minimumCharactersCount={2}
         highlightText
         inputContainerStyle={styles.inputContainer}

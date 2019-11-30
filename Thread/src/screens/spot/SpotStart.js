@@ -33,7 +33,7 @@ export default class App extends React.Component {
     const haversine = require('haversine')
     const region = this.state.region
     function isCloser(shopA, shopB) {
-      coordCurr = {latitude: region.lat, longitude: region.lng}
+      coordCurr = {latitude: region.latitude, longitude: region.longitude}
       coordA = {latitude: shopA.lat, longitude: shopA.lng}
       coordB = {latitude: shopB.lat, longitude: shopB.lng}
       return (haversine(coordA, coordCurr) < haversine(coordB, coordCurr))
@@ -49,25 +49,14 @@ export default class App extends React.Component {
 
   getShopsPreviewData() {
     const haversine = require('haversine')
-    nearestShops = this.getNearestShops(4)
-    coordCurr = {latitude: this.state.region.lat, longitude: this.state.region.lng}
+    nearestShops = this.getNearestShops(-1) // Grab all shops sorted by proximity
+    coordCurr = {latitude: this.state.region.latitude, longitude: this.state.region.longitude}
     for (var i = 0; i < nearestShops.length; i++) {
       shop = nearestShops[i]
       coordShop = {latitude: shop.lat, longitude: shop.lng}
       nearestShops[i].distAway = haversine(coordCurr, coordShop, {unit: 'mile'})
     }
     return nearestShops
-  }
-
-  findMatchingShops(query) {
-    if (query === '') {
-      return [];
-    }
-
-    const { shops } = this.state;
-
-    const regex = new RegExp(`${query.trim()}`, 'i');
-    return shops.filter(shop => shop.name.includes(query));
   }
 
   onShopMarkerSelection = (shopID) => {
@@ -97,6 +86,7 @@ export default class App extends React.Component {
           <AutocompleteSearchBar 
             data={this.state.shops}
             onItemSelection={this.onShopMarkerSelection}
+            placeholder={'ex: Goodwill of Silicon Valley'}
           />
         </View>
         {/* Map and scroll up shop menu */}

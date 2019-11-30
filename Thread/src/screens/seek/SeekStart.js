@@ -79,20 +79,20 @@ export default class App extends React.Component {
   };
 
 
-static navigationOptions = ({navigation}) => {
-  return {
-    headerRight: () => (
-      <Button
-      onPress={() =>
-        navigation.navigate('SeekInfo', {
-          title: navigation.getParam('title'),
-          items: navigation.getParam('items')
+  static navigationOptions = ({navigation}) => {
+    return {
+      headerRight: () => (
+        <Button
+        onPress={() =>
+          navigation.navigate('SeekInfo', {
+            title: navigation.getParam('title'),
+            items: navigation.getParam('items')
+          }
+        )}
+        title="Next"
+        style={styles.headerbutton} />)
+    }
   }
-  )}
-      title="Next"
-      style={styles.headerbutton} />)
-  }
-}
 
   componentDidMount() {
     const { currentUser } = firebase.auth()
@@ -222,8 +222,8 @@ static navigationOptions = ({navigation}) => {
                         isSelected={item.selected}
                         style={[
                           item.selected ? styles.selectedBorder : styles.notSelectedBorder
-                        ]}
-                       />
+                        ]}/>
+                       <Text style={styles.name}>{item.name}</Text>
                     </TouchableOpacity>
                   }
                   keyExtractor={item => item.id}
@@ -327,5 +327,10 @@ const styles = StyleSheet.create({
   },
   headerbutton: {
     color: "#2B8FFF"
+  },
+  name: {
+    textAlign: 'center',
+    marginBottom: 10,
+    marginTop: 5
   }
 });

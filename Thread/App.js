@@ -14,13 +14,14 @@ import React, { useState } from "react";
 import { SwitchNavigator, StackNavigator, DrawerNavigator } from "react-navigation";
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
-import Size from "./src/screens/Size";
 import Profile from "./src/screens/Profile";
 
 // Onboarding
 import Loading from './src/screens/onboarding/Loading'
 import SignUp from './src/screens/onboarding/SignUp'
 import Login from './src/screens/onboarding/Login'
+import BuildProfile from './src/screens/onboarding/BuildProfile'
+import UpdateProfile from './src/screens/onboarding/UpdateProfile'
 
 // Seek Flow
 import SeekStart from './src/screens/seek/SeekStart';
@@ -29,6 +30,9 @@ import SeekSuccess from './src/screens/seek/SeekSuccess';
 
 import SpotStart from './src/screens/spot/SpotStart';
 import StoreView from './src/screens/spot/StoreView';
+import ItemView from './src/screens/spot/ItemView';
+import CameraView from './src/screens/spot/CameraView';
+import SpotSuccess from './src/screens/spot/SpotSuccess';
 import * as firebase from 'firebase';
 
 const firebaseConfig = {
@@ -41,15 +45,15 @@ const firebaseConfig = {
     appId: "1:642322348698:web:2d29abda75aae0ebe2fd23",
     measurementId: "G-BSTC9VG2QX"
   };
-  
+
 firebase.initializeApp(firebaseConfig);
 const ProfileStackNavigation = createStackNavigator(
   {
     Profile: {
       screen: Profile
     },
-    Size: {
-      screen: Size
+    UpdateProfile: {
+      screen: UpdateProfile
     },
   },
   {
@@ -81,6 +85,15 @@ const SpotStackNavigation = createStackNavigator(
     },
     StoreView: {
       screen: StoreView
+    },
+    ItemView: {
+      screen: ItemView
+    },
+    CameraView: {
+      screen: CameraView
+    },
+    SpotSuccess: {
+      screen: SpotSuccess
     },
   },
   {
@@ -125,6 +138,7 @@ const Onboarding = createSwitchNavigator(
     Loading,
     SignUp,
     Login,
+    BuildProfile,
     TabNavigator
   },
   {

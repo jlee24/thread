@@ -6,13 +6,16 @@ import * as firebase from 'firebase'
 
 export default class SignUp extends React.Component {
   state = { email: '', password: '', errorMessage: null }
+
   handleSignUp = () => {
+    unsubscribe();
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(() => this.props.navigation.navigate('TabNavigator'))
+      .then(() => this.props.navigation.navigate('BuildProfile'))
       .catch(error => this.setState({ errorMessage: error.message }))
   }
+
 
   render() {
       return (

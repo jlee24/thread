@@ -26,7 +26,7 @@ export default class BuildProfile extends React.Component {
   buttonsShoe = ['4', '4.5', '5', '5.5', '6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12', '12.5'];
 
 
-  writeUserData = (user) => {
+  writeUserData(user) {
     const userId = user.uid;
     const name = this.state.username;
     const email = user.email;
@@ -37,13 +37,29 @@ export default class BuildProfile extends React.Component {
       sizeNumber: this.state.selectedIndexesNumber.map(x => this.buttonsNumber[x]),
       sizeShoe: this.state.selectedIndexesShoe.map(x => this.buttonsShoe[x]),
     })
-    .then(() => this.props.navigation.navigate('TabNavigator'))
+    .then(() => this.props.navigation.navigate('Profile'))
 
   }
 
   componentDidMount() {
-    const { currentUser } = firebase.auth()
-    this.setState({ currentUser })
+    const { currentUser } = firebase.auth();
+    this.setState({ currentUser });
+    userId = currentUser.uid;
+
+    buttonsLetter = this.buttonsLetter;
+    buttonsNumber = this.buttonsNumber;
+    buttonsShoe = this.buttonsShoe;
+
+    firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
+      username = (snapshot.val() && snapshot.val().username) || '';
+      selectedIndexesLetter = (snapshot.val() && snapshot.val().sizeLetter.map(x => buttonsLetter.indexOf(x))) || [];
+      selectedIndexesNumber = (snapshot.val() && snapshot.val().sizeNumber.map(x => buttonsNumber.indexOf(x))) || [];
+      selectedIndexesShoe = (snapshot.val() && snapshot.val().sizeShoe.map(x => buttonsShoe.indexOf(x))) || [];
+    }).then(() => this.setState({ username: username,
+                          selectedIndexesLetter: selectedIndexesLetter,
+                          selectedIndexesNumber: selectedIndexesNumber,
+                          selectedIndexesShoe: selectedIndexesShoe,
+                        }));
   }
 
   updateSelectedIndexes(selectedIndex, num, sizeType) {
@@ -201,7 +217,7 @@ export default class BuildProfile extends React.Component {
                 labelStyle={{fontSize: 18}}
                 style={{width: 200, height: 70, justifyContent: 'center'}}
                 onPress={() => this.writeUserData(this.state.currentUser)}>
-                  Done for now!
+                  Update!
               </Button>
               <Text style={{fontSize: 16, marginBottom: 10, marginLeft: 10, marginTop: 20, textAlign: 'center'}}>
                 (You can change your size preferences whenever in your profile.)
