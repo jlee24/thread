@@ -28,6 +28,9 @@ import SeekStart from './src/screens/seek/SeekStart';
 import SeekInfo from './src/screens/seek/SeekInfo';
 import SeekSuccess from './src/screens/seek/SeekSuccess';
 
+// Browse Flow
+import StoryView from './src/screens/seek/StoryView';
+
 import SpotStart from './src/screens/spot/SpotStart';
 import StoreView from './src/screens/spot/StoreView';
 import ItemView from './src/screens/spot/ItemView';
@@ -72,6 +75,9 @@ const SeekStackNavigation = createStackNavigator(
     SeekSuccess: {
       screen: SeekSuccess
     },
+    StoryView: {
+    	screen: StoryView
+    }
   },
   {
     initialRoute: 'SeekStart',

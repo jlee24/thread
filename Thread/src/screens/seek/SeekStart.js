@@ -147,7 +147,7 @@ static navigationOptions = ({navigation}) => {
 		return (
         /* Outermost View */
         <View style={styles.container}>
-          {/* Story Bubbles (TODO: currently placeholders) */}
+          {/* Story Bubbles */}
 
           <View style={styles.seekBubbles}>
             
@@ -157,7 +157,7 @@ static navigationOptions = ({navigation}) => {
               style={ styles.imageWrapper }>
               <TouchableOpacity 
                 style={ styles.button } 
-                onPress={ () => { alert("handler here") }}>
+                onPress={ () => { navigate('StoryView') }}>
                 <Text style={ styles.text }>×</Text>
               </TouchableOpacity>
             </ImageBackground>
@@ -167,8 +167,7 @@ static navigationOptions = ({navigation}) => {
               source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/seek_bubbles/bubble2.png" }}
               style={ styles.imageWrapper }>
               <TouchableOpacity 
-                style={ styles.button } 
-                onPress={ () => { alert("handler here") }}>
+                style={ styles.button } >
                 <Text style={ styles.text }>×</Text>
               </TouchableOpacity>
             </ImageBackground>
@@ -177,8 +176,7 @@ static navigationOptions = ({navigation}) => {
               source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/seek_bubbles/bubble3.png" }}
               style={ styles.imageWrapper }>
               <TouchableOpacity 
-                style={ styles.button } 
-                onPress={ () => { alert("handler here") }}>
+                style={ styles.button } >
                 <Text style={ styles.text }>×</Text>
               </TouchableOpacity>
             </ImageBackground>
