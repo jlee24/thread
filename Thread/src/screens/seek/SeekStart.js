@@ -153,7 +153,7 @@ export default class App extends React.Component {
             
 
             <ImageBackground
-              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/seek_bubbles/bubble1.png" }}
+              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/greenlace_icon.png" }}
               style={ styles.imageWrapper }>
               <TouchableOpacity 
                 style={ styles.button } 
@@ -183,7 +183,7 @@ export default class App extends React.Component {
 
             <View style={ styles.spacer }/>
             <View style={ styles.currencyContainer }>
-                <CurrencyIcon amount={8}/>
+                <CurrencyIcon amount={3}/>
             </View>
           </View>
 
