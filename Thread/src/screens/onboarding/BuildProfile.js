@@ -26,7 +26,7 @@ export default class BuildProfile extends React.Component {
   buttonsShoe = ['4', '4.5', '5', '5.5', '6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12', '12.5'];
 
 
-  writeUserData(user) {
+  writeUserData = (user) => {
     const userId = user.uid;
     const name = this.state.username;
     const email = user.email;
