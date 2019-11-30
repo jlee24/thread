@@ -1,0 +1,30 @@
+[
+  {
+    "id": "0",
+    "name": "Goodwill of Silicon Valley",
+    "lat": 37.3751,
+    "lng": -122.0614,
+    "possibleSpots": 18,
+  },
+  {
+    "id": "1",
+    "name": "Goodwill Boutique",
+    "lat": 37.453470,
+    "lng": -122.184136,
+    "possibleSpots": 10,
+  },
+  {
+    "id": "2",
+    "name": "The Shop",
+    "lat": 37.451311,
+    "lng": -122.183888,
+    "possibleSpots": 5,
+  },
+  {
+    "id": "3",
+    "name": "Fillmore & 5th",
+    "lat": 37.440369,
+    "lng": -122.159276,
+    "possibleSpots": 2,
+  },
+];
