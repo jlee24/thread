@@ -1,5 +1,3 @@
-<script src="http://localhost:8097"></script>
-
 import React, { Component } from "react";
 import { LayoutAnimation, RefreshControl } from "react-native";
 import { Image, Dimensions, StyleSheet, Text, View, FlatList, ScrollView, Alert, Tooltip, TouchableOpacity, Button} from 'react-native';
@@ -9,7 +7,6 @@ import  AutocompleteSearchBar from "../../components/AutocompleteSearchBar";
 import SpotMap from "../../components/SpotMap";
 import ShopsPreview from "../../components/ShopsPreview";
 
-
 const LATLNG_DELTA = 0.04;
 export default class App extends React.Component {
 
@@ -18,6 +15,14 @@ export default class App extends React.Component {
     this.state = {
       isLoading: true,
       shops: require('../../../assets/thriftShops.json'),
+      // user's current location, hardcoded as d.school here but dynamically updated in map
+      userLocation: {
+        latitude: 37.426431,
+        longitude: -122.171881,
+        latitudeDelta: LATLNG_DELTA,
+        longitudeDelta: LATLNG_DELTA,
+      },
+      // region currently shown on map (updated as user pans, searches)
       region: {
         latitude: 37.426431,
         longitude: -122.171881,
@@ -50,7 +55,7 @@ export default class App extends React.Component {
   getShopsPreviewData() {
     const haversine = require('haversine')
     nearestShops = this.getNearestShops(-1) // Grab all shops sorted by proximity
-    coordCurr = {latitude: this.state.region.latitude, longitude: this.state.region.longitude}
+    coordCurr = {latitude: this.state.userLocation.latitude, longitude: this.state.userLocation.longitude}
     for (var i = 0; i < nearestShops.length; i++) {
       shop = nearestShops[i]
       coordShop = {latitude: shop.lat, longitude: shop.lng}
