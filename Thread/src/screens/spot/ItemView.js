@@ -10,7 +10,6 @@ arrayholder = require('../../../assets/database.json');
     const itemID = this.props.navigation.getParam('itemID', 'no_id');
     const item = this.arrayholder[itemID];
     const path = item.path;
-    console.log(path);
 
     return (
       <View style={styles.container}>
