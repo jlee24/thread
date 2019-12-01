@@ -3,28 +3,28 @@ import { LayoutAnimation, RefreshControl } from "react-native";
 import { StyleSheet, Text, View, FlatList, ScrollView, Alert, Tooltip, Button, TouchableOpacity} from 'react-native';
 
 import Item from "../../components/Item";
+import ShopHeader from "../../components/ShopHeader";
 
 export default class App extends React.Component {
+
 arrayholder = require('../../../assets/database.json');
+shops = require('../../../assets/thriftShops.json');
 
 render() {
         const { navigate } = this.props.navigation;
+        const shopId  = 1
+        this.state = {
+          shop: this.shops[shopId]
+        }
+
     		return (
       		<View style={styles.container}>
-
+          
           <View style={styles.header}>
-          <View style={styles.subheader}>
-        			<Text style={styles.store}>Goodwill</Text>
-              <Text style={styles.hours}>8am-10pm</Text>
-              <Text style={styles.subtitle}>12 possible spots</Text>
+          <ShopHeader
+              shop={this.state.shop}/>
           </View>
-          <View style={styles.subheader}>
-              <Text style={styles.hours}>2.7 miles away</Text>
-              
-            {/* Styling for this button isn't being applied- need to fix*/}
-              <Button style={styles.directions} title="Directions"/>
-          </View>
-          </View>
+
                 <View style={styles.results}>
                 <FlatList
                   data={this.arrayholder}
@@ -60,23 +60,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: '15%',
-    width: '100%',
-    justifyContent: 'space-around'
+    marginTop: '20%',
   },
   subheader: {
     width: '50%',
+    height: 150,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: '10%'
+    marginTop: '10%',
   },
   results: {
     width: '80%',
     alignItems: 'center',
     justifyContent: 'center',
+    height: '80%',
   },
   name: {
     textAlign: 'center',
@@ -84,7 +81,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontSize: 16
   },
-  hours: {
+  subtitle1: {
     color: "#121212",
     fontSize: 16,
     fontFamily: "ibm-plex-sans-regular",
@@ -94,12 +91,11 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontWeight: 'bold'
   },
-  store: {
+  title1: {
     color: "#121212",
     fontSize: 24,
     fontFamily: "ibm-plex-sans-regular",
     width: '80%',
-    marginTop: '20%'
   },
   subtitle: {
     color: '#7adbc9',
@@ -111,8 +107,17 @@ const styles = StyleSheet.create({
   data: {
     marginTop: '10%'
   },
-  directions: {
+  button: {
     backgroundColor: '#7adbc9',
-    borderRadius: 10
+    borderRadius: 10,
+    width: '80%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '10%',
+    height: 36,
+  },
+  buttontext: {
+    color: 'white',
+    fontSize: 18,
   }
 });

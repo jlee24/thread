@@ -1,18 +1,29 @@
 'use strict';
 import React, { PureComponent } from 'react';
 import { AppRegistry, StyleSheet, Text, TouchableOpacity, View, FlatList, Image, Button } from 'react-native';
+import ShopHeader from "../../components/ShopHeader";
 
 export default class ExampleApp extends PureComponent {
 arrayholder = require('../../../assets/database.json');
+shops = require('../../../assets/thriftShops.json');
 
   render() {
     const { navigate } = this.props.navigation;
     const itemID = this.props.navigation.getParam('itemID', 'no_id');
     const item = this.arrayholder[itemID];
     const path = item.path;
+    const shopId  = 1
+    this.state = {
+      shop: this.shops[shopId]
+    }
 
     return (
       <View style={styles.container}>
+        <View style={styles.header}>
+          <ShopHeader
+              shop={this.state.shop}/>
+          </View>
+
             <Text style={styles.username}>{item.user} is seeking</Text>
             {/* Need to fix this image path*/}
             <Image style={styles.image} 
@@ -70,14 +81,14 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontWeight: 'bold',
     fontSize: 16,
-    width: '80%'
+    width: '90%',
   },
   store: {
     color: "#121212",
     fontSize: 24,
     fontFamily: "ibm-plex-sans-regular",
-    width: '80%',
-    marginTop: '20%'
+    width: '90%',
+    marginBottom: '10%'
   },
   subtitle: {
     color: '#7adbc9',
@@ -94,11 +105,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   bodyText: {
-    width: '80%',
+    width: '90%',
     fontSize: 22
   },
   image: {
-    width: 400, 
-    height: 400
+    width: '100%', 
+    height: 400,
+    marginTop: 10,
+    marginBottom: 10
   }
 });
