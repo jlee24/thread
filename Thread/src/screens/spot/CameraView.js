@@ -3,6 +3,7 @@ import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 import { Ionicons, MaterialIcons} from '@expo/vector-icons';
+import * as FileSystem from 'expo-file-system';
 
   const flashModeOrder = {
     off: 'on',
@@ -50,17 +51,18 @@ export default class CameraExample extends React.Component {
     if (this.camera) {
       this.camera.takePictureAsync({ onPictureSaved: this.onPictureSaved });
     }
-    console.log("photo taken")
+    console.log("photo taken");
+    this.props.navigation.navigate('Photo', {'uri': 'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1566405880-john-elliott-1566405875.jpg'});
   };
 
   onPictureSaved = async photo => {
+    console.log("second method");
     await FileSystem.moveAsync({
       from: photo.uri,
       to: `${FileSystem.documentDirectory}photos/${Date.now()}.jpg`,
     });
     this.setState({ newPhotos: true });
-    console.log(photo.uri)
-  }
+  };
 
   render() {
     const { hasCameraPermission } = this.state;
@@ -137,7 +139,7 @@ const styles = StyleSheet.create({
     width: '100%'
     },
   camera: {
-    backgroundColor: 'white',
+    backgroundColor: 'red',
     height: '75%',
     justifyContent: 'space-between',
   },
