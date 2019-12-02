@@ -35,24 +35,19 @@ function AutocompleteSearchBar(props) {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 0,
-    padding: 0,
     zIndex: 1,
     width: "100%",
     paddingHorizontal: 8,
     backgroundColor: "rgba(0, 256, 0, 0)",
   },
   input: {
-    padding: 0,
     maxHeight: 40,
-    backgroundColor: "#FFFFFF"
+    backgroundColor: "rgba(256, 0, 0, 0)",
   },
   inputContainer: {
-    padding: 0,
     backgroundColor: "#FFFFFF"
   },
   scroll: {
-    padding: 0,
     backgroundColor: "rgba(256, 0, 0, 0)",
   },
 });

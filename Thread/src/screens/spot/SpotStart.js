@@ -1,14 +1,10 @@
-<script src="http://localhost:8097"></script>
-
 import React, { Component } from "react";
 import { LayoutAnimation, RefreshControl } from "react-native";
 import { Image, Dimensions, StyleSheet, Text, View, FlatList, ScrollView, Alert, Tooltip, TouchableOpacity, Button} from 'react-native';
-import Drawer from 'react-native-draggable-view'
+import MapView, { Marker, Callout } from 'react-native-maps';
 
 import  AutocompleteSearchBar from "../../components/AutocompleteSearchBar";
-import SpotMap from "../../components/SpotMap";
-import ShopsPreview from "../../components/ShopsPreview";
-
+import ShopPreviewPanel from "../../components/ShopPreviewPanel";
 
 const LATLNG_DELTA = 0.04;
 export default class App extends React.Component {
@@ -17,7 +13,17 @@ export default class App extends React.Component {
     super();
     this.state = {
       isLoading: true,
-      shops: require('../../../assets/thriftShops.json'),
+      shops: [],
+      activeShop: null,
+      markers: {},
+      // user's current location, hardcoded as d.school here but dynamically updated in map
+      userLocation: {
+        latitude: 37.426431,
+        longitude: -122.171881,
+        latitudeDelta: LATLNG_DELTA,
+        longitudeDelta: LATLNG_DELTA,
+      },
+      // region currently shown on map (updated as user pans, searches)
       region: {
         latitude: 37.426431,
         longitude: -122.171881,
@@ -27,7 +33,16 @@ export default class App extends React.Component {
     }
   }
 
+  componentWillMount() {
+    const haversine = require('haversine')
+    userCoord = {latitude: this.state.userLocation.latitude, longitude: this.state.userLocation.longitude}
+    shops = require('../../../assets/thriftShops.json').map( (shop) => ({...shop,
+      distAway: haversine(userCoord, {latitude: shop.lat, longitude: shop.lng}, {unit: 'mile'})}))
+    this.setState({ shops: shops })
+  }
+
   // Returns n nearest shops in decreasing closeness. If n is -1, returns all shops
+  // Note: Currently not used, but will be useful when we have a large shop dataset
   getNearestShops(n) {
     // Helper for sorting
     const haversine = require('haversine')
@@ -47,35 +62,64 @@ export default class App extends React.Component {
     return this.state.shops.slice(0, n)
   }
 
-  getShopsPreviewData() {
-    const haversine = require('haversine')
-    nearestShops = this.getNearestShops(-1) // Grab all shops sorted by proximity
-    coordCurr = {latitude: this.state.region.latitude, longitude: this.state.region.longitude}
-    for (var i = 0; i < nearestShops.length; i++) {
-      shop = nearestShops[i]
-      coordShop = {latitude: shop.lat, longitude: shop.lng}
-      nearestShops[i].distAway = haversine(coordCurr, coordShop, {unit: 'mile'})
-    }
-    return nearestShops
-  }
-
-  onShopMarkerSelection = (shopID) => {
+  onShopSearchSelection = (shopID) => {
     const { shops } = this.state;
     selectedShop = shops.find(shop => shop.id === shopID);
-    this.setState({
-      region: {
+    _mapView.animateToRegion({
         latitude: selectedShop.lat,
         longitude: selectedShop.lng,
         latitudeDelta: LATLNG_DELTA,
         longitudeDelta: LATLNG_DELTA,
-      }
+      })
+    this.setState({
+      activeShop: selectedShop
     });
     // TODO: open marker callout
+  }
+
+  onMarkerPress = (event) => {
+    const markerID = event.nativeEvent.id;
+    console.log(event.nativeEvent);
+    const { shops } = this.state;
+    selectedShop = shops.find(shop => shop.id === markerID);
+    console.log("Selected shop: ", selectedShop)
+    this.setState({activeShop: selectedShop});
+  }
+
+  onRegionChangeComplete = (region) => {
+    this.setState({region: region});
   }
 
   render() {
     const { navigate } = this.props.navigation;
     const { query } = this.state;
+
+    // Helper to render marker for each shop on map
+    function shopMarkers(shops, navigation, onMarkerPress, color='red') {
+      return shops.map( (shop) => {
+        const {navigate} = navigation;
+        return (
+          <Marker
+            key={shop.id}
+            identifier={shop.id}
+            coordinate={{latitude:shop.lat, longitude:shop.lng}}
+            title={shop.name}
+            description={shop.possibleSpots + " possible spots"}
+            pinColor={color}
+            onPress={(event) => onMarkerPress(event)}
+            onCalloutPress={() => navigate("StoreView")}
+          >
+            <Callout>
+                <TouchableOpacity
+                    style={styles.callout}>
+                    <Text>{shop.name}</Text>
+                    <Text>{shop.possibleSpots + " possible spots"}</Text>
+                </TouchableOpacity>
+            </Callout>
+          </Marker>
+        )
+      })
+    }
 
     return (
       <View style={styles.container}>
@@ -83,35 +127,32 @@ export default class App extends React.Component {
         <View style={styles.header}>
           <Text style={styles.headerText}>Where would you like to spot?</Text>
           {/* Search bar */}
-          <AutocompleteSearchBar 
+          <AutocompleteSearchBar
             data={this.state.shops}
-            onItemSelection={this.onShopMarkerSelection}
+            onItemSelection={this.onShopSearchSelection}
             placeholder={'ex: Goodwill of Silicon Valley'}
           />
         </View>
-        {/* Map and scroll up shop menu */}
-        <Drawer
-          initialDrawerSize={0.24}
-          renderContainerView={() => 
-            <View style={{height: 400}}>
-              <SpotMap 
-                region={this.state.region}
-                shops={this.state.shops}
-                navigation={this.props.navigation}
-              />
-            </View>
-          }
-          renderDrawerView={() => 
-            <ShopsPreview shops={this.getShopsPreviewData()}/>}
-          renderInitDrawerView={() => (
-            <View style={styles.handle}>
-              <Image
-                style={styles.scrollIndicator}
-                source={{uri: "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/scrollIndicator.png" }}
-              />
-            </View>
-          )}
-        />
+        {/* Preview panel */}
+        {(this.state.shops.length > 0 && this.state.activeShop !== null)?
+          <View style={styles.previewPanelContainer}>
+            <ShopPreviewPanel
+              shop={this.state.activeShop}
+              navigation={this.props.navigation}
+            />
+          </View> : null
+        }
+        {/* Map */}
+        <MapView
+          ref={(mapView) => { _mapView = mapView; }}
+          style={styles.map}
+          showsUserLocation={true}
+          region={this.state.region}
+          onRegionChangeComplete={this.onRegionChangeComplete}
+        >
+          {/* Mark thrift shops */}
+          {shopMarkers(this.state.shops, this.props.navigation, this.onMarkerPress)}
+        </MapView>
       </View>
     );
   }
@@ -120,9 +161,18 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    height: '100%',
     backgroundColor: '#FFFFFF',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  previewPanelContainer: {
+    zIndex: 3,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    backgroundColor: 'yellow',
+    width: '100%',
   },
   handle: {
     backgroundColor: '#FAFAFA',
@@ -140,7 +190,7 @@ const styles = StyleSheet.create({
   },
   header: {
     zIndex: 3,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    //backgroundColor: 'rgba(0, 0, 0, 0.5)',
     width: '100%',
     position: 'absolute',
     top: 0,
@@ -160,5 +210,16 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: '92%',
     left: 0,
-  }
+  },
+  map: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+  },
+  callout: {
+    backgroundColor: 'white',
+    padding: 4,
+  },
 });
