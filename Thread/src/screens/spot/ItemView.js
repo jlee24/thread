@@ -9,14 +9,14 @@ arrayholder = require('../../../assets/database.json');
     const { navigate } = this.props.navigation;
     const itemID = this.props.navigation.getParam('itemID', 'no_id');
     const item = this.arrayholder[itemID];
-    const path = 'uri: ' + item.path;
-    console.log(path)
+    const path = item.path;
 
     return (
       <View style={styles.container}>
             <Text style={styles.username}>{item.user} is seeking</Text>
             {/* Need to fix this image path*/}
-            <Image style={styles.image} source={{path}}/>
+            <Image style={styles.image} 
+                    source={{uri: path}}/>
 
             <Text style={styles.bodyText}>{item.name}</Text>
             <Text style={styles.bodyText}>Fit: baggy</Text>
@@ -98,6 +98,7 @@ const styles = StyleSheet.create({
     fontSize: 22
   },
   image: {
-    height: '50%'
+    width: 400, 
+    height: 400
   }
 });

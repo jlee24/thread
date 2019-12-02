@@ -23,6 +23,7 @@
     "react-dom": "16.8.3",
     "react-native": "https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz",
     "react-native-camera": "^3.11.1",
+    "react-native-draggable": "^2.0.0",
     "react-native-draggable-view": "0.0.6",
     "react-native-dropdown-autocomplete": "^1.0.17",
     "react-native-elements": "^1.2.7",
