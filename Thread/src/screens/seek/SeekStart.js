@@ -19,6 +19,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import * as firebase from 'firebase';
 
+let MAX_NUM_SEARCH_RESULTS_TO_DISPLAY = 50;
 
 export default class App extends React.Component {
 
@@ -73,8 +74,8 @@ export default class App extends React.Component {
     query: '',
     data: [],
     selectedItems: [],
+    quotaLeft: true,
     error: null,
-    refresh: true,
     currentUser: null,
   };
 
@@ -108,22 +109,63 @@ export default class App extends React.Component {
 
   updateSearch = async (search) => {
     this.setState({ query: search });
-    const newData = this.arrayholder.filter(item => {
-       const itemData = `${item.name.toUpperCase()} ${item.tags.toUpperCase()}`;
-       const textData = search.toUpperCase();
-       return itemData.indexOf(textData) > -1;
-    });
-    if (!/\S/.test(search)) {
-       this.setState({ data: [] });
-    } else {
-       this.setState({ data: newData });
-    }
     this.props.navigation.setParams({
       title: search
     });
+
+    if (this.state.quotaLeft) {
+      var newData = [];
+      search = search.toLowerCase();
+      if (search.includes('graphic') || search.includes('dress') || search.includes('shirt') || search.includes('hood') || search.includes('jeans')) {
+        fetch('https://www.googleapis.com/customsearch/v1?key=AIzaSyCcWSCBiwLVf2Y108sfDkpIEOsPHYB1u3E&cx=008952763162707324316:33prtpoq7jm&searchType=image&q=' + search)
+          .then((response) => response.json())
+          .then((responseJson) => {
+            items = responseJson.items;
+            if (items) {
+              var newData = [];
+              var i;
+              for (i = 0; i < MAX_NUM_SEARCH_RESULTS_TO_DISPLAY; i++) {
+                if (items[i]) {
+                  obj = {
+                      'id': items[i].title,
+                      'name': items[i].title,
+                      'tags': items[i].title + ' ' + items[i].displayLink + ' ' + search,
+                      'path': items[i].link,
+                      'selected': true,
+                  }
+                  if (this.state.selectedItems.indexOf(obj) < 0) {
+                    obj.selected = false;
+                    newData.push(obj);
+                  }
+                }
+              }
+              this.setState({ data: newData });
+            }
+          })
+          .catch((error) =>{
+            console.error(error);
+            this.state.quotaLeft = false;
+          });
+        }
+      } 
+      else {
+          const newData = this.arrayholder.filter(item => {
+             const itemData = `${item.name.toUpperCase()} ${item.tags.toUpperCase()}`;
+             const textData = search.toUpperCase();
+             return itemData.indexOf(textData) > -1;
+          });
+          if (!/\S/.test(search)) {
+             this.setState({ data: [] });
+          } else {
+             this.setState({ data: newData });
+          }
+      }
   };
 
   changeSelection = (item) => {
+    if (this.arrayholder.indexOf(item) < 0) {
+      this.arrayholder.push(item);
+    }
     const match = this.arrayholder.indexOf(item);
     const match_item = this.arrayholder[match];
     match_item['selected'] = !match_item['selected'];
@@ -352,6 +394,7 @@ const styles = StyleSheet.create({
     color: "#2B8FFF",
   },
   name: {
+    width: 164,
     textAlign: 'center',
     marginBottom: 10,
     marginTop: 5,
@@ -381,5 +424,5 @@ const styles = StyleSheet.create({
     color:'white',
     lineHeight:42
   }
- 
+
 });
