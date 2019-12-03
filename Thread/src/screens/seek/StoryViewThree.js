@@ -11,7 +11,7 @@ render() {
 
         <ImageBackground
           style= { styles.backgroundImage } 
-          source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/clothes.jpeg" }}>
+          source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/pants.png" }}>
 
         <View style= { styles.header }>
         <View style={ styles.spacer }/>
@@ -19,7 +19,7 @@ render() {
             Goodwill Silicon Valley
           </Text>
           <Text style = { styles.logoText }>
-            Size M, $13.89
+            Size 8, $21.50
           </Text>
           <View style={ styles.spacer }/>
           <ImageBackground
@@ -46,8 +46,8 @@ render() {
             // add limited size container
             // onRelease
             <Text style = { styles.logoDescriptionBlack }>
-              Nice green blouse with lace design spotted by coolgirl96:
-              "The shade of green is a little closer to neon but otherwise seems exactly like what you are looking for!"
+              Stretchy faux leather leggings spotted by coolgirl4:
+              "Slight fraying on the left ankle but otherwise seems like a good fit for what you're looking for"
             </Text>
 
           }

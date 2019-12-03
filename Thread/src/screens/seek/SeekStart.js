@@ -195,7 +195,7 @@ export default class App extends React.Component {
 
 
             <ImageBackground
-              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/greenlace_icon.png" }}
+              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/greenlace.png" }}
               style={ styles.imageWrapper }>
               <TouchableOpacity
                 style={ styles.button }
@@ -206,19 +206,21 @@ export default class App extends React.Component {
 
 
             <ImageBackground
-              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/seek_bubbles/bubble2.png" }}
+              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hoodie.png" }}
               style={ styles.imageWrapper }>
               <TouchableOpacity
-                style={ styles.button } >
+                style={ styles.button }
+                onPress={ () => { navigate('StoryViewTwo') }}>
                 <Text style={ styles.text }>×</Text>
               </TouchableOpacity>
             </ImageBackground>
 
             <ImageBackground
-              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/seek_bubbles/bubble3.png" }}
+              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/leather.png" }}
               style={ styles.imageWrapper }>
               <TouchableOpacity
-                style={ styles.button } >
+                style={ styles.button }
+                onPress={ () => { navigate('StoryViewThree') }}>
                 <Text style={ styles.text }>×</Text>
               </TouchableOpacity>
             </ImageBackground>

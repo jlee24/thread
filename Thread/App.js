@@ -30,6 +30,9 @@ import SeekSuccess from './src/screens/seek/SeekSuccess';
 
 // Browse Flow
 import StoryView from './src/screens/seek/StoryView';
+import StoryViewTwo from './src/screens/seek/StoryViewTwo';
+import StoryViewThree from './src/screens/seek/StoryViewThree';
+
 
 import SpotStart from './src/screens/spot/SpotStart';
 import StoreView from './src/screens/spot/StoreView';
@@ -77,6 +80,12 @@ const SeekStackNavigation = createStackNavigator(
     },
     StoryView: {
     	screen: StoryView
+    },
+    StoryViewTwo: {
+    	screen: StoryViewTwo
+    },
+    StoryViewThree: {
+    	screen: StoryViewThree
     }
   },
   {

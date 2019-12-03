@@ -11,15 +11,15 @@ render() {
 
         <ImageBackground
           style= { styles.backgroundImage } 
-          source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/clothes.jpeg" }}>
+          source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/brown.png" }}>
 
         <View style= { styles.header }>
         <View style={ styles.spacer }/>
           <Text style = { styles.logoDescription }>
-            Goodwill Silicon Valley
+            Savers Redwood City
           </Text>
           <Text style = { styles.logoText }>
-            Size M, $13.89
+            Size L, $17.99
           </Text>
           <View style={ styles.spacer }/>
           <ImageBackground
@@ -46,8 +46,8 @@ render() {
             // add limited size container
             // onRelease
             <Text style = { styles.logoDescriptionBlack }>
-              Nice green blouse with lace design spotted by coolgirl96:
-              "The shade of green is a little closer to neon but otherwise seems exactly like what you are looking for!"
+              Soft light brown hoodie spotted by izhou:
+              "Looks like it's in almost new condition. Very soft fleece lining on the inside of this jacket. "
             </Text>
 
           }
