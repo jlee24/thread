@@ -193,37 +193,37 @@ export default class App extends React.Component {
 
           <View style={styles.seekBubbles}>
 
+           <ImageBackground
+              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hoodie.png" }}
+              style={ styles.imageWrapper }>
+              <TouchableOpacity 
+                style={ styles.button } 
+                onPress={ () => { navigate('StoryViewHoodie') }}>
+                <Text style={ styles.text }>×</Text>
+              </TouchableOpacity>
+            </ImageBackground>
+
+          <ImageBackground
+              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/leather.png" }}
+              style={ styles.imageWrapper }>
+              <TouchableOpacity 
+                style={ styles.button }
+                onPress={ () => { navigate('StoryViewPants') }}>
+                <Text style={ styles.text }>×</Text>
+              </TouchableOpacity>
+            </ImageBackground>
+            
 
             <ImageBackground
               source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/greenlace.png" }}
               style={ styles.imageWrapper }>
-              <TouchableOpacity
-                style={ styles.button }
-                onPress={ () => { navigate('StoryView') }}>
+              <TouchableOpacity 
+                style={ styles.button } 
+                onPress={ () => { alert("Your green lace shirt has not yet been spotted. We will notify you once it is!") }} >
                 <Text style={ styles.text }>×</Text>
               </TouchableOpacity>
             </ImageBackground>
 
-
-            <ImageBackground
-              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hoodie.png" }}
-              style={ styles.imageWrapper }>
-              <TouchableOpacity
-                style={ styles.button }
-                onPress={ () => { navigate('StoryViewTwo') }}>
-                <Text style={ styles.text }>×</Text>
-              </TouchableOpacity>
-            </ImageBackground>
-
-            <ImageBackground
-              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/leather.png" }}
-              style={ styles.imageWrapper }>
-              <TouchableOpacity
-                style={ styles.button }
-                onPress={ () => { navigate('StoryViewThree') }}>
-                <Text style={ styles.text }>×</Text>
-              </TouchableOpacity>
-            </ImageBackground>
 
             <View style={ styles.spacer }/>
             <View style={ styles.currencyContainer }>
