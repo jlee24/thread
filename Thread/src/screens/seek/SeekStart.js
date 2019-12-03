@@ -196,7 +196,7 @@ export default class App extends React.Component {
           <View style={styles.seekBubbles}>
 
            <ImageBackground
-              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hoodie.png" }}
+              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hoodiehalo.png" }}
               style={ styles.imageWrapper }>
               <TouchableOpacity 
                 style={ styles.button } 
@@ -206,7 +206,7 @@ export default class App extends React.Component {
             </ImageBackground>
 
           <ImageBackground
-              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/leather.png" }}
+              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/leatherhalo.png" }}
               style={ styles.imageWrapper }>
               <TouchableOpacity 
                 style={ styles.button }
@@ -217,7 +217,7 @@ export default class App extends React.Component {
             
 
             <ImageBackground
-              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/greenlace.png" }}
+              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/greenlacenohalo.png" }}
               style={ styles.imageWrapper }>
               <TouchableOpacity 
                 style={ styles.button } 
@@ -271,7 +271,6 @@ export default class App extends React.Component {
                   horizontal={true}
                   numRows={1}
                   //  ItemSeparatorComponent={this.renderSeparator}
-                  //  ListHeaderComponent={this.renderHeader}
                 />
               </View>
               {/* Search Results */}
@@ -316,7 +315,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     position: 'absolute',
     top: 32,
-    left: 44,
+    left: 32,
   },
   spacer: {
     width: 12,
@@ -386,7 +385,6 @@ const styles = StyleSheet.create({
     marginRight: 15,
   },
   next: {
-    // top:-50,
     width: 100,
     height: "5%",
     alignSelf: 'flex-end',
@@ -402,8 +400,8 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   button:{
-    width:72,
-    height:72,
+    width:78,
+    height:78,
     backgroundColor:'white',
     opacity: 0,
     alignItems:'center',
@@ -416,8 +414,8 @@ const styles = StyleSheet.create({
     marginRight:15,
   },
   imageWrapper:{
-     width:72,
-     height:72,
+     width:78,
+     height:78,
      borderRadius:0,
      marginRight:15,
   },
