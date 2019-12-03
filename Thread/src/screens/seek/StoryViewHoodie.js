@@ -98,7 +98,7 @@ render() {
               Spotted by izhou:
             </Text>
             <Text style = { styles.quote }>
-                "Has an extremely soft inner fleece lining."
+                "Extremely soft inner fleece lining."
             </Text>
             <View style={ styles.spacer }/>
           </View>
