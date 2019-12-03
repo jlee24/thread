@@ -87,7 +87,8 @@ export default class App extends React.Component {
         onPress={() =>
           navigation.navigate('SeekInfo', {
             title: navigation.getParam('title'),
-            items: navigation.getParam('items')
+            items: navigation.getParam('items'),
+            currentUser: navigation.getParam('currentUser')
           }
         )}
         title="Next"
@@ -96,12 +97,13 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    const { currentUser } = firebase.auth()
-    this.setState({ currentUser })
+    const { currentUser } = firebase.auth();
+    this.setState({ currentUser });
     //if updating title
     this.props.navigation.setParams({
       title: "", //or whatever the default value is
-      items: [], //default value
+      items: [], //default value,
+      currentUser: currentUser,
     });
   }
 
@@ -147,7 +149,7 @@ export default class App extends React.Component {
             this.state.quotaLeft = false;
           });
         }
-      } 
+      }
       else {
           const newData = this.arrayholder.filter(item => {
              const itemData = `${item.name.toUpperCase()} ${item.tags.toUpperCase()}`;
