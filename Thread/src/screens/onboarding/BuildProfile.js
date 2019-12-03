@@ -36,6 +36,9 @@ export default class BuildProfile extends React.Component {
       sizeLetter: this.state.selectedIndexesLetter.map(x => this.buttonsLetter[x]),
       sizeNumber: this.state.selectedIndexesNumber.map(x => this.buttonsNumber[x]),
       sizeShoe: this.state.selectedIndexesShoe.map(x => this.buttonsShoe[x]),
+      coins: 3,
+      likes: [],
+      seeks: [],
     })
     .then(() => this.props.navigation.navigate('TabNavigator'))
 
