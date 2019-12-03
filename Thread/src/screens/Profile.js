@@ -3,6 +3,8 @@ import { StyleSheet, Text, View } from 'react-native'
 import { TextInput, Button } from 'react-native-paper';
 import * as firebase from 'firebase'
 
+import MyLikes from "../components/MyLikes";
+
 export default class Profile extends React.Component {
 
   state = {
@@ -44,6 +46,8 @@ export default class Profile extends React.Component {
           onPress={() => this.props.navigation.navigate('UpdateProfile')}>
           Edit Profile
         </Button>
+
+        <MyLikes mylikes = {1}/>
       </View>
     )}
 }
@@ -51,5 +55,5 @@ export default class Profile extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  }
+  },
 })
