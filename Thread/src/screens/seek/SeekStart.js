@@ -30,6 +30,21 @@ export default class App extends React.Component {
     }
   }
 
+  updateActiveSeeks = async () => {
+    // fetch seeks of current user
+    const { currentUser } = firebase.auth();
+    firebase.database().ref('/users/' + currentUser.uid + '/seeks')
+      .once('value').then((seeksSnapshot) => {
+      console.log("Snapshot: ", seeksSnapshot)
+      activeSeeks = Object.values(seeksSnapshot)
+      // TODO; Given seek ids in snapshot, fetch actual seek objects
+      //seekPromises = activeSeeks.map( (seekID) => {
+       // return
+      //}
+      this.setState({ activeSeeks: activeSeeks });
+    });
+  }
+
   uploadImage = async(uri) => {
     const name = await AsyncStorage.getItem('name');
     const response = await fetch(uri);
@@ -77,6 +92,7 @@ export default class App extends React.Component {
     quotaLeft: true,
     error: null,
     currentUser: null,
+    activeSeeks: [],
   };
 
 
@@ -98,11 +114,12 @@ export default class App extends React.Component {
 
   componentDidMount() {
     const { currentUser } = firebase.auth();
+    this.updateActiveSeeks();
     this.setState({ currentUser });
     //if updating title
     this.props.navigation.setParams({
       title: "", //or whatever the default value is
-      items: [], //default value,
+      items: [], //default value, 
       currentUser: currentUser,
     });
   }
@@ -118,7 +135,7 @@ export default class App extends React.Component {
     if (this.state.quotaLeft) {
       var newData = [];
       search = search.toLowerCase();
-      if (search.includes('graphic') || search.includes('dress') || search.includes('shirt') || search.includes('hood') || search.includes('jeans')) {
+      if (search.includes('graphic t') || search.includes('dress') || search.includes('shirt') || search.includes('hood') || search.includes('jeans')) {
         fetch('https://www.googleapis.com/customsearch/v1?key=AIzaSyCcWSCBiwLVf2Y108sfDkpIEOsPHYB1u3E&cx=008952763162707324316:33prtpoq7jm&searchType=image&q=' + search)
           .then((response) => response.json())
           .then((responseJson) => {
@@ -188,19 +205,67 @@ export default class App extends React.Component {
     const { query } = this.state;
     const { selectedItems } = this.state
 
+    function activeStoryBubbles(activeSeeks) {
+      console.log("called in ftn:", activeSeeks)
+      return activeSeeks.map( (seek, idx) => {
+        return (
+            <ImageBackground
+              key={idx}
+              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/greenlacenohalo.png" }}
+              style={ styles.imageWrapper }>
+              <TouchableOpacity 
+                style={ styles.button } 
+                onPress={ () => {
+                  alert("Your green lace shirt has not yet been spotted. We will notify you once it is!")
+                }} 
+              >
+                <Text style={ styles.text }>×</Text>
+              </TouchableOpacity>
+            </ImageBackground>
+        )
+      })
+    }
+
 		return (
         /* Outermost View */
         <View style={styles.container}>
           {/* Story Bubbles */}
 
           <View style={styles.seekBubbles}>
+            { this.state.activeSeeks.length > 0 ? 
+              activeStoryBubbles(this.state.activeSeeks) : null 
+            }
+            <ImageBackground
+              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/greenlacenohalo.png" }}
+              style={ styles.imageWrapper }>
+              <TouchableOpacity 
+                style={ styles.button } 
+                onPress={ () => { alert("Your green lace shirt has not yet been spotted. We will notify you once it is!") }} >
+                <Text style={ styles.text }>×</Text>
+              </TouchableOpacity>
+            </ImageBackground>
+
 
            <ImageBackground
               source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hoodiehalo.png" }}
               style={ styles.imageWrapper }>
               <TouchableOpacity 
                 style={ styles.button } 
-                onPress={ () => { navigate('StoryViewHoodie') }}>
+
+                onPress={() =>
+                  this.props.navigation.navigate('StoryViewHoodie', {
+                    spot: {
+                      image: "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/brown.png",
+                      title: "Light brown hoodie",
+                      size: "L",
+                      price: "5.99",
+                      username: "coolbeans24",
+                      location: "Goodwill Silicon Valley",
+                      description: "On the racks below the Women\'s Clothing sign. I hope it's what you're looking for!"
+                    }
+                  })
+                }
+              >
                 <Text style={ styles.text }>×</Text>
               </TouchableOpacity>
             </ImageBackground>
@@ -215,17 +280,6 @@ export default class App extends React.Component {
               </TouchableOpacity>
             </ImageBackground>
             
-
-            <ImageBackground
-              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/greenlacenohalo.png" }}
-              style={ styles.imageWrapper }>
-              <TouchableOpacity 
-                style={ styles.button } 
-                onPress={ () => { alert("Your green lace shirt has not yet been spotted. We will notify you once it is!") }} >
-                <Text style={ styles.text }>×</Text>
-              </TouchableOpacity>
-            </ImageBackground>
-
 
             <View style={ styles.spacer }/>
             <View style={ styles.currencyContainer }>
