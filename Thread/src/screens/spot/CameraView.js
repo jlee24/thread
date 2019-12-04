@@ -3,6 +3,7 @@ import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 import { Ionicons, MaterialIcons} from '@expo/vector-icons';
+import * as FileSystem from 'expo-file-system';
 
   const flashModeOrder = {
     off: 'on',
@@ -50,7 +51,8 @@ export default class CameraExample extends React.Component {
     if (this.camera) {
       this.camera.takePictureAsync({ onPictureSaved: this.onPictureSaved });
     }
-    console.log("photo taken")
+    console.log("photo taken");
+    this.props.navigation.navigate('Photo', {'uri': 'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1566405880-john-elliott-1566405875.jpg'});
   };
 
   onPictureSaved = async photo => {
@@ -59,8 +61,7 @@ export default class CameraExample extends React.Component {
       to: `${FileSystem.documentDirectory}photos/${Date.now()}.jpg`,
     });
     this.setState({ newPhotos: true });
-    console.log(photo.uri)
-  }
+  };
 
   render() {
     const { hasCameraPermission } = this.state;
@@ -124,21 +125,30 @@ const styles = StyleSheet.create({
     height: '15%',
     justifyContent: 'space-around',
     paddingBottom: 0,
-    width: '100%'
+    width: '100%',
+    zIndex: 3,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    opacity: .5
     },
 
   topbar: {
-    alignSelf: 'flex-end',
+    zIndex: 3,
     backgroundColor: 'black',
     flexDirection: 'row',
     height: '10%',
     justifyContent: 'space-between',
     paddingBottom: 0,
-    width: '100%'
+    width: '100%',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    opacity: .5
     },
   camera: {
-    backgroundColor: 'white',
-    height: '75%',
+    backgroundColor: '#7adbc9',
+    height: '100%',
     justifyContent: 'space-between',
   },
   element: {
