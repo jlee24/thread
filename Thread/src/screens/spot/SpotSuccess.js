@@ -1,12 +1,16 @@
 import React, { Component } from "react";
 import { LayoutAnimation, RefreshControl } from "react-native";
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View, Image } from 'react-native';
 
 export default class App extends React.Component {
 render() {
         const { navigate } = this.props.navigation;
+        const photo_uri = this.props.navigation.getParam('uri');
+
         return (
         <View style={styles.container}>
+            <Image style={styles.image} 
+                    source={{uri: photo_uri}}/>
             <Text style={styles.header}>{"Spot complete!"}</Text>
             <Text style={styles.basic}>{"You've earned 1 coin."}</Text>
             <Button style={styles.home}
@@ -40,6 +44,10 @@ const styles = StyleSheet.create({
   },
   home: {
     marginTop: 30
+  },
+  image: {
+    height: '50%',
+    width: 200
   }
 
 });

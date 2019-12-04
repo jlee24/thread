@@ -22,7 +22,7 @@ import * as FileSystem from 'expo-file-system';
 export default class CameraExample extends React.Component {
 
   state = {
-    hasCameraPermission: null,
+    hasCameraPermission: null, //need to change back to null
     type: Camera.Constants.Type.back,
     flash: 'off',
     zoom: 0,
@@ -56,7 +56,6 @@ export default class CameraExample extends React.Component {
   };
 
   onPictureSaved = async photo => {
-    console.log("second method");
     await FileSystem.moveAsync({
       from: photo.uri,
       to: `${FileSystem.documentDirectory}photos/${Date.now()}.jpg`,
@@ -68,7 +67,7 @@ export default class CameraExample extends React.Component {
     const { hasCameraPermission } = this.state;
     if (hasCameraPermission === null) {
       return <View />;
-    } else if (hasCameraPermission === false) {
+    } else if (hasCameraPermission === true) { // need to change back to false
       return <Text>No access to camera</Text>;
     } else {
       return (
@@ -126,21 +125,30 @@ const styles = StyleSheet.create({
     height: '15%',
     justifyContent: 'space-around',
     paddingBottom: 0,
-    width: '100%'
+    width: '100%',
+    zIndex: 3,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    opacity: .5
     },
 
   topbar: {
-    alignSelf: 'flex-end',
+    zIndex: 3,
     backgroundColor: 'black',
     flexDirection: 'row',
     height: '10%',
     justifyContent: 'space-between',
     paddingBottom: 0,
-    width: '100%'
+    width: '100%',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    opacity: .5
     },
   camera: {
-    backgroundColor: 'red',
-    height: '75%',
+    backgroundColor: '#7adbc9',
+    height: '100%',
     justifyContent: 'space-between',
   },
   element: {

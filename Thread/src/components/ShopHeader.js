@@ -15,7 +15,7 @@ function ShopHeader(props) {
               <Text style={styles.hours}>2.7 miles away</Text>
               
               <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttontext}>Directions</Text>
+              <Text style={styles.buttontext} onPress={() => alert('Opening Google Maps...')}>Directions</Text>
               </TouchableOpacity>
           </View>
           </View>

@@ -19,10 +19,6 @@ shops = require('../../../assets/thriftShops.json');
 
     return (
       <View style={styles.container}>
-        <View style={styles.header}>
-          <ShopHeader
-              shop={this.state.shop}/>
-          </View>
 
             <Text style={styles.username}>{item.user} is seeking</Text>
             {/* Need to fix this image path*/}
@@ -114,4 +110,5 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10
   }
+
 });

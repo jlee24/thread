@@ -5,6 +5,8 @@ import { StyleSheet, Text, View, FlatList, ScrollView, Alert, Tooltip, Button, T
 import Item from "../../components/Item";
 import ShopHeader from "../../components/ShopHeader";
 
+import * as firebase from 'firebase';
+
 export default class App extends React.Component {
 
 arrayholder = require('../../../assets/database.json');
