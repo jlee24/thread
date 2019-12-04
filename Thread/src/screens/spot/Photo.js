@@ -70,11 +70,20 @@ shops = require('../../../assets/thriftShops.json');
           animationType="slide"
           transparent={true}
           visible={this.state.modalVisible}
-          coverScreen = {true}
-          onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
-          }}>
+          coverScreen = {true}>
+        
+
           <View style={styles.modal}>
+
+          <TouchableOpacity 
+          style={styles.modalToggleButton}
+          onPress={() => {
+            this.setModalVisible(!this.state.modalVisible)
+          this.setBarsVisible(!this.state.barsVisible)
+          }}>
+          <Ionicons name="ios-close" size={50} color="white"/>
+          </TouchableOpacity>
+
               <TextInput 
               label = "Where in the store did you find this item?"
               onChangeText={location => this.setState({ location })}
@@ -89,14 +98,6 @@ shops = require('../../../assets/thriftShops.json');
               multiline = {true}
               style={styles.longinput} />
 
-
-              <TouchableOpacity
-                  onPress={() => {
-                  this.setModalVisible(!this.state.modalVisible)
-                  this.setBarsVisible(!this.state.barsVisible)}}
-                  style = {styles.button}>
-              <Text style={styles.title1}>Close</Text>
-              </TouchableOpacity>
 
               <TouchableOpacity
                   onPress={() => {
@@ -157,7 +158,7 @@ const styles = StyleSheet.create({
     left: 0,
     opacity: .5
     },
-    toggleButton: {
+  toggleButton: {
     alignItems: 'center',
     height: 50,
     justifyContent: 'center',
@@ -200,5 +201,10 @@ const styles = StyleSheet.create({
   },
   empty: {
     height: 0
+  },
+  modalToggleButton: {
+    height: 70,
+    paddingRight: '80%'
+
   }
 });

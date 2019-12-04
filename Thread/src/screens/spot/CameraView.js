@@ -22,7 +22,7 @@ import * as FileSystem from 'expo-file-system';
 export default class CameraExample extends React.Component {
 
   state = {
-    hasCameraPermission: null, //need to change back to null
+    hasCameraPermission: null,
     type: Camera.Constants.Type.back,
     flash: 'off',
     zoom: 0,
@@ -67,7 +67,7 @@ export default class CameraExample extends React.Component {
     const { hasCameraPermission } = this.state;
     if (hasCameraPermission === null) {
       return <View />;
-    } else if (hasCameraPermission === true) { // need to change back to false
+    } else if (hasCameraPermission === false) {
       return <Text>No access to camera</Text>;
     } else {
       return (
