@@ -193,6 +193,7 @@ export default class BuildProfile extends React.Component {
                   Component={TouchableOpacity}
                   selectedIndexes={selectedIndexesLetter.filter((idx) => idx < 5)}
                   buttons={this.buttonsLetter.slice(0,5)}
+                  selectedButtonStyle={{backgroundColor: "#50CDB6"}}
                   containerStyle={styles.container5Elems} />
               </View>
               <View style={styles.group5Elems}>
