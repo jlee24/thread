@@ -2,18 +2,18 @@ import React, { Component } from "react";
 import { StyleSheet } from "react-native";
 import { Button, Image, Text, View, TouchableOpacity } from 'react-native';
 
-function ShopHeader(props) {
+function ShopHeader({shop, numActiveSeeks}) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
           <View style={styles.subheader}>
-              <Text style={styles.title1}>{props.shop.name}</Text>
+              <Text style={styles.title1}>{shop}</Text>
               <Text style={styles.subtitle1}>8am-10pm</Text>
-              <Text style={styles.subtitle}>{props.shop.possibleSpots} possible spots</Text>
+              <Text style={styles.subtitle}>{numActiveSeeks} possible spots</Text>
           </View>
           <View style={styles.subheader}>
               <Text style={styles.hours}>2.7 miles away</Text>
-              
+
               <TouchableOpacity style={styles.button}>
               <Text style={styles.buttontext} onPress={() => alert('Opening Google Maps...')}>Directions</Text>
               </TouchableOpacity>

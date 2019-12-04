@@ -2,52 +2,77 @@ import React, { Component } from "react";
 import { LayoutAnimation, RefreshControl } from "react-native";
 import { StyleSheet, Text, View, FlatList, ScrollView, Alert, Tooltip, Button, TouchableOpacity} from 'react-native';
 
-import Item from "../../components/Item";
+import Item from "../../components/SpotItem";
 import ShopHeader from "../../components/ShopHeader";
 
 import * as firebase from 'firebase';
 
 export default class App extends React.Component {
 
-arrayholder = require('../../../assets/database.json');
-shops = require('../../../assets/thriftShops.json');
+  arrayholder = require('../../../assets/database.json');
+  shops = require('../../../assets/thriftShops.json');
 
-render() {
-        const { navigate } = this.props.navigation;
-        const shopId  = 1
-        this.state = {
-          shop: this.shops[shopId]
+  state = {
+    shop: '',
+    activeSeeksAtShop: []
+  }
+
+  componentDidMount() {
+    const shopName = this.props.navigation.getParam('shop');
+    this.setState({ shop: shopName });
+    var activeSeeksAtShop = [];
+    firebase.database().ref('seeks').orderByChild('store').equalTo(shopName)
+      .once('value')
+      .then(snapshot => {
+        const activeSeeks = snapshot.val();
+        for (var key in activeSeeks) {
+            activeSeeksAtShop.push(activeSeeks[key]);
         }
+        this.setState({activeSeeksAtShop});
+      })
+      .catch(error => console.log(error));
+  }
+
+  render() {
+        const { navigate } = this.props.navigation;
+        const { activeSeeksAtShop } = this.state;
+        const shop = this.state.shop;
+        // const props = {
+        //   shop: shop,
+        //   numActiveSeeks: activeSeeksAtShop.length
+        // }
+        // console.log(props)
 
     		return (
       		<View style={styles.container}>
-          
+
           <View style={styles.header}>
           <ShopHeader
-              shop={this.state.shop}/>
+              shop={shop}
+              numActiveSeeks={activeSeeksAtShop.length}/>
           </View>
 
                 <View style={styles.results}>
                 <FlatList
-                  data={this.arrayholder}
+                  data={activeSeeksAtShop}
                   style={styles.data}
                   renderItem={({ item }) =>
                   <TouchableOpacity onPress={() =>
                         navigate('ItemView', {
-                        itemID: this.arrayholder.indexOf(item),
+                        itemID: activeSeeksAtShop.indexOf(item),
                           })}>
-                      <Text style={styles.username}> {item.user} </Text>
+                      <Text style={styles.username}> {item.username} </Text>
                       <Item info={item}/>
 
-                      <Text style={styles.name}> {item.name} </Text>
+                      <Text style={styles.name}> {item.title} </Text>
                   </TouchableOpacity>
                   }
 
-                  keyExtractor={item => item.id}
+                  keyExtractor={item => activeSeeksAtShop.indexOf(item)}
                   numColumns={2} />
               </View>
 
-              
+
       		</View>
 
     		);

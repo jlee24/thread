@@ -6,15 +6,15 @@ function ShopPreviewPanel(props) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.shopName}>{props.shop.name}</Text> 
-        <Text style={styles.distance}>{Number((props.shop.distAway).toFixed(1)) + " miles away"}</Text> 
-        <Text style={styles.numSpots}>{props.shop.possibleSpots + " possible spots"}</Text> 
-        <Button 
+        <Text style={styles.shopName}>{props.shop.name}</Text>
+        <Text style={styles.distance}>{Number((props.shop.distAway).toFixed(1)) + " miles away"}</Text>
+        <Text style={styles.numSpots}>{props.shop.possibleSpots + " possible spots"}</Text>
+        <Button
           onPress={() => alert('Opening Google Maps...')}
           title="Directions"
         />
-        <Button 
-          onPress={() => props.navigation.navigate('StoreView')}
+        <Button
+          onPress={() => props.navigation.navigate('StoreView', {'shop': props.shop.name})}
           title="Go Spot!"
         />
       </View>
@@ -31,10 +31,10 @@ const styles = StyleSheet.create({
   header: {
   },
   shopName: {
-    fontSize: 20, 
+    fontSize: 20,
   },
   distance: {
-    fontSize: 16, 
+    fontSize: 16,
   }
 });
 

@@ -33,6 +33,7 @@ export default class App extends React.Component {
     newSeek.set({
       'userId': this.state.userId,
       'username': this.state.username,
+      'title': this.props.navigation.getParam('title'),
       'description': this.state.description,
       'size': this.state.size,
       'fit': this.state.fit,
