@@ -38,7 +38,6 @@ import StoreView from './src/screens/spot/StoreView';
 import ItemView from './src/screens/spot/ItemView';
 import CameraView from './src/screens/spot/CameraView';
 import Photo from './src/screens/spot/Photo';
-import PhotoForm from './src/screens/spot/PhotoForm'
 import SpotSuccess from './src/screens/spot/SpotSuccess';
 import * as firebase from 'firebase';
 
@@ -84,9 +83,6 @@ const SpotStackNavigation = createStackNavigator(
     },
     Photo: {
       screen: Photo
-    },
-    PhotoForm: {
-      screen: PhotoForm
     },
     SpotSuccess: {
       screen: SpotSuccess

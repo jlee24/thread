@@ -54,17 +54,6 @@ export default class Photo extends React.Component {
             </View>
             <View style={this.state.barsVisible ? styles.bottombar : styles.empty}>
             
-            <TextInput 
-              label = "Size"
-              onChangeText={size => this.setState({ size })}
-              placeholder = "Select a size."
-              style={styles.textinput} />
-
-            <TextInput 
-              label = "Price"
-              onChangeText={price => this.setState({ price })}
-              placeholder = "Enter a price."
-              style={styles.textinput} />
 
             <SubmitButton caption="Next" onPress={() => {
               this.setModalVisible(true)
@@ -89,19 +78,34 @@ export default class Photo extends React.Component {
           <Ionicons name="ios-close" size={50} color="white"/>
           </TouchableOpacity>
 
+          <TextInput 
+              label = "Size"
+              onChangeText={size => this.setState({ size })}
+              placeholder = "Select a size."
+              theme={{colors: {primary: "#50CDB6", underlineColor: "#50CDB6"}}}
+              style={styles.textinput} />
+
+            <TextInput 
+              label = "Price"
+              onChangeText={price => this.setState({ price })}
+              placeholder = "Enter a price."
+              theme={{colors: {primary: "#50CDB6", underlineColor: "#50CDB6"}}}
+              style={styles.textinput} />
+
+
               <TextInput 
               label = "Where in the store did you find this item?"
               onChangeText={location => this.setState({ location })}
               placeholder = "e.g.  middle rack under “Women’s Tops” sign"
-              multiline = {true}
               style={styles.longinput} />
 
             <TextInput 
               label = "Additional Notes (optional)"
               onChangeText={description => this.setState({ description })}
               placeholder = "e.g.  The color’s not an exact much, but I hope this is close to what you’re looking for! :)"
-              multiline = {true}
               style={styles.longinput} />
+
+            <View style={styles.spacer}></View>
 
 
               <SubmitButton
@@ -135,7 +139,6 @@ const styles = StyleSheet.create({
   bottombar: {
     alignSelf: 'flex-end',
     alignItems: 'center',
-    backgroundColor: 'black',
     flexDirection: 'column',
     height: '25%',
     justifyContent: 'space-evenly',
@@ -150,7 +153,6 @@ const styles = StyleSheet.create({
 
   topbar: {
     zIndex: 3,
-    backgroundColor: 'black',
     flexDirection: 'row',
     height: 90,
     justifyContent: 'space-between',
@@ -176,8 +178,8 @@ const styles = StyleSheet.create({
   },
   modal: {
     width: '100%',
-    height: '81%',
-    marginTop: '10%',
+    height: '85%',
+    marginTop: '0%',
     flexDirection: 'column',
     justifyContent: 'space-evenly',
     alignItems: 'center',
@@ -189,7 +191,7 @@ const styles = StyleSheet.create({
   },
   longinput: {
     width: '80%',
-    height: 200,
+    height: 100,
     marginTop: 5,
   },
   button: {
@@ -209,5 +211,8 @@ const styles = StyleSheet.create({
     height: 70,
     paddingRight: '80%'
 
+  },
+  spacer: {
+    height: '10%'
   }
 });

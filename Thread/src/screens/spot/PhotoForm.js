@@ -44,6 +44,7 @@ export default class PhotoForm extends React.Component {
               onChangeText={location => this.setState({ location })}
               placeholder = "e.g.  middle rack under “Women’s Tops” sign"
               multiline = {true}
+              theme={{colors: {primary: "#50CDB6", underlineColor: "#50CDB6"}}}
               style={styles.textinput} />
 
             <TextInput 
@@ -51,6 +52,7 @@ export default class PhotoForm extends React.Component {
               onChangeText={description => this.setState({ description })}
               placeholder = "e.g.  The color’s not an exact much, but I hope this is close to what you’re looking for! :)"
               multiline = {true}
+              theme={{colors: {primary: "#50CDB6", underlineColor: "#50CDB6"}}}
               style={styles.textinput} />
 
             <Button title="Send to coolgirl94" onPress={() => navigate('SpotSuccess', {'uri': photo_uri})}/>
