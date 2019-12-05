@@ -26,6 +26,7 @@ function AutocompleteSearchBar(props) {
         highlightText
         inputContainerStyle={styles.inputContainer}
         inputStyle={styles.input}
+        pickerStyle={styles.resultsContainer}
         scrollStyle={styles.scroll}
         overlayStyle={{backgroundColor: 'green'}}
       />
@@ -42,14 +43,19 @@ const styles = StyleSheet.create({
   },
   input: {
     maxHeight: 40,
-    backgroundColor: "rgba(256, 0, 0, 0)",
+    backgroundColor: "white",
   },
   inputContainer: {
-    backgroundColor: "#FFFFFF"
+    backgroundColor: "rgba(256, 0, 0, 0)"
+  },
+  resultsContainer: {
+    backgroundColor: "rgba(256, 0, 0, 0)"
   },
   scroll: {
-    backgroundColor: "rgba(256, 0, 0, 0)",
-  },
+    marginLeft: -20,
+    maxWidth: 366,
+    backgroundColor: "white"
+  }
 });
 
 export default AutocompleteSearchBar;
