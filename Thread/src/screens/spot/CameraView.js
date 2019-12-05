@@ -1,8 +1,9 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 import { Ionicons, MaterialIcons} from '@expo/vector-icons';
+import * as FileSystem from 'expo-file-system';
 
   const flashModeOrder = {
     off: 'on',
@@ -19,6 +20,13 @@ import { Ionicons, MaterialIcons} from '@expo/vector-icons';
   };
 
 export default class CameraExample extends React.Component {
+
+   static navigationOptions = ({ navigation }) => {
+    return {
+          headerShown: false,
+          tabBarVisible: false,
+      };
+    };
 
   state = {
     hasCameraPermission: null,
@@ -50,17 +58,12 @@ export default class CameraExample extends React.Component {
     if (this.camera) {
       this.camera.takePictureAsync({ onPictureSaved: this.onPictureSaved });
     }
-    console.log("photo taken")
   };
 
   onPictureSaved = async photo => {
-    await FileSystem.moveAsync({
-      from: photo.uri,
-      to: `${FileSystem.documentDirectory}photos/${Date.now()}.jpg`,
-    });
     this.setState({ newPhotos: true });
-    console.log(photo.uri)
-  }
+    this.props.navigation.navigate('Photo', {'uri': photo.uri});
+  };
 
   render() {
     const { hasCameraPermission } = this.state;
@@ -74,6 +77,13 @@ export default class CameraExample extends React.Component {
           
             <View
               style={styles.topbar}>
+
+            
+          <TouchableOpacity style={styles.toggleButton}
+          onPress={() => {
+            this.props.navigation.navigate('ItemView')}}>
+          <Ionicons name="ios-arrow-back" size={44} color="white"/>
+          </TouchableOpacity>
 
             <TouchableOpacity style={styles.toggleButton} onPress={this.toggleFlash}>
               <MaterialIcons name={flashIcons[this.state.flash]} size={28} color="white"/>
@@ -97,7 +107,10 @@ export default class CameraExample extends React.Component {
           type={this.state.type}
           flashMode={this.state.flash}
           autoFocus={this.state.autoFocus}
-          zoom={this.state.zoom}>
+          zoom={this.state.zoom}
+          ref = {ref => {
+            this.camera = ref;
+          }}>
           </Camera>
 
             <View
@@ -124,21 +137,30 @@ const styles = StyleSheet.create({
     height: '15%',
     justifyContent: 'space-around',
     paddingBottom: 0,
-    width: '100%'
+    width: '100%',
+    zIndex: 3,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    opacity: .5
     },
 
   topbar: {
-    alignSelf: 'flex-end',
+    zIndex: 3,
     backgroundColor: 'black',
     flexDirection: 'row',
-    height: '10%',
+    height: 90,
     justifyContent: 'space-between',
     paddingBottom: 0,
-    width: '100%'
+    width: '100%',
+    position: 'absolute',
+    top: 44,
+    left: 0,
+    opacity: .5
     },
   camera: {
-    backgroundColor: 'white',
-    height: '75%',
+    backgroundColor: 'green',
+    height: '100%',
     justifyContent: 'space-between',
   },
   element: {
@@ -148,12 +170,12 @@ const styles = StyleSheet.create({
 
   toggleButton: {
     alignItems: 'center',
-    height: 50,
+    height: 90,
     justifyContent: 'center',
-    marginBottom: 20,
-    marginTop: 20,
+    paddingTop: 10,
     paddingLeft: 30,
     paddingRight: 30,
+    paddingBottom: 10,
   },
   });
 

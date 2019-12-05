@@ -1,28 +1,82 @@
 'use strict';
 import React, { PureComponent } from 'react';
 import { AppRegistry, StyleSheet, Text, TouchableOpacity, View, FlatList, Image, Button } from 'react-native';
+import ShopHeader from "../../components/ShopHeader";
+import SubmitButton from "../../components/SubmitButton";
+import * as firebase from 'firebase';
 
 export default class ExampleApp extends PureComponent {
 arrayholder = require('../../../assets/database.json');
+shops = require('../../../assets/thriftShops.json');
+
+
+
+  state = {
+    itemID: '',
+    title: '',
+    username: '',
+    description: '',
+    price: '',
+    fit: '',
+    store: '',
+    path: 'https://icon-library.net/images/no-image-icon/no-image-icon-0.jpg',
+    shop: ''
+  }
+
+  componentDidMount() {
+
+    const itemID = this.props.navigation.getParam('itemID');
+    const title = this.props.navigation.getParam('title');
+    const username = this.props.navigation.getParam('username');
+    const description = this.props.navigation.getParam('description');
+    const size = this.props.navigation.getParam('size');
+    const fit = this.props.navigation.getParam('fit');
+    const store = this.props.navigation.getParam('store');
+    const price = this.props.navigation.getParam('price');
+    const path = this.props.navigation.getParam('path');
+
+    const shop = this.props.navigation.getParam('shop');
+    const seeks = this.props.navigation.getParam('seeks');
+
+    this.setState({title});
+    this.setState({username});
+    this.setState({description});
+    this.setState({price});
+    this.setState({size});
+    this.setState({fit});
+    this.setState({store});
+    this.setState({path});
+
+    this.setState({shop});
+    
+  }
 
   render() {
     const { navigate } = this.props.navigation;
-    const itemID = this.props.navigation.getParam('itemID', 'no_id');
-    const item = this.arrayholder[itemID];
-    const path = item.path;
+    const { path } = this.state;
 
     return (
       <View style={styles.container}>
-            <Text style={styles.username}>{item.user} is seeking</Text>
-            {/* Need to fix this image path*/}
+
+      <View style={styles.header}>
+          <Image
+            source={require('../../../assets/images/location.png')}
+            style={styles.icon}/>
+           <Text style={styles.title1}>{this.state.shop}</Text>
+      </View>
+           <Text style={styles.username}>{this.state.username} is seeking</Text>
+            
             <Image style={styles.image} 
                     source={{uri: path}}/>
 
-            <Text style={styles.bodyText}>{item.name}</Text>
-            <Text style={styles.bodyText}>Fit: baggy</Text>
-            <Text style={styles.bodyText}>Price cap: $10</Text>
+            <Text style={styles.subtitle}>{this.state.title}</Text>
+            <Text style={styles.desc}>{this.state.description}</Text>
+            <Text style={styles.bodyText}>Fit: {this.state.fit}</Text>
+            <Text style={styles.bodyText}>Price cap: {this.state.price}</Text>
+            <Text style={styles.bodyText}>Size: {this.state.size}</Text>
+            
 
-            <Button title="Spotted!" onPress={() => navigate('CameraView')} />
+            <SubmitButton caption="Spotted!" onPress={() => navigate('CameraView')} />
       </View>
     );
   }
@@ -37,12 +91,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   header: {
-    flexDirection: 'row',
+    width: '100%',
+    height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: '10%',
-    width: '100%',
-    justifyContent: 'space-around'
+    flexDirection: 'row',
   },
   subheader: {
     width: '50%',
@@ -70,21 +123,19 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontWeight: 'bold',
     fontSize: 16,
-    width: '80%'
+    width: '85%',
   },
-  store: {
+  title1: {
     color: "#121212",
-    fontSize: 24,
+    fontSize: 20,
     fontFamily: "ibm-plex-sans-regular",
     width: '80%',
-    marginTop: '20%'
   },
   subtitle: {
-    color: '#7adbc9',
+    color: '#50CDB6',
     width: '80%',
-    fontSize: 16,
+    fontSize: 22,
     fontWeight: 'bold',
-    marginTop: '5%',
   },
   data: {
     marginTop: '25%'
@@ -95,10 +146,24 @@ const styles = StyleSheet.create({
   },
   bodyText: {
     width: '80%',
-    fontSize: 22
+    fontSize: 18
+  },
+  desc: {
+    width: '80%',
+    fontSize: 18,
+    marginBottom: 10,
+    fontStyle: 'italic'
   },
   image: {
-    width: 400, 
-    height: 400
+    width: '100%', 
+    height: 400,
+    marginTop: 10,
+    marginBottom: 10
+  },
+  icon: {
+    height: 36,
+    width: 36,
+    marginRight: 5
   }
+
 });
