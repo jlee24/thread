@@ -77,6 +77,13 @@ export default class CameraExample extends React.Component {
             <View
               style={styles.topbar}>
 
+            
+          <TouchableOpacity style={styles.toggleButton}
+          onPress={() => {
+            this.props.navigation.navigate('ItemView')}}>
+          <Ionicons name="ios-arrow-back" size={50} color="white"/>
+          </TouchableOpacity>
+
             <TouchableOpacity style={styles.toggleButton} onPress={this.toggleFlash}>
               <MaterialIcons name={flashIcons[this.state.flash]} size={28} color="white"/>
             </TouchableOpacity>
