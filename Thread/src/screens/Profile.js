@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, ImageBackground} from 'react-native'
+import { StyleSheet, Text, View, Image, FlatList} from 'react-native'
 import { TextInput, Button } from 'react-native-paper';
 import { TabNavigator } from 'react-navigation';
+import { ButtonGroup } from 'react-native-elements';
 import * as firebase from 'firebase'
 
 import MyLikes from "../components/MyLikes";
@@ -9,14 +10,21 @@ import SubmitButton from "../components/SubmitButton";
 
 export default class Profile extends React.Component {
 
+  defaultPhotoURI = "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/profile_photo_placeholder.png";
+
   state = {
     currentUser: null,
     username: '',
     sizeLetter: [],
     sizeNumber: [],
-    profilePhoto: '',
+    profilePhoto: this.defaultPhotoURI,
+    selectedIndex: 0,
   };
-  defaultPhotoURI = "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/profile_photo_placeholder.png";
+  updateIndex = this.updateIndex.bind(this)
+
+  updateIndex (selectedIndex) {
+    this.setState({selectedIndex})
+  }
 
   componentDidMount() {
     const { currentUser } = firebase.auth()
@@ -35,91 +43,96 @@ export default class Profile extends React.Component {
     this.setState({ currentUser });
   }
 
+  renderItem(item) {
+    return (
+        <TouchableOpacity
+                 style={{flex:1/3, //here you can use flex:1 also
+                 aspectRatio:1}}>
+                <Image style={{flex: 1}} resizeMode='cover' source={{ uri:  item.photoUrl[0].photoUrl}}></Image>
+        </TouchableOpacity>
+    )
+  }
 
   render() {
-    const url = "{this.state.profilePhoto}";
+    const { selectedIndex } = this.state
+
+    const mySpotsTab = () => <Text>My Spots</Text>
+    const myLikesTab = () => <Text>My Likes</Text>
+    const buttons = [{ element: mySpotsTab }, { element: myLikesTab }]
+
+    const maxIdx = this.state.sizeLetter.length-1;
+    letterText = this.state.sizeLetter.map(function(letter, key) {
+      if (key < maxIdx) {
+        return (<Text key={key}>{letter + ', '}</Text>)
+      } else {
+        return (<Text key={key}>{letter}</Text>)
+      }
+    });
+
+    const maxIdxNum = this.state.sizeNumber.length-1;
+    numberText = this.state.sizeNumber.map(function(number, key) {
+      if (key < maxIdxNum) {
+        return (<Text key={key}>{number + ', '}</Text>)
+      } else {
+        return (<Text key={key}>{number}</Text>)
+      }
+    });
 
     return (
       <View style={styles.container}>
-
-        <View style={ styles.spacer }/>
-
-        <Text style = {styles.header}> {this.state.username}{'\''}s Fit </Text>
-
-        <View style={ styles.spacer }/>
-         <View style={ styles.spacerSmall }/>
-
-        <View style = {styles.numbers}>
-
-        {/*"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/greenlacenohalo.png"*/}
-          <ImageBackground
-            // source={{ uri: this.state.profilePhoto }}
-            style={ styles.imageWrapper }>
-          </ImageBackground>
-
-          <View style={ styles.sideSpacer}/>
-
-
-          <View>
-            <Text style = {styles.size}> {this.state.sizeLetter} </Text>
-            <Text style = {styles.description}> Letter Sizes </Text>
-            
+        <View style={{width: '90%', height: 150, flexDirection: 'row'}}>
+          {/*"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/greenlacenohalo.png"*/}
+          <View style={styles.profilePhotoContainer}>
+            <Image
+              style={ styles.profilePhoto }
+              source={{uri: this.state.profilePhoto }}>
+            </Image>
+            <Text style={ styles.usernameText }>{this.state.username}</Text>
           </View>
 
-          <View style={ styles.sideSpacer }/>
-
-
-          <View>
-          <Text style = {styles.size}> {this.state.sizeNumber} </Text>
-            <Text style = {styles.description}> Number Sizes </Text>
+          <View style={{width: '70%', flexDirection: 'column', marginTop: 10}}>
+            <View style={{width: '100%', flexDirection: 'row', alignItems: 'flex-start'}}>
+              <View style={{width: '40%', alignItems: 'center'}}>
+                <Text style={styles.size}> {letterText} </Text>
+                <Text> Size (Letter) </Text>
+              </View>
+              <View style={{width: '50%', alignItems: 'center'}}>
+                <Text style={styles.size}> {numberText} </Text>
+                <Text> Size (Number)</Text>
+              </View>
+            </View>
+            <View style={{width: 200, marginTop:10, justifyContent: 'center'}}>
+              <Button color = "#7adbc9"
+                mode = "contained"
+                uppercase = "false"
+                onPress={() => this.props.navigation.navigate('UpdateProfile')}>
+                Edit My Sizes
+              </Button>
+            </View>
           </View>
-         
 
         </View>
 
-        <View style={ styles.spacer }/>
-         <View style={ styles.spacer }/>
-
-        <Button color = "#7adbc9"
-          mode = "contained"
-          uppercase = "false"
-          onPress={() => this.props.navigation.navigate('UpdateProfile')}>
-          Edit My Sizes
-        </Button>
-
-        <View style={ styles.spacer }/>
-        <View style={ styles.spacer }/>
-
-        <View style = {styles.divider} />
-
-
-        <View style={ styles.spacer }/>
-         <View style={ styles.spacer }/>
-
-        <View style = {styles.numbers}>
-
-          <Button color = "#7adbc9"
-            mode = "contained"
-            uppercase = "false"
-            onPress={() => this.toggleBox }>
-            My Likes
-          </Button>
-
-          <View style={ styles.sideSpacer}/>
-
-          <Button color = "#7adbc9"
-            mode = "contained"
-            uppercase = "false"
-            onPress={() => alert("Doesn't work yet")}>
-            My Spots
-          </Button>
-
+        <View>
+          <ButtonGroup
+            onPress={this.updateIndex}
+            selectedIndex={selectedIndex}
+            buttons={buttons}
+            selectedButtonStyle={{backgroundColor: "#e0e0e0"}}
+            containerStyle={{width: '100%', height: 50, marginLeft:0}} />
+            { this.state.selectedIndex === 0 ?
+              <Text> My Spots </Text>
+               :
+              <Text> My Likes </Text>
+            }
+            {/*<FlatList
+               numColumns={3}
+               data={this.state.data}
+               renderItem={({ item }) => this.renderItem(item)}
+            />*/}
         </View>
 
-        <View style={ styles.spacer }/>
-         <View style={ styles.spacer }/>
 
-        <MyLikes mylikes = {1}/>
 
       </View>
     )}
@@ -127,10 +140,14 @@ export default class Profile extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-
-    alignItems: "center",
-    height: '100%',
-    justifyContent: "center",
+    flex: 1,
+    backgroundColor: '#fff',
+    // alignItems: 'center',
+    // justifyContent: 'center',
+  },
+  header: {
+    alignItems: 'flex-start',
+    flexDirection: 'row'
   },
   numbers: {
     flexDirection: 'row',
@@ -146,12 +163,33 @@ const styles = StyleSheet.create({
     fontFamily: "ibm-plex-sans-regular",
     textAlign: 'center',
   },
-  size: {
-    fontSize: 40,
-    fontWeight: '400',
-    color: "#121212",
-    fontFamily: "ibm-plex-sans-regular",
+  profilePhoto: {
+    width: 100,
+    height: 100,
+    borderRadius: 100 / 2,
+    overflow: "hidden",
+    borderWidth: 3,
+    borderColor: "#50CDB6",
+  },
+  profilePhotoContainer: {
+    width:'30%',
+    height:50,
+    flexDirection: 'column',
+    marginBottom: 10,
+    marginLeft: 20,
+    marginRight: 20,
+  },
+  usernameText: {
+    marginTop: 10,
+    fontSize: 14,
+    width: 100,
     textAlign: 'center',
+    fontWeight: 'bold'
+  },
+  size: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
   header: {
     fontSize: 25,
