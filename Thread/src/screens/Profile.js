@@ -133,9 +133,9 @@ export default class Profile extends React.Component {
             selectedButtonStyle={{backgroundColor: "#e0e0e0"}}
             containerStyle={{width: '100%', height: 50, marginLeft:0}} />
             { this.state.selectedIndex === 0 ?
-              <Text> My Spots </Text>
+              <Text style={{margin: 10}}> No Spots yet!</Text>
                :
-              <Text> My Likes </Text>
+              <Text style={{margin: 10}}> No Likes yet!</Text>
             }
             {/*<FlatList
                numColumns={3}
