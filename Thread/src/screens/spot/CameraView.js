@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 import { Ionicons, MaterialIcons} from '@expo/vector-icons';
@@ -20,6 +20,12 @@ import * as FileSystem from 'expo-file-system';
   };
 
 export default class CameraExample extends React.Component {
+
+   static navigationOptions = ({ navigation }) => {
+    return {
+          headerShown: false
+      };
+    };
 
   state = {
     hasCameraPermission: null,
@@ -51,16 +57,11 @@ export default class CameraExample extends React.Component {
     if (this.camera) {
       this.camera.takePictureAsync({ onPictureSaved: this.onPictureSaved });
     }
-    console.log("photo taken");
-    this.props.navigation.navigate('Photo', {'uri': 'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1566405880-john-elliott-1566405875.jpg'});
   };
 
   onPictureSaved = async photo => {
-    await FileSystem.moveAsync({
-      from: photo.uri,
-      to: `${FileSystem.documentDirectory}photos/${Date.now()}.jpg`,
-    });
     this.setState({ newPhotos: true });
+    this.props.navigation.navigate('Photo', {'uri': photo.uri});
   };
 
   render() {
@@ -98,7 +99,10 @@ export default class CameraExample extends React.Component {
           type={this.state.type}
           flashMode={this.state.flash}
           autoFocus={this.state.autoFocus}
-          zoom={this.state.zoom}>
+          zoom={this.state.zoom}
+          ref = {ref => {
+            this.camera = ref;
+          }}>
           </Camera>
 
             <View
@@ -140,6 +144,7 @@ const styles = StyleSheet.create({
     height: '10%',
     justifyContent: 'space-between',
     paddingBottom: 0,
+    paddingTop: 44,
     width: '100%',
     position: 'absolute',
     top: 0,

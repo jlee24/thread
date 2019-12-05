@@ -28,10 +28,7 @@ shops = require('../../../assets/thriftShops.json');
 
   render() {
     const { navigate } = this.props.navigation;
-
     const photo_uri = this.props.navigation.getParam('uri');
-    console.log("URI:", photo_uri);
-    console.log("bars vis", this.props.barsVisible);
 
     return (
       <View style={styles.container}>

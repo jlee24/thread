@@ -3,31 +3,65 @@ import React, { PureComponent } from 'react';
 import { AppRegistry, StyleSheet, Text, TouchableOpacity, View, FlatList, Image, Button } from 'react-native';
 import ShopHeader from "../../components/ShopHeader";
 
+import * as firebase from 'firebase';
+
 export default class ExampleApp extends PureComponent {
 arrayholder = require('../../../assets/database.json');
 shops = require('../../../assets/thriftShops.json');
 
+
+  state = {
+    itemID: '',
+    title: '',
+    username: '',
+    description: '',
+    price: '',
+    fit: '',
+    store: '',
+    path: ''
+  }
+
+  componentDidMount() {
+
+    const itemID = this.props.navigation.getParam('itemID');
+    const title = this.props.navigation.getParam('title');
+    const username = this.props.navigation.getParam('username');
+    const description = this.props.navigation.getParam('description');
+    const size = this.props.navigation.getParam('size');
+    const fit = this.props.navigation.getParam('fit');
+    const store = this.props.navigation.getParam('store');
+    const price = this.props.navigation.getParam('price');
+    const path = this.props.navigation.getParam('path');
+
+    this.setState({title});
+    this.setState({username});
+    this.setState({description});
+    this.setState({price});
+    this.setState({size});
+    this.setState({fit});
+    this.setState({store});
+    this.setState({path});
+    
+  }
+
   render() {
     const { navigate } = this.props.navigation;
-    const itemID = this.props.navigation.getParam('itemID', 'no_id');
-    const item = this.arrayholder[itemID];
-    const path = item.path;
-    const shopId  = 1
-    this.state = {
-      shop: this.shops[shopId]
-    }
+    const { path } = this.state;
+    console.log("URL", path);
 
     return (
       <View style={styles.container}>
 
-            <Text style={styles.username}>{item.user} is seeking</Text>
-            {/* Need to fix this image path*/}
+           <Text style={styles.username}>{this.state.username} is seeking</Text>
+            
             <Image style={styles.image} 
                     source={{uri: path}}/>
 
-            <Text style={styles.bodyText}>{item.name}</Text>
-            <Text style={styles.bodyText}>Fit: baggy</Text>
-            <Text style={styles.bodyText}>Price cap: $10</Text>
+            <Text style={styles.bodyText}>{this.state.title}</Text>
+            <Text style={styles.bodyText}>Fit: {this.state.fit}</Text>
+            <Text style={styles.bodyText}>Price cap: {this.state.price}</Text>
+            <Text style={styles.bodyText}>Size: {this.state.size}</Text>
+            <Text style={styles.bodyText}>{this.state.description}</Text>
 
             <Button title="Spotted!" onPress={() => navigate('CameraView')} />
       </View>

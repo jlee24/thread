@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet } from "react-native";
 import { Button, Image, Text, View, TouchableOpacity } from 'react-native';
+import openMap from 'react-native-open-maps';
 
 function ShopHeader({shop, numActiveSeeks}) {
   return (
