@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { StyleSheet } from "react-native";
 import { Button, Image, ImageBackground, Text, TouchableOpacity, View } from 'react-native';
+import IconButton from "../components/IconButton";
+import openMap from 'react-native-open-maps';
+import { Linking } from 'expo';
 
 function ShopPreviewPanel(props) {
   return (
@@ -16,22 +19,16 @@ function ShopPreviewPanel(props) {
         </View>
       </View>
       <View style={styles.toolbar}>
-        <TouchableOpacity 
-          style={styles.directionsButton}
-          onPress={() => alert('Opening Google Maps...')}
-        >
-          <Image
-            source={require('../../assets/images/directions-button.png')}
+          <IconButton
+            caption = "Directions"
+            source={require('../../assets/images/directions-white.png')}
+            onPress={() => openMap({latitude: props.shop.lat, longitude: props.shop.lng})} />
+
+        <IconButton
+            caption="Spot here"
+            source={require('../../assets/images/location-white.png')}
+            onPress={() => props.navigation.navigate('StoreView', {'shop': props.shop.name})}
           />
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={styles.spotButton}
-          onPress={() => props.navigation.navigate('StoreView', {'shop': props.shop.name})}
-        >
-          <Image
-            source={require('../../assets/images/spot-button.png')}
-          />
-        </TouchableOpacity>
       </View>
     </View>
   );
