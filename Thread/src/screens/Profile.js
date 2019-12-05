@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, ImageBackground} from 'react-native'
 import { TextInput, Button } from 'react-native-paper';
-import { Divider } from 'react-native-elements'
-import MyComponent from 'react-divider'
 import * as firebase from 'firebase'
 
 import MyLikes from "../components/MyLikes";
@@ -65,8 +63,7 @@ export default class Profile extends React.Component {
           <Text style = {styles.size}> {this.state.sizeNumber} </Text>
             <Text style = {styles.description}> Number Sizes </Text>
           </View>
-
-          <View style={ styles.sideSpacer }/>
+         
 
         </View>
 
@@ -74,13 +71,14 @@ export default class Profile extends React.Component {
 
         <Button color = "#7adbc9"
           mode = "contained"
+          uppercase = "false"
           onPress={() => this.props.navigation.navigate('UpdateProfile')}>
           Edit Sizes
         </Button>
 
         <View style={ styles.spacer }/>
-        <View style={ styles.spacer }/>
 
+        <View style = {styles.divider} />
 
 
         <View style={ styles.spacer }/>
@@ -105,7 +103,7 @@ const styles = StyleSheet.create({
     height: 10,
   },
   description:{
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '300',
     color: "#121212",
     fontFamily: "ibm-plex-sans-regular",
@@ -130,7 +128,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   spacer: {
-      height: 16,
+      height: 32,
   },
   sideSpacer: {
       width: 20,
@@ -139,8 +137,13 @@ const styles = StyleSheet.create({
       width: 10,
   },
   imageWrapper:{
-     width:84,
-     height:84,
+     width:85,
+     height:85,
      borderRadius:0,
+  },
+  divider: {
+    backgroundColor: '#d3d3d3',
+    height: 2,
+    width: "100%",
   }
 })
