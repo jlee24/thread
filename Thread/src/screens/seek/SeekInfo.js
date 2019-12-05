@@ -1,11 +1,13 @@
 import React, { Component } from "react";
-import { ActivityIndicator, LayoutAnimation, RefreshControl, TouchableOpacity } from "react-native";
+import { ActivityIndicator, LayoutAnimation, RefreshControl, TouchableOpacity, findNodeHandle } from "react-native";
 import { Searchbar, HelperText, TextInput } from 'react-native-paper';
 import { StyleSheet, Text, View, FlatList, ScrollView, Alert, Tooltip} from 'react-native';
 import { Button } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import SelectedItem from "../../components/SelectedItem";
 import MaterialButtonGrey from "../../components/MaterialButtonGrey";
 import * as firebase from 'firebase';
+
 
 
 export default class App extends React.Component {
@@ -53,6 +55,11 @@ export default class App extends React.Component {
     return false;
   }
 
+  _scrollToInput (reactNode: any) {
+  // Add a 'scroll' ref to your ScrollView
+  this.scroll.props.scrollToFocusedInput(reactNode)
+}
+
   showActivityIndicator() {
     this.setState({submitting: true});
   }
@@ -71,9 +78,11 @@ export default class App extends React.Component {
       'refImages': this.state.selectedItems,
     });
     this.state.currentSeeks.push(newSeek.key);
+    numCoins = (currentCoins - 2 > 0) ? currentCoins - 2 : 0;
+    this.setState({currentCoins: numCoins});
     firebase.database().ref('users/' + this.state.userId).update({
       seeks: this.state.currentSeeks,
-      coins: (currentCoins - 2 > 0) ? currentCoins - 2 : 0,
+      coins: this.state.currentCoins,
     })
     .then(() => this.props.navigation.navigate('SeekSuccess', {'title': this.props.navigation.getParam('title')}))
   }
@@ -87,13 +96,14 @@ export default class App extends React.Component {
       sizeFromProfileLetter = (snapshot.val() && snapshot.val().sizeLetter[0]) || 'M';
       sizeFromProfileNumber = (snapshot.val() && snapshot.val().sizeNumber[0]) || '4';
       currentSeeks = (snapshot.val() && snapshot.val().seeks) || [];
-      currentCoins = (snapshot.val() && snapshot.val().coins) || 3;
+      currentCoins = (snapshot.val() && snapshot.val().coins) || '';
     }).then( () => {
       this.setState({ username });
       this.setState({ sizeFromProfileLetter });
       this.setState({ sizeFromProfileNumber });
       this.setState({ currentSeeks });
       this.setState({ currentCoins });
+      this.props.navigation.setParams({ currentCoins: currentCoins})
     });
     const selectedItems = this.props.navigation.getParam('items');
     this.setState({ selectedItems });
@@ -106,20 +116,41 @@ export default class App extends React.Component {
     });
   }
 
+  getCoins() {
+    // firebase.database().ref('users/' + this.state.currentUser.uid).once('value').then(function(snapshot) {
+    //   currentCoins = (snapshot.val() && snapshot.val().coins);
+    //   console.log(currentCoins);
+    //   return currentCoins;
+    // }).then( () => {
+    //   this.setState({ currentCoins });
+    //   console.log(currentCoins);
+    //   return currentCoins;
+    // });
+    return this.state.currentCoins;
+  }
+
   static navigationOptions = ({ navigation }) => {
     return {
       headerRight:
           <Button
            title='Finish'
            onPress={() => {
-              errorsRemaining = navigation.getParam('checkForErrors')();
-              console.log(errorsRemaining);
-              if (!errorsRemaining) {
-                navigation.getParam('showActivityIndicator');
-                Alert.alert('Confirm Your Seek', 'Post this seek for 2 coins? \n Your current balance is 3 coins.',
-                [{text: 'Continue', onPress: navigation.getParam('writeSeekData')},
+              numCoins = navigation.getParam('currentCoins');
+              // console.log(numCoins);
+              if (numCoins < 2) {
+                Alert.alert('Need More Coins?', 'You need at least 2 to post a seek, but your current balance is ' + numCoins + '.',
+                [{text: 'Go Spot', onPress: () => navigation.navigate('SpotStackNavigation')},
                 {text: 'Cancel', style: 'cancel'},],
                 {cancelable: true})
+              } else {
+                errorsRemaining = navigation.getParam('checkForErrors');
+                if (!errorsRemaining) {
+                  navigation.getParam('showActivityIndicator');
+                  Alert.alert('Confirm Your Seek', 'Post this seek for 2 coins? \n Your current balance is ' + numCoins + ' coins.',
+                  [{text: 'Continue', onPress: navigation.getParam('writeSeekData')},
+                  {text: 'Cancel', style: 'cancel'},],
+                  {cancelable: true})
+                }
               }
             }
           } />
@@ -132,7 +163,16 @@ render() {
         const items = this.props.navigation.getParam('items');
 
         return (
+        <KeyboardAwareScrollView
+            innerRef={ref => {
+            this.scroll = ref
+            extraScrollHeight = 100
+            enableOnAndroid = true
+            
+          }}
+        style={styles.scrollview}>
         <View style={styles.container}>
+
 
         { this.state.submitting ?
           <View>
@@ -173,6 +213,7 @@ render() {
               multiline = {true}
               placeholder = "Briefly describe what you're looking for, i.e. 'loose-fitting jeans with rips in the knees' "
               theme={{colors: {primary: "#50CDB6", underlineColor: "#50CDB6"}}}
+              onFocus={(event: Event) => {this._scrollToInput(findNodeHandle(event.target))}}
               onChangeText={description => this.setState({ description: description.trim() })}/>
             { (this.state.description === null || this.state.description.length >= 2) ? null :
               <HelperText
@@ -190,6 +231,7 @@ render() {
               label = "Size"
               placeholder = {this.state.sizeFromProfileLetter}
               theme={{colors: {primary: "#50CDB6", underlineColor: "#50CDB6"}}}
+              onFocus={(event: Event) => {this._scrollToInput(findNodeHandle(event.target))}}
               onChangeText={size => this.setState({ size: size.trim() })}/>
             { (this.state.size === null || this.letterSizes.includes(this.state.size) || this.numberSizes.includes(this.state.size)) ? null :
               <HelperText
@@ -203,11 +245,13 @@ render() {
             }
           </View>
 
+
           <View style={styles.textinput}>
             <TextInput
               label = "Desired Fit"
               placeholder = "i.e. baggy, snug, slim"
               theme={{colors: {primary: "#50CDB6", underlineColor: "#50CDB6"}}}
+              onFocus={(event: Event) => {this._scrollToInput(findNodeHandle(event.target))}}
               onChangeText={fit => this.setState({ fit: fit.trim() })}/>
             { (this.state.fit === null || this.state.fit.length >= 2) ? null :
               <HelperText
@@ -225,6 +269,7 @@ render() {
               label = "Price Cap"
               placeholder = "$5.50"
               theme={{colors: {primary: "#50CDB6", underlineColor: "#50CDB6"}}}
+              onFocus={(event: Event) => {this._scrollToInput(findNodeHandle(event.target))}}
               onChangeText={price => this.setState({ price: price.replace(',','').replace('$', '').trim() })}/>
             { (this.state.price === null || !isNaN(this.state.price)) ? null :
               <HelperText
@@ -251,6 +296,7 @@ render() {
               label = "Look Near"
               placeholder = "Goodwill of Silicon Valley"
               theme={{colors: {primary: "#50CDB6", underlineColor: "#50CDB6"}}}
+              onFocus={(event: Event) => {this._scrollToInput(findNodeHandle(event.target))}}
               onChangeText={store => this.setState({ store: store.trim() })}/>
             { (this.state.store === null || this.state.shopNames.includes(this.state.store)) ? null :
               <HelperText
@@ -264,14 +310,18 @@ render() {
           </View>
 
            {/*Google API key: 'AIzaSyCRe3a844-IW3tE5rhaT35Un_-NMxEqpGg'*/}
-
+        
         </View>
+        </KeyboardAwareScrollView>
           );
     	}
     }
 
 const styles = StyleSheet.create({
 
+  scrollview: {
+    marginTop: '10%'
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',

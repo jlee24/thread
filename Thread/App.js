@@ -67,29 +67,6 @@ const ProfileStackNavigation = createStackNavigator(
   }
 );
 
-const SeekStackNavigation = createStackNavigator(
-  {
-    SeekStart: {
-      screen: SeekStart
-    },
-    SeekInfo: {
-      screen: SeekInfo
-    },
-    SeekSuccess: {
-      screen: SeekSuccess
-    },
-    StoryViewPants: {
-    	screen: StoryViewPants
-    },
-    StoryViewHoodie: {
-    	screen: StoryViewHoodie
-    }
-  },
-  {
-    initialRoute: 'SeekStart',
-  }
-);
-
 const SpotStackNavigation = createStackNavigator(
   {
     SpotStart: {
@@ -116,10 +93,36 @@ const SpotStackNavigation = createStackNavigator(
   }
 );
 
+const SeekStackNavigation = createStackNavigator(
+  {
+    SeekStart: {
+      screen: SeekStart
+    },
+    SeekInfo: {
+      screen: SeekInfo
+    },
+    SeekSuccess: {
+      screen: SeekSuccess
+    },
+    StoryViewPants: {
+    	screen: StoryViewPants
+    },
+    StoryViewHoodie: {
+    	screen: StoryViewHoodie
+    },
+    SpotStackNavigation: {
+      screen: SpotStackNavigation
+    }
+  },
+  {
+    initialRoute: 'SeekStart',
+  }
+);
+
 // Create our main tab navigator for moving between the 3 views
 const TabNavigator = createBottomTabNavigator(
   {
-    SeekStart: {
+    Seek: {
       screen: SeekStackNavigation,
       navigationOptions: {
         tabBarIcon: iconFn.seekIcon('binoculars'),
@@ -141,9 +144,13 @@ const TabNavigator = createBottomTabNavigator(
   {
     // We want to hide the labels and set a nice 2-tone tint system for our tabs
     tabBarOptions: {
-      showLabel: false,
-      activeTintColor: 'black',
-      inactiveTintColor: 'gray',
+      showLabel: true,
+      activeTintColor: '#50CDB6',
+      inactiveTintColor: '#c8c8c8',
+      style: {
+        paddingTop: 8,
+        backgroundColor: 'black',
+      }
     },
   },
 );
