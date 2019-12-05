@@ -177,42 +177,11 @@ export default class BuildProfile extends React.Component {
                   buttons={this.buttonsNumber.slice(15,18)}
                   containerStyle={styles.container3Elems} />
               </View>
-
-              <Text style={styles.q1}>
-                What shoe size(s) usually fit?
-              </Text>
-              <View style={styles.group5Elems}>
-                <ButtonGroup
-                  onPress={(selectedIndex) => this.updateSelectedIndexes(selectedIndex, 0, 'shoe')}
-                  selectedIndexes={selectedIndexesShoe.filter((idx) => idx < 5)}
-                  buttons={this.buttonsShoe.slice(0,5)}
-                  containerStyle={styles.container5Elems} />
-              </View>
-              <View style={styles.group5Elems}>
-                <ButtonGroup
-                  onPress={(selectedIndex) => this.updateSelectedIndexes(selectedIndex, 1, 'shoe')}
-                  selectedIndexes={selectedIndexesShoe.filter((idx) => (idx >= 5 & idx < 10)).map(x => x-5)}
-                  buttons={this.buttonsShoe.slice(5,10)}
-                  containerStyle={styles.container5Elems}  />
-              </View>
-              <View style={styles.group5Elems}>
-                <ButtonGroup
-                  onPress={(selectedIndex) => this.updateSelectedIndexes(selectedIndex, 2, 'shoe')}
-                  selectedIndexes={selectedIndexesShoe.filter((idx) => (idx >= 10 & idx < 15)).map(x => x-10)}
-                  buttons={this.buttonsShoe.slice(10,15)}
-                  containerStyle={styles.container5Elems}  />
-              </View>
-              <View style={styles.group3Elems}>
-                <ButtonGroup
-                  onPress={(selectedIndex) => this.updateSelectedIndexes(selectedIndex, 3, 'shoe')}
-                  selectedIndexes={selectedIndexesShoe.filter((idx) => idx >= 15).map(x => x-15)}
-                  buttons={this.buttonsShoe.slice(15,18)}
-                  containerStyle={styles.container3Elems} />
-              </View>
             </View>
 
             <View style={styles.submit}>
               <Button
+                color = "#7adbc9"
                 mode="contained"
                 labelStyle={{fontSize: 18}}
                 style={{width: 200, height: 70, justifyContent: 'center'}}

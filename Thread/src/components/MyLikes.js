@@ -4,7 +4,10 @@ import { Text, View, SafeAreaView } from 'react-native';
 
 function MyLikes(props) {
   return (
+
+
     <View style={styles.container}>
+
       
       <Text style={styles.title}> My Likes </Text>
       <View style = {styles.spacer}/>
@@ -27,7 +30,7 @@ const styles = StyleSheet.create({
   title: {
     textAlign: 'center',
     color: "#121212",
-    fontSize: 24,
+    fontSize: 22,
     fontFamily: "ibm-plex-sans-regular",
     width: '100%',
   },
@@ -36,7 +39,7 @@ const styles = StyleSheet.create({
     color: "#121212",
   },
   spacer: {
-    height: 12
+    height: 12,
   },
 });
 

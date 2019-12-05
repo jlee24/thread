@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, ImageBackground} from 'react-native'
 import { TextInput, Button } from 'react-native-paper';
-import { Divider } from 'react-native-elements'
-import MyComponent from 'react-divider'
+import { TabNavigator } from 'react-navigation';
 import * as firebase from 'firebase'
 
 import MyLikes from "../components/MyLikes";
+import SubmitButton from "../components/SubmitButton";
 
 export default class Profile extends React.Component {
 
@@ -16,7 +16,7 @@ export default class Profile extends React.Component {
     sizeNumber: [],
     profilePhoto: '',
   };
-  defaultPhotoURI = "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/profile_photo_placeholder.png";
+  // defaultPhotoURI = "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/profile_photo_placeholder.png";
 
   componentDidMount() {
     const { currentUser } = firebase.auth()
@@ -35,7 +35,10 @@ export default class Profile extends React.Component {
     this.setState({ currentUser });
   }
 
+
   render() {
+    const url = "{this.state.profilePhoto}";
+
     return (
       <View style={styles.container}>
 
@@ -44,12 +47,13 @@ export default class Profile extends React.Component {
         <Text style = {styles.header}> {this.state.username}{'\''}s Fit </Text>
 
         <View style={ styles.spacer }/>
+         <View style={ styles.spacerSmall }/>
 
         <View style = {styles.numbers}>
 
         {/*"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/greenlacenohalo.png"*/}
           <ImageBackground
-            source={{ uri: this.state.profilePhoto }}
+            // source={{ uri: this.state.profilePhoto }}
             style={ styles.imageWrapper }>
           </ImageBackground>
 
@@ -59,33 +63,62 @@ export default class Profile extends React.Component {
           <View>
             <Text style = {styles.size}> {this.state.sizeLetter} </Text>
             <Text style = {styles.description}> Letter Sizes </Text>
+            
           </View>
 
           <View style={ styles.sideSpacer }/>
+
 
           <View>
           <Text style = {styles.size}> {this.state.sizeNumber} </Text>
             <Text style = {styles.description}> Number Sizes </Text>
           </View>
-
-          <View style={ styles.sideSpacer }/>
+         
 
         </View>
 
         <View style={ styles.spacer }/>
+         <View style={ styles.spacer }/>
 
         <Button color = "#7adbc9"
           mode = "contained"
+          uppercase = "false"
           onPress={() => this.props.navigation.navigate('UpdateProfile')}>
-          Edit Sizes
+          Edit My Sizes
         </Button>
 
         <View style={ styles.spacer }/>
         <View style={ styles.spacer }/>
 
+        <View style = {styles.divider} />
 
 
         <View style={ styles.spacer }/>
+         <View style={ styles.spacer }/>
+
+        <View style = {styles.numbers}>
+
+          <Button color = "#7adbc9"
+            mode = "contained"
+            uppercase = "false"
+            onPress={() => this.toggleBox }>
+            My Likes
+          </Button>
+
+          <View style={ styles.sideSpacer}/>
+
+          <Button color = "#7adbc9"
+            mode = "contained"
+            uppercase = "false"
+            onPress={() => alert("Doesn't work yet")}>
+            My Spots
+          </Button>
+
+        </View>
+
+        <View style={ styles.spacer }/>
+         <View style={ styles.spacer }/>
+
         <MyLikes mylikes = {1}/>
 
       </View>
@@ -107,14 +140,14 @@ const styles = StyleSheet.create({
     height: 10,
   },
   description:{
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '300',
     color: "#121212",
     fontFamily: "ibm-plex-sans-regular",
     textAlign: 'center',
   },
   size: {
-    fontSize: 42,
+    fontSize: 40,
     fontWeight: '400',
     color: "#121212",
     fontFamily: "ibm-plex-sans-regular",
@@ -132,7 +165,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   spacer: {
-      height: 16,
+      height: 12,
+  },
+  spacerSmall: {
+      height: 6,
   },
   sideSpacer: {
       width: 20,
@@ -141,8 +177,13 @@ const styles = StyleSheet.create({
       width: 10,
   },
   imageWrapper:{
-     width:84,
-     height:84,
+     width:85,
+     height:85,
      borderRadius:0,
+  },
+  divider: {
+    backgroundColor: '#d3d3d3',
+    height: 2,
+    width: "100%",
   }
 })
