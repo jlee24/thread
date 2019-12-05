@@ -71,9 +71,11 @@ export default class App extends React.Component {
       'refImages': this.state.selectedItems,
     });
     this.state.currentSeeks.push(newSeek.key);
+    numCoins = (currentCoins - 2 > 0) ? currentCoins - 2 : 0;
+    this.setState({currentCoins: numCoins});
     firebase.database().ref('users/' + this.state.userId).update({
       seeks: this.state.currentSeeks,
-      coins: (currentCoins - 2 > 0) ? currentCoins - 2 : 0,
+      coins: this.state.currentCoins,
     })
     .then(() => this.props.navigation.navigate('SeekSuccess', {'title': this.props.navigation.getParam('title')}))
   }
@@ -87,13 +89,14 @@ export default class App extends React.Component {
       sizeFromProfileLetter = (snapshot.val() && snapshot.val().sizeLetter[0]) || 'M';
       sizeFromProfileNumber = (snapshot.val() && snapshot.val().sizeNumber[0]) || '4';
       currentSeeks = (snapshot.val() && snapshot.val().seeks) || [];
-      currentCoins = (snapshot.val() && snapshot.val().coins) || 3;
+      currentCoins = (snapshot.val() && snapshot.val().coins) || '';
     }).then( () => {
       this.setState({ username });
       this.setState({ sizeFromProfileLetter });
       this.setState({ sizeFromProfileNumber });
       this.setState({ currentSeeks });
       this.setState({ currentCoins });
+      this.props.navigation.setParams({ currentCoins: currentCoins})
     });
     const selectedItems = this.props.navigation.getParam('items');
     this.setState({ selectedItems });
@@ -106,20 +109,41 @@ export default class App extends React.Component {
     });
   }
 
+  getCoins() {
+    // firebase.database().ref('users/' + this.state.currentUser.uid).once('value').then(function(snapshot) {
+    //   currentCoins = (snapshot.val() && snapshot.val().coins);
+    //   console.log(currentCoins);
+    //   return currentCoins;
+    // }).then( () => {
+    //   this.setState({ currentCoins });
+    //   console.log(currentCoins);
+    //   return currentCoins;
+    // });
+    return this.state.currentCoins;
+  }
+
   static navigationOptions = ({ navigation }) => {
     return {
       headerRight:
           <Button
            title='Finish'
            onPress={() => {
-              errorsRemaining = navigation.getParam('checkForErrors')();
-              console.log(errorsRemaining);
-              if (!errorsRemaining) {
-                navigation.getParam('showActivityIndicator');
-                Alert.alert('Confirm Your Seek', 'Post this seek for 2 coins? \n Your current balance is 3 coins.',
-                [{text: 'Continue', onPress: navigation.getParam('writeSeekData')},
+              numCoins = navigation.getParam('currentCoins');
+              // console.log(numCoins);
+              if (numCoins < 2) {
+                Alert.alert('Need More Coins?', 'You need at least 2 to post a seek, but your current balance is ' + numCoins + '.',
+                [{text: 'Go Spot', onPress: () => navigation.navigate('SpotStackNavigation')},
                 {text: 'Cancel', style: 'cancel'},],
                 {cancelable: true})
+              } else {
+                errorsRemaining = navigation.getParam('checkForErrors');
+                if (!errorsRemaining) {
+                  navigation.getParam('showActivityIndicator');
+                  Alert.alert('Confirm Your Seek', 'Post this seek for 2 coins? \n Your current balance is ' + numCoins + ' coins.',
+                  [{text: 'Continue', onPress: navigation.getParam('writeSeekData')},
+                  {text: 'Cancel', style: 'cancel'},],
+                  {cancelable: true})
+                }
               }
             }
           } />

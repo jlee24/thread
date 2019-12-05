@@ -68,29 +68,6 @@ const ProfileStackNavigation = createStackNavigator(
   }
 );
 
-const SeekStackNavigation = createStackNavigator(
-  {
-    SeekStart: {
-      screen: SeekStart
-    },
-    SeekInfo: {
-      screen: SeekInfo
-    },
-    SeekSuccess: {
-      screen: SeekSuccess
-    },
-    StoryViewPants: {
-    	screen: StoryViewPants
-    },
-    StoryViewHoodie: {
-    	screen: StoryViewHoodie
-    }
-  },
-  {
-    initialRoute: 'SeekStart',
-  }
-);
-
 const SpotStackNavigation = createStackNavigator(
   {
     SpotStart: {
@@ -117,6 +94,32 @@ const SpotStackNavigation = createStackNavigator(
   },
   {
     initialRoute: 'SpotStart',
+  }
+);
+
+const SeekStackNavigation = createStackNavigator(
+  {
+    SeekStart: {
+      screen: SeekStart
+    },
+    SeekInfo: {
+      screen: SeekInfo
+    },
+    SeekSuccess: {
+      screen: SeekSuccess
+    },
+    StoryViewPants: {
+    	screen: StoryViewPants
+    },
+    StoryViewHoodie: {
+    	screen: StoryViewHoodie
+    },
+    SpotStackNavigation: {
+      screen: SpotStackNavigation
+    }
+  },
+  {
+    initialRoute: 'SeekStart',
   }
 );
 
