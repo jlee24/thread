@@ -5,7 +5,6 @@ import MapView, { Marker, Callout } from 'react-native-maps';
 
 import  AutocompleteSearchBar from "../../components/AutocompleteSearchBar";
 import ShopPreviewPanel from "../../components/ShopPreviewPanel";
-import selectedMarkerImg from "../../../assets/images/selected-marker.png"
 
 
 const LATLNG_DELTA = 0.04;
@@ -133,7 +132,7 @@ export default class App extends React.Component {
           <AutocompleteSearchBar
             data={this.state.shops}
             onItemSelection={this.onShopSearchSelection}
-            placeholder={'ex: Goodwill of Silicon Valley'}
+            placeholder={'e.g. Goodwill of Silicon Valley'}
           />
         </View>
         {/* Preview panel */}
@@ -192,17 +191,20 @@ const styles = StyleSheet.create({
   },
   header: {
     zIndex: 3,
-    backgroundColor: '#50CDB6',//'rgba(0, 0, 0, 0.5)',
+    backgroundColor: '#FAFAFA',//'rgba(0, 0, 0, 0.5)',
     width: '100%',
     position: 'absolute',
     top: 0,
     left: 0,
-    padding: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 24,
+    borderBottomWidth: 2,
+    borderColor: '#E7E3E3',
   },
   headerText: {
     marginTop: 'auto',
-    marginBottom: 'auto',
-    color: 'white',
+    marginBottom: 8,
+    color: 'black',
     fontSize: 18,
     textAlign: 'center',
   },
