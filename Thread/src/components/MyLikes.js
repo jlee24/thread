@@ -7,6 +7,7 @@ function MyLikes(props) {
 
 
     <View style={styles.container}>
+
       
       <Text style={styles.title}> My Likes </Text>
       <View style = {styles.spacer}/>
@@ -29,16 +30,16 @@ const styles = StyleSheet.create({
   title: {
     textAlign: 'center',
     color: "#121212",
-    fontSize: 20,
+    fontSize: 22,
     fontFamily: "ibm-plex-sans-regular",
     width: '100%',
   },
   heading: {
-    fontSize: 18,
+    fontSize: 20,
     color: "#121212",
   },
   spacer: {
-    height: 18,
+    height: 12,
   },
 });
 
