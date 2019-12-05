@@ -4,10 +4,18 @@ import { AppRegistry, StyleSheet, Text, TouchableOpacity, View, FlatList, Image,
 import ShopHeader from "../../components/ShopHeader";
 import { Ionicons, MaterialIcons} from '@expo/vector-icons';
 import { Searchbar, TextInput } from 'react-native-paper';
+import SubmitButton from "../../components/SubmitButton";
 
-export default class ExampleApp extends PureComponent {
-arrayholder = require('../../../assets/database.json');
-shops = require('../../../assets/thriftShops.json');
+export default class Photo extends React.Component {
+
+    static navigationOptions = ({ navigation }) => {
+    return {
+          headerShown: false
+      };
+    };
+
+    arrayholder = require('../../../assets/database.json');
+    shops = require('../../../assets/thriftShops.json');
 
   state = {
     size: '',
@@ -28,10 +36,7 @@ shops = require('../../../assets/thriftShops.json');
 
   render() {
     const { navigate } = this.props.navigation;
-
     const photo_uri = this.props.navigation.getParam('uri');
-    console.log("URI:", photo_uri);
-    console.log("bars vis", this.props.barsVisible);
 
     return (
       <View style={styles.container}>
@@ -61,7 +66,7 @@ shops = require('../../../assets/thriftShops.json');
               placeholder = "Enter a price."
               style={styles.textinput} />
 
-            <Button title="Next" onPress={() => {
+            <SubmitButton caption="Next" onPress={() => {
               this.setModalVisible(true)
               this.setBarsVisible(false)
             }}/>
@@ -99,13 +104,11 @@ shops = require('../../../assets/thriftShops.json');
               style={styles.longinput} />
 
 
-              <TouchableOpacity
+              <SubmitButton
                   onPress={() => {
                   this.setModalVisible(!this.state.modalVisible)
                   navigate('SpotSuccess', {'uri': photo_uri})}}
-                  style = {styles.button}>
-              <Text style={styles.title1}>Submit</Text>
-              </TouchableOpacity>
+                  caption= "Submit" />
           </View>
         </Modal>
 
@@ -149,12 +152,12 @@ const styles = StyleSheet.create({
     zIndex: 3,
     backgroundColor: 'black',
     flexDirection: 'row',
-    height: '10%',
+    height: 90,
     justifyContent: 'space-between',
     paddingBottom: 0,
     width: '100%',
     position: 'absolute',
-    top: 0,
+    top: 44,
     left: 0,
     opacity: .5
     },

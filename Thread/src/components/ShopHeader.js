@@ -1,47 +1,25 @@
 import React, { Component } from "react";
 import { StyleSheet } from "react-native";
 import { Button, Image, Text, View, TouchableOpacity } from 'react-native';
+import openMap from 'react-native-open-maps';
+
+import SubmitButton from "../components/SubmitButton";
 
 function ShopHeader({shop, numActiveSeeks}) {
   return (
-    <View style={styles.container}>
       <View style={styles.header}>
-          <View style={styles.subheader}>
-              <Text style={styles.title1}>{shop}</Text>
-              <Text style={styles.subtitle1}>8am-10pm</Text>
-              <Text style={styles.subtitle}>{numActiveSeeks} possible spots</Text>
-          </View>
-          <View style={styles.subheader}>
-              <Text style={styles.hours}>2.7 miles away</Text>
-
-              <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttontext} onPress={() => alert('Opening Google Maps...')}>Directions</Text>
-              </TouchableOpacity>
-          </View>
-          </View>
-    </View>
+        <Text style={styles.title1}>{shop}</Text>
+        <Text style={styles.subtitle1}>8am-10pm</Text>
+        <Text style={styles.subtitle}>{numActiveSeeks} possible spots</Text>      
+      </View>
   );
 }
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
     width: '100%',
-    justifyContent: 'space-around',
-
-  },
-  subheader: {
-    width: '50%',
-    height: 150,
+    height: 100,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: '5%',
   },
   subtitle1: {
     color: "#121212",
@@ -62,19 +40,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: '5%',
   },
-  button: {
-    backgroundColor: '#7adbc9',
-    borderRadius: 10,
-    width: '80%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: '10%',
-    height: 36,
-  },
-  buttontext: {
-    color: 'white',
-    fontSize: 18,
-  }
 });
 
 export default ShopHeader;

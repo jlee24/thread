@@ -5,6 +5,8 @@ import MapView, { Marker, Callout } from 'react-native-maps';
 
 import  AutocompleteSearchBar from "../../components/AutocompleteSearchBar";
 import ShopPreviewPanel from "../../components/ShopPreviewPanel";
+import selectedMarkerImg from "../../../assets/images/selected-marker.png"
+
 
 const LATLNG_DELTA = 0.04;
 export default class App extends React.Component {
@@ -45,7 +47,7 @@ export default class App extends React.Component {
   // Note: Currently not used, but will be useful when we have a large shop dataset
   getNearestShops(n) {
     // Helper for sorting
-    const haversine = require('haversine')
+    const haversine = require('haversine') 
     const region = this.state.region
     function isCloser(shopA, shopB) {
       coordCurr = {latitude: region.latitude, longitude: region.longitude}
@@ -95,7 +97,7 @@ export default class App extends React.Component {
     const { query } = this.state;
 
     // Helper to render marker for each shop on map
-    function shopMarkers(shops, navigation, onMarkerPress, color='red') {
+    function shopMarkers(shops, navigation, activeShop, onMarkerPress, color='red') {
       return shops.map( (shop) => {
         const {navigate} = navigation;
         return (
@@ -113,7 +115,6 @@ export default class App extends React.Component {
                 <TouchableOpacity
                     style={styles.callout}>
                     <Text>{shop.name}</Text>
-                    <Text>{shop.possibleSpots + " possible spots"}</Text>
                 </TouchableOpacity>
             </Callout>
           </Marker>
@@ -125,7 +126,9 @@ export default class App extends React.Component {
       <View style={styles.container}>
         {/* Header with search bar*/}
         <View style={styles.header}>
-          <Text style={styles.headerText}>Where would you like to spot?</Text>
+          <Text style={styles.headerText}>
+            Where would you like to spot?
+          </Text>
           {/* Search bar */}
           <AutocompleteSearchBar
             data={this.state.shops}
@@ -151,7 +154,7 @@ export default class App extends React.Component {
           onRegionChangeComplete={this.onRegionChangeComplete}
         >
           {/* Mark thrift shops */}
-          {shopMarkers(this.state.shops, this.props.navigation, this.onMarkerPress)}
+          {shopMarkers(this.state.shops, this.props.navigation, this.state.activeShop, this.onMarkerPress)}
         </MapView>
       </View>
     );
@@ -160,8 +163,7 @@ export default class App extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    height: '100%',
+    flex: 1, height: '100%',
     backgroundColor: '#FFFFFF',
     alignItems: 'center',
     justifyContent: 'center',
@@ -190,26 +192,19 @@ const styles = StyleSheet.create({
   },
   header: {
     zIndex: 3,
-    //backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: '#50CDB6',//'rgba(0, 0, 0, 0.5)',
     width: '100%',
     position: 'absolute',
     top: 0,
     left: 0,
+    padding: 12,
   },
   headerText: {
     marginTop: 'auto',
     marginBottom: 'auto',
-    color: '#FFFFFF',
+    color: 'white',
+    fontSize: 18,
     textAlign: 'center',
-  },
-  previewContainer: {
-    zIndex: 3,
-    backgroundColor: 'blue',
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    top: '92%',
-    left: 0,
   },
   map: {
     position: 'absolute',

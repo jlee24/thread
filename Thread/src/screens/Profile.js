@@ -15,6 +15,7 @@ export default class Profile extends React.Component {
     sizeNumber: [],
     profilePhoto: '',
   };
+  defaultPhotoURI = "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/profile_photo_placeholder.png";
 
   componentDidMount() {
     const { currentUser } = firebase.auth()
@@ -23,7 +24,7 @@ export default class Profile extends React.Component {
       username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
       sizeLetter = (snapshot.val() && snapshot.val().sizeLetter) || [];
       sizeNumber = (snapshot.val() && snapshot.val().sizeNumber) || [];
-      profilePhoto = (snapshot.val() && snapshot.val().profilePhoto) || "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/profile_photo_placeholder.png";
+      profilePhoto = (snapshot.val() && snapshot.val().profilePhoto) || defaultPhotoURI;
     }).then(() => this.setState({
                     username: username,
                     sizeLetter: sizeLetter,
@@ -45,16 +46,14 @@ export default class Profile extends React.Component {
 
         <Text style = {styles.header}> {this.state.username}{'\''}s Fit </Text>
 
-        
         <View style={ styles.spacer }/>
          <View style={ styles.spacerSmall }/>
 
         <View style = {styles.numbers}>
 
-
+        {/*"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/greenlacenohalo.png"*/}
           <ImageBackground
-            source={{ uri: "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/profile_photo_placeholder.png"
-            }}
+            source={{ uri: this.state.profilePhoto }}
             style={ styles.imageWrapper }>
           </ImageBackground>
 
@@ -128,7 +127,7 @@ export default class Profile extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    
+
     alignItems: "center",
     height: '100%',
     justifyContent: "center",
