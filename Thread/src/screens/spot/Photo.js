@@ -58,12 +58,14 @@ export default class Photo extends React.Component {
               label = "Size"
               onChangeText={size => this.setState({ size })}
               placeholder = "Select a size."
+              theme={{colors: {primary: "#50CDB6", underlineColor: "#50CDB6"}}}
               style={styles.textinput} />
 
             <TextInput 
               label = "Price"
               onChangeText={price => this.setState({ price })}
               placeholder = "Enter a price."
+              theme={{colors: {primary: "#50CDB6", underlineColor: "#50CDB6"}}}
               style={styles.textinput} />
 
             <SubmitButton caption="Next" onPress={() => {

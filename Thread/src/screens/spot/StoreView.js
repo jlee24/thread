@@ -38,7 +38,6 @@ export default class App extends React.Component {
         this.setState({activeSeeksAtShop});
         this.setState({keys});
         this.setState({paths});
-        console.log("ref imgs", paths[0]);
       })
       .catch(error => console.log(error));
   }
