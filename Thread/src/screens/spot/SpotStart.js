@@ -5,8 +5,9 @@ import MapView, { Marker, Callout } from 'react-native-maps';
 
 import  AutocompleteSearchBar from "../../components/AutocompleteSearchBar";
 import ShopPreviewPanel from "../../components/ShopPreviewPanel";
-import selectedMarkerImg from "../../../assets/images/selected-marker.png"
+import selectedMarkerImg from "../../../assets/images/selected-marker.png";
 
+import getDirections from 'react-native-google-maps-directions';
 
 const LATLNG_DELTA = 0.04;
 export default class App extends React.Component {
@@ -18,6 +19,7 @@ export default class App extends React.Component {
       shops: [],
       activeShop: null,
       markers: {},
+      url: '',
       // user's current location, hardcoded as d.school here but dynamically updated in map
       userLocation: {
         latitude: 37.426431,
@@ -86,6 +88,9 @@ export default class App extends React.Component {
     selectedShop = shops.find(shop => shop.id === markerID);
     console.log("Selected shop: ", selectedShop)
     this.setState({activeShop: selectedShop});
+    const label = selectedShop.name;
+    const url_str = "maps:" + selectedShop.lat + "," + selectedShop.lng
+    this.setState({url: url_str});
   }
 
   onRegionChangeComplete = (region) => {
@@ -142,6 +147,7 @@ export default class App extends React.Component {
             <ShopPreviewPanel
               shop={this.state.activeShop}
               navigation={this.props.navigation}
+              url={this.state.url}
             />
           </View> : null
         }

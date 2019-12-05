@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { AppRegistry, StyleSheet, Text, TouchableOpacity, View, FlatList, Image, Button } from 'react-native';
 import ShopHeader from "../../components/ShopHeader";
 import SubmitButton from "../../components/SubmitButton";
+import IconButton from "../../components/IconButton";
 import * as firebase from 'firebase';
 
 export default class ExampleApp extends PureComponent {
@@ -74,9 +75,8 @@ shops = require('../../../assets/thriftShops.json');
             <Text style={styles.bodyText}>Fit: {this.state.fit}</Text>
             <Text style={styles.bodyText}>Price cap: {this.state.price}</Text>
             <Text style={styles.bodyText}>Size: {this.state.size}</Text>
-            
 
-            <SubmitButton caption="Spotted!" onPress={() => navigate('CameraView')} />
+            <IconButton caption="Spotted!" source={require('../../../assets/images/photo-camera.png')} onPress={() => navigate('CameraView')} />
       </View>
     );
   }
