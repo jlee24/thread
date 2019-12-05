@@ -5,6 +5,7 @@ import { TabNavigator } from 'react-navigation';
 import * as firebase from 'firebase'
 
 import MyLikes from "../components/MyLikes";
+import SubmitButton from "../components/SubmitButton";
 
 export default class Profile extends React.Component {
 
@@ -15,7 +16,7 @@ export default class Profile extends React.Component {
     sizeNumber: [],
     profilePhoto: '',
   };
-  defaultPhotoURI = "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/profile_photo_placeholder.png";
+  // defaultPhotoURI = "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/profile_photo_placeholder.png";
 
   componentDidMount() {
     const { currentUser } = firebase.auth()
@@ -35,7 +36,6 @@ export default class Profile extends React.Component {
   }
 
 
-
   render() {
     const url = "{this.state.profilePhoto}";
 
@@ -53,7 +53,7 @@ export default class Profile extends React.Component {
 
         {/*"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/greenlacenohalo.png"*/}
           <ImageBackground
-            source={{ uri: this.state.profilePhoto }}
+            // source={{ uri: this.state.profilePhoto }}
             style={ styles.imageWrapper }>
           </ImageBackground>
 
