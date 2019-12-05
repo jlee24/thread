@@ -18,7 +18,7 @@ shops = require('../../../assets/thriftShops.json');
     price: '',
     fit: '',
     store: '',
-    path: ''
+    path: 'https://icon-library.net/images/no-image-icon/no-image-icon-0.jpg'
   }
 
   componentDidMount() {
@@ -47,7 +47,6 @@ shops = require('../../../assets/thriftShops.json');
   render() {
     const { navigate } = this.props.navigation;
     const { path } = this.state;
-    console.log("URL", path);
 
     return (
       <View style={styles.container}>
