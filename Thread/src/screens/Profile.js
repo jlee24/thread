@@ -6,6 +6,7 @@ import MyComponent from 'react-divider'
 import * as firebase from 'firebase'
 
 import MyLikes from "../components/MyLikes";
+import SubmitButton from "../components/SubmitButton";
 
 export default class Profile extends React.Component {
 
@@ -74,11 +75,9 @@ export default class Profile extends React.Component {
 
         <View style={ styles.spacer }/>
 
-        <Button color = "#7adbc9"
-          mode = "contained"
-          onPress={() => this.props.navigation.navigate('UpdateProfile')}>
-          Edit Sizes
-        </Button>
+        <SubmitButton
+          onPress={() => this.props.navigation.navigate('UpdateProfile')}
+          caption = "Edit Sizes" />
 
         <View style={ styles.spacer }/>
         <View style={ styles.spacer }/>

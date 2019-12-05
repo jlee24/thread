@@ -281,8 +281,6 @@ export default class App extends React.Component {
               source={require("../../../assets/images/logo.png")}
             />:null}
 
-            <Button onPress={() => navigate('CameraView')} title="Spot"/>
-            {/* Remove */}
             <Searchbar
               style={styles.searchbar}
               placeholder="What clothes are you seeking?"
