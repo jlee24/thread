@@ -308,8 +308,6 @@ render() {
               </HelperText>
             }
           </View>
-
-           {/*Google API key: 'AIzaSyCRe3a844-IW3tE5rhaT35Un_-NMxEqpGg'*/}
         
         </View>
         </KeyboardAwareScrollView>
