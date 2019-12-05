@@ -69,11 +69,12 @@ shops = require('../../../assets/thriftShops.json');
             <Image style={styles.image} 
                     source={{uri: path}}/>
 
-            <Text style={styles.bodyText}>{this.state.title}</Text>
+            <Text style={styles.subtitle}>{this.state.title}</Text>
+            <Text style={styles.desc}>{this.state.description}</Text>
             <Text style={styles.bodyText}>Fit: {this.state.fit}</Text>
             <Text style={styles.bodyText}>Price cap: {this.state.price}</Text>
             <Text style={styles.bodyText}>Size: {this.state.size}</Text>
-            <Text style={styles.bodyText}>{this.state.description}</Text>
+            
 
             <SubmitButton caption="Spotted!" onPress={() => navigate('CameraView')} />
       </View>
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
   },
   header: {
     width: '100%',
-    height: 75,
+    height: 50,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
@@ -126,16 +127,15 @@ const styles = StyleSheet.create({
   },
   title1: {
     color: "#121212",
-    fontSize: 24,
+    fontSize: 20,
     fontFamily: "ibm-plex-sans-regular",
     width: '80%',
   },
   subtitle: {
-    color: '#7adbc9',
+    color: '#50CDB6',
     width: '80%',
-    fontSize: 16,
+    fontSize: 22,
     fontWeight: 'bold',
-    marginTop: '5%',
   },
   data: {
     marginTop: '25%'
@@ -145,8 +145,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   bodyText: {
-    width: '90%',
-    fontSize: 22
+    width: '80%',
+    fontSize: 18
+  },
+  desc: {
+    width: '80%',
+    fontSize: 18,
+    marginBottom: 10,
+    fontStyle: 'italic'
   },
   image: {
     width: '100%', 
