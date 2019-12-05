@@ -116,19 +116,6 @@ export default class App extends React.Component {
     });
   }
 
-  getCoins() {
-    // firebase.database().ref('users/' + this.state.currentUser.uid).once('value').then(function(snapshot) {
-    //   currentCoins = (snapshot.val() && snapshot.val().coins);
-    //   console.log(currentCoins);
-    //   return currentCoins;
-    // }).then( () => {
-    //   this.setState({ currentCoins });
-    //   console.log(currentCoins);
-    //   return currentCoins;
-    // });
-    return this.state.currentCoins;
-  }
-
   static navigationOptions = ({ navigation }) => {
     return {
       headerRight:
@@ -136,14 +123,14 @@ export default class App extends React.Component {
            title='Finish'
            onPress={() => {
               numCoins = navigation.getParam('currentCoins');
-              // console.log(numCoins);
               if (numCoins < 2) {
                 Alert.alert('Need More Coins?', 'You need at least 2 to post a seek, but your current balance is ' + numCoins + '.',
                 [{text: 'Go Spot', onPress: () => navigation.navigate('SpotStackNavigation')},
                 {text: 'Cancel', style: 'cancel'},],
                 {cancelable: true})
               } else {
-                errorsRemaining = navigation.getParam('checkForErrors');
+                errorsRemaining = navigation.getParam('checkForErrors')();
+                console.log(errorsRemaining);
                 if (!errorsRemaining) {
                   navigation.getParam('showActivityIndicator');
                   Alert.alert('Confirm Your Seek', 'Post this seek for 2 coins? \n Your current balance is ' + numCoins + ' coins.',
@@ -168,7 +155,7 @@ render() {
             this.scroll = ref
             extraScrollHeight = 100
             enableOnAndroid = true
-            
+
           }}
         style={styles.scrollview}>
         <View style={styles.container}>
@@ -290,7 +277,7 @@ render() {
               </HelperText>
             }
           </View>
-        
+
         </View>
         </KeyboardAwareScrollView>
           );
