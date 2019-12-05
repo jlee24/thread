@@ -5,9 +5,16 @@ import ShopHeader from "../../components/ShopHeader";
 import { Ionicons} from '@expo/vector-icons';
 import { Searchbar, TextInput } from 'react-native-paper';
 
-export default class ExampleApp extends PureComponent {
-arrayholder = require('../../../assets/database.json');
-shops = require('../../../assets/thriftShops.json');
+export default class PhotoForm extends React.Component {
+
+    static navigationOptions = ({ navigation }) => {
+    return {
+          headerShown: false
+      };
+    };
+
+    arrayholder = require('../../../assets/database.json');
+    shops = require('../../../assets/thriftShops.json');
 
   state = {
     location: '',
@@ -16,7 +23,6 @@ shops = require('../../../assets/thriftShops.json');
 
   render() {
     const { navigate } = this.props.navigation;
-
     const photo_uri = this.props.navigation.getParam('uri');
 
     return (
@@ -38,6 +44,7 @@ shops = require('../../../assets/thriftShops.json');
               onChangeText={location => this.setState({ location })}
               placeholder = "e.g.  middle rack under “Women’s Tops” sign"
               multiline = {true}
+              theme={{colors: {primary: "#50CDB6", underlineColor: "#50CDB6"}}}
               style={styles.textinput} />
 
             <TextInput 
@@ -45,6 +52,7 @@ shops = require('../../../assets/thriftShops.json');
               onChangeText={description => this.setState({ description })}
               placeholder = "e.g.  The color’s not an exact much, but I hope this is close to what you’re looking for! :)"
               multiline = {true}
+              theme={{colors: {primary: "#50CDB6", underlineColor: "#50CDB6"}}}
               style={styles.textinput} />
 
             <Button title="Send to coolgirl94" onPress={() => navigate('SpotSuccess', {'uri': photo_uri})}/>

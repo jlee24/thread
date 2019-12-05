@@ -2,12 +2,14 @@
 import React, { PureComponent } from 'react';
 import { AppRegistry, StyleSheet, Text, TouchableOpacity, View, FlatList, Image, Button } from 'react-native';
 import ShopHeader from "../../components/ShopHeader";
-
+import SubmitButton from "../../components/SubmitButton";
+import IconButton from "../../components/IconButton";
 import * as firebase from 'firebase';
 
 export default class ExampleApp extends PureComponent {
 arrayholder = require('../../../assets/database.json');
 shops = require('../../../assets/thriftShops.json');
+
 
 
   state = {
@@ -18,7 +20,8 @@ shops = require('../../../assets/thriftShops.json');
     price: '',
     fit: '',
     store: '',
-    path: 'https://icon-library.net/images/no-image-icon/no-image-icon-0.jpg'
+    path: 'https://icon-library.net/images/no-image-icon/no-image-icon-0.jpg',
+    shop: ''
   }
 
   componentDidMount() {
@@ -33,6 +36,9 @@ shops = require('../../../assets/thriftShops.json');
     const price = this.props.navigation.getParam('price');
     const path = this.props.navigation.getParam('path');
 
+    const shop = this.props.navigation.getParam('shop');
+    const seeks = this.props.navigation.getParam('seeks');
+
     this.setState({title});
     this.setState({username});
     this.setState({description});
@@ -41,6 +47,8 @@ shops = require('../../../assets/thriftShops.json');
     this.setState({fit});
     this.setState({store});
     this.setState({path});
+
+    this.setState({shop});
     
   }
 
@@ -51,18 +59,24 @@ shops = require('../../../assets/thriftShops.json');
     return (
       <View style={styles.container}>
 
+      <View style={styles.header}>
+          <Image
+            source={require('../../../assets/images/location.png')}
+            style={styles.icon}/>
+           <Text style={styles.title1}>{this.state.shop}</Text>
+      </View>
            <Text style={styles.username}>{this.state.username} is seeking</Text>
             
             <Image style={styles.image} 
                     source={{uri: path}}/>
 
-            <Text style={styles.bodyText}>{this.state.title}</Text>
+            <Text style={styles.subtitle}>{this.state.title}</Text>
+            <Text style={styles.desc}>{this.state.description}</Text>
             <Text style={styles.bodyText}>Fit: {this.state.fit}</Text>
             <Text style={styles.bodyText}>Price cap: {this.state.price}</Text>
             <Text style={styles.bodyText}>Size: {this.state.size}</Text>
-            <Text style={styles.bodyText}>{this.state.description}</Text>
 
-            <Button title="Spotted!" onPress={() => navigate('CameraView')} />
+            <IconButton caption="Spotted!" source={require('../../../assets/images/photo-camera.png')} onPress={() => navigate('CameraView')} />
       </View>
     );
   }
@@ -77,12 +91,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   header: {
-    flexDirection: 'row',
+    width: '100%',
+    height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: '10%',
-    width: '100%',
-    justifyContent: 'space-around'
+    flexDirection: 'row',
   },
   subheader: {
     width: '50%',
@@ -110,21 +123,19 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontWeight: 'bold',
     fontSize: 16,
-    width: '90%',
+    width: '85%',
   },
-  store: {
+  title1: {
     color: "#121212",
-    fontSize: 24,
+    fontSize: 20,
     fontFamily: "ibm-plex-sans-regular",
-    width: '90%',
-    marginBottom: '10%'
+    width: '80%',
   },
   subtitle: {
-    color: '#7adbc9',
+    color: '#50CDB6',
     width: '80%',
-    fontSize: 16,
+    fontSize: 22,
     fontWeight: 'bold',
-    marginTop: '5%',
   },
   data: {
     marginTop: '25%'
@@ -134,14 +145,25 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   bodyText: {
-    width: '90%',
-    fontSize: 22
+    width: '80%',
+    fontSize: 18
+  },
+  desc: {
+    width: '80%',
+    fontSize: 18,
+    marginBottom: 10,
+    fontStyle: 'italic'
   },
   image: {
     width: '100%', 
     height: 400,
     marginTop: 10,
     marginBottom: 10
+  },
+  icon: {
+    height: 36,
+    width: 36,
+    marginRight: 5
   }
 
 });

@@ -38,7 +38,6 @@ import StoreView from './src/screens/spot/StoreView';
 import ItemView from './src/screens/spot/ItemView';
 import CameraView from './src/screens/spot/CameraView';
 import Photo from './src/screens/spot/Photo';
-import PhotoForm from './src/screens/spot/PhotoForm'
 import SpotSuccess from './src/screens/spot/SpotSuccess';
 import * as firebase from 'firebase';
 
@@ -68,29 +67,6 @@ const ProfileStackNavigation = createStackNavigator(
   }
 );
 
-const SeekStackNavigation = createStackNavigator(
-  {
-    SeekStart: {
-      screen: SeekStart
-    },
-    SeekInfo: {
-      screen: SeekInfo
-    },
-    SeekSuccess: {
-      screen: SeekSuccess
-    },
-    StoryViewPants: {
-    	screen: StoryViewPants
-    },
-    StoryViewHoodie: {
-    	screen: StoryViewHoodie
-    }
-  },
-  {
-    initialRoute: 'SeekStart',
-  }
-);
-
 const SpotStackNavigation = createStackNavigator(
   {
     SpotStart: {
@@ -108,15 +84,38 @@ const SpotStackNavigation = createStackNavigator(
     Photo: {
       screen: Photo
     },
-    PhotoForm: {
-      screen: PhotoForm
-    },
     SpotSuccess: {
       screen: SpotSuccess
     },
   },
   {
     initialRoute: 'SpotStart',
+  }
+);
+
+const SeekStackNavigation = createStackNavigator(
+  {
+    SeekStart: {
+      screen: SeekStart
+    },
+    SeekInfo: {
+      screen: SeekInfo
+    },
+    SeekSuccess: {
+      screen: SeekSuccess
+    },
+    StoryViewPants: {
+    	screen: StoryViewPants
+    },
+    StoryViewHoodie: {
+    	screen: StoryViewHoodie
+    },
+    SpotStackNavigation: {
+      screen: SpotStackNavigation
+    }
+  },
+  {
+    initialRoute: 'SeekStart',
   }
 );
 

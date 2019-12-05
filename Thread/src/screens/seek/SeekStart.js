@@ -77,6 +77,7 @@ export default class App extends React.Component {
     quotaLeft: true,
     error: null,
     currentUser: null,
+    coins: 3,
   };
 
 
@@ -111,6 +112,22 @@ export default class App extends React.Component {
       items: [], //default value,
       currentUser: currentUser,
     });
+
+    // Get currency
+    userId = currentUser.uid;
+    firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
+      coins = (snapshot.val() && snapshot.val().coins) || 3;
+    }).then(() => this.setState({coins}));
+
+    this.props.navigation.addListener(
+        'willFocus',
+        () => {
+          userId = currentUser.uid;
+          firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
+            coins = (snapshot.val() && snapshot.val().coins) || 3;
+          }).then(() => this.setState({coins}));
+        }
+    )
   }
 
   arrayholder = require('../../../assets/database.json');
@@ -120,8 +137,10 @@ export default class App extends React.Component {
     this.props.navigation.setParams({
       title: search
     });
-
-    if (this.state.quotaLeft) {
+    if (search === '') {
+      this.setState({ data: [] });
+    }
+    else if (this.state.quotaLeft) {
       var newData = [];
       search = search.toLowerCase();
       if (search.includes('graphic') || search.includes('dress') || search.includes('sweater') || search.includes('hood') || search.includes('jeans')) {
@@ -256,12 +275,13 @@ export default class App extends React.Component {
           {/* Question and Search Bar */}
           <View style={this.state.query.length == 0 ? styles.searchContainer : styles.searchContainerWithResults}>
 
-          {query.length === 0 ?
+            {query.length === 0 ?
             <Image
               style={ styles.logo}
               source={require("../../../assets/images/logo.png")}
             />:null}
 
+            <Button onPress={() => navigate('CameraView')} title="Spot"/>
             {/* Remove */}
             <Searchbar
               style={styles.searchbar}

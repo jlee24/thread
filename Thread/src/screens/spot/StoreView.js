@@ -38,7 +38,6 @@ export default class App extends React.Component {
         this.setState({activeSeeksAtShop});
         this.setState({keys});
         this.setState({paths});
-        console.log("ref imgs", paths[0]);
       })
       .catch(error => console.log(error));
   }
@@ -51,12 +50,9 @@ export default class App extends React.Component {
 
     		return (
       		<View style={styles.container}>
-
-          <View style={styles.header}>
           <ShopHeader
               shop={shop}
               numActiveSeeks={activeSeeksAtShop.length}/>
-          </View>
 
                 <View style={styles.results}>
                 <FlatList
@@ -73,7 +69,8 @@ export default class App extends React.Component {
                         fit: item.fit,
                         store: item.store,
                         price: item.price,
-                        path: paths[activeSeeksAtShop.indexOf(item)]
+                        path: paths[activeSeeksAtShop.indexOf(item)],
+                        shop: shop
                           })}>
                       <Text style={styles.username}> {item.username} </Text>
                       <Item info={item}/>

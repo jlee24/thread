@@ -4,10 +4,18 @@ import { AppRegistry, StyleSheet, Text, TouchableOpacity, View, FlatList, Image,
 import ShopHeader from "../../components/ShopHeader";
 import { Ionicons, MaterialIcons} from '@expo/vector-icons';
 import { Searchbar, TextInput } from 'react-native-paper';
+import SubmitButton from "../../components/SubmitButton";
 
-export default class ExampleApp extends PureComponent {
-arrayholder = require('../../../assets/database.json');
-shops = require('../../../assets/thriftShops.json');
+export default class Photo extends React.Component {
+
+    static navigationOptions = ({ navigation }) => {
+    return {
+          headerShown: false
+      };
+    };
+
+    arrayholder = require('../../../assets/database.json');
+    shops = require('../../../assets/thriftShops.json');
 
   state = {
     size: '',
@@ -46,19 +54,8 @@ shops = require('../../../assets/thriftShops.json');
             </View>
             <View style={this.state.barsVisible ? styles.bottombar : styles.empty}>
             
-            <TextInput 
-              label = "Size"
-              onChangeText={size => this.setState({ size })}
-              placeholder = "Select a size."
-              style={styles.textinput} />
 
-            <TextInput 
-              label = "Price"
-              onChangeText={price => this.setState({ price })}
-              placeholder = "Enter a price."
-              style={styles.textinput} />
-
-            <Button title="Next" onPress={() => {
+            <SubmitButton caption="Next" onPress={() => {
               this.setModalVisible(true)
               this.setBarsVisible(false)
             }}/>
@@ -81,28 +78,41 @@ shops = require('../../../assets/thriftShops.json');
           <Ionicons name="ios-close" size={50} color="white"/>
           </TouchableOpacity>
 
+          <TextInput 
+              label = "Size"
+              onChangeText={size => this.setState({ size })}
+              placeholder = "Select a size."
+              theme={{colors: {primary: "#50CDB6", underlineColor: "#50CDB6"}}}
+              style={styles.textinput} />
+
+            <TextInput 
+              label = "Price"
+              onChangeText={price => this.setState({ price })}
+              placeholder = "Enter a price."
+              theme={{colors: {primary: "#50CDB6", underlineColor: "#50CDB6"}}}
+              style={styles.textinput} />
+
+
               <TextInput 
               label = "Where in the store did you find this item?"
               onChangeText={location => this.setState({ location })}
               placeholder = "e.g.  middle rack under “Women’s Tops” sign"
-              multiline = {true}
               style={styles.longinput} />
 
             <TextInput 
               label = "Additional Notes (optional)"
               onChangeText={description => this.setState({ description })}
               placeholder = "e.g.  The color’s not an exact much, but I hope this is close to what you’re looking for! :)"
-              multiline = {true}
               style={styles.longinput} />
 
+            <View style={styles.spacer}></View>
 
-              <TouchableOpacity
+
+              <SubmitButton
                   onPress={() => {
                   this.setModalVisible(!this.state.modalVisible)
                   navigate('SpotSuccess', {'uri': photo_uri})}}
-                  style = {styles.button}>
-              <Text style={styles.title1}>Submit</Text>
-              </TouchableOpacity>
+                  caption= "Submit" />
           </View>
         </Modal>
 
@@ -129,7 +139,6 @@ const styles = StyleSheet.create({
   bottombar: {
     alignSelf: 'flex-end',
     alignItems: 'center',
-    backgroundColor: 'black',
     flexDirection: 'column',
     height: '25%',
     justifyContent: 'space-evenly',
@@ -144,14 +153,13 @@ const styles = StyleSheet.create({
 
   topbar: {
     zIndex: 3,
-    backgroundColor: 'black',
     flexDirection: 'row',
-    height: '10%',
+    height: 90,
     justifyContent: 'space-between',
     paddingBottom: 0,
     width: '100%',
     position: 'absolute',
-    top: 0,
+    top: 44,
     left: 0,
     opacity: .5
     },
@@ -170,8 +178,8 @@ const styles = StyleSheet.create({
   },
   modal: {
     width: '100%',
-    height: '81%',
-    marginTop: '10%',
+    height: '85%',
+    marginTop: '0%',
     flexDirection: 'column',
     justifyContent: 'space-evenly',
     alignItems: 'center',
@@ -183,7 +191,7 @@ const styles = StyleSheet.create({
   },
   longinput: {
     width: '80%',
-    height: 200,
+    height: 100,
     marginTop: 5,
   },
   button: {
@@ -203,5 +211,8 @@ const styles = StyleSheet.create({
     height: 70,
     paddingRight: '80%'
 
+  },
+  spacer: {
+    height: '10%'
   }
 });
