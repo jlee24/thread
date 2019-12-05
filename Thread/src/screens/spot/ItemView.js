@@ -2,12 +2,13 @@
 import React, { PureComponent } from 'react';
 import { AppRegistry, StyleSheet, Text, TouchableOpacity, View, FlatList, Image, Button } from 'react-native';
 import ShopHeader from "../../components/ShopHeader";
-
+import SubmitButton from "../../components/SubmitButton";
 import * as firebase from 'firebase';
 
 export default class ExampleApp extends PureComponent {
 arrayholder = require('../../../assets/database.json');
 shops = require('../../../assets/thriftShops.json');
+
 
 
   state = {
@@ -18,7 +19,8 @@ shops = require('../../../assets/thriftShops.json');
     price: '',
     fit: '',
     store: '',
-    path: 'https://icon-library.net/images/no-image-icon/no-image-icon-0.jpg'
+    path: 'https://icon-library.net/images/no-image-icon/no-image-icon-0.jpg',
+    shop: ''
   }
 
   componentDidMount() {
@@ -33,6 +35,9 @@ shops = require('../../../assets/thriftShops.json');
     const price = this.props.navigation.getParam('price');
     const path = this.props.navigation.getParam('path');
 
+    const shop = this.props.navigation.getParam('shop');
+    const seeks = this.props.navigation.getParam('seeks');
+
     this.setState({title});
     this.setState({username});
     this.setState({description});
@@ -41,6 +46,8 @@ shops = require('../../../assets/thriftShops.json');
     this.setState({fit});
     this.setState({store});
     this.setState({path});
+
+    this.setState({shop});
     
   }
 
@@ -51,6 +58,12 @@ shops = require('../../../assets/thriftShops.json');
     return (
       <View style={styles.container}>
 
+      <View style={styles.header}>
+          <Image
+            source={require('../../../assets/images/location.png')}
+            style={styles.icon}/>
+           <Text style={styles.title1}>{this.state.shop}</Text>
+      </View>
            <Text style={styles.username}>{this.state.username} is seeking</Text>
             
             <Image style={styles.image} 
@@ -62,7 +75,7 @@ shops = require('../../../assets/thriftShops.json');
             <Text style={styles.bodyText}>Size: {this.state.size}</Text>
             <Text style={styles.bodyText}>{this.state.description}</Text>
 
-            <Button title="Spotted!" onPress={() => navigate('CameraView')} />
+            <SubmitButton caption="Spotted!" onPress={() => navigate('CameraView')} />
       </View>
     );
   }
@@ -77,12 +90,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   header: {
-    flexDirection: 'row',
+    width: '100%',
+    height: 75,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: '10%',
-    width: '100%',
-    justifyContent: 'space-around'
+    flexDirection: 'row',
   },
   subheader: {
     width: '50%',
@@ -110,14 +122,13 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontWeight: 'bold',
     fontSize: 16,
-    width: '90%',
+    width: '85%',
   },
-  store: {
+  title1: {
     color: "#121212",
     fontSize: 24,
     fontFamily: "ibm-plex-sans-regular",
-    width: '90%',
-    marginBottom: '10%'
+    width: '80%',
   },
   subtitle: {
     color: '#7adbc9',
@@ -142,6 +153,11 @@ const styles = StyleSheet.create({
     height: 400,
     marginTop: 10,
     marginBottom: 10
+  },
+  icon: {
+    height: 36,
+    width: 36,
+    marginRight: 5
   }
 
 });

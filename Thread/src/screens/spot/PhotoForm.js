@@ -5,9 +5,16 @@ import ShopHeader from "../../components/ShopHeader";
 import { Ionicons} from '@expo/vector-icons';
 import { Searchbar, TextInput } from 'react-native-paper';
 
-export default class ExampleApp extends PureComponent {
-arrayholder = require('../../../assets/database.json');
-shops = require('../../../assets/thriftShops.json');
+export default class PhotoForm extends React.Component {
+
+    static navigationOptions = ({ navigation }) => {
+    return {
+          headerShown: false
+      };
+    };
+
+    arrayholder = require('../../../assets/database.json');
+    shops = require('../../../assets/thriftShops.json');
 
   state = {
     location: '',
@@ -16,7 +23,6 @@ shops = require('../../../assets/thriftShops.json');
 
   render() {
     const { navigate } = this.props.navigation;
-
     const photo_uri = this.props.navigation.getParam('uri');
 
     return (
