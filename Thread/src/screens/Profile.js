@@ -87,6 +87,18 @@ export default class Profile extends React.Component {
           Edit My Sizes
         </Button>
 
+        <Button color = "#7adbc9"
+          mode = "contained"
+          uppercase = "false"
+          onPress={() => 
+            firebase.auth().signOut().then(function() {
+              console.log('Signed Out')
+            })
+          }
+        >
+          Sign out 
+        </Button>
+
         <View style={ styles.spacer }/>
         <View style={ styles.spacer }/>
 

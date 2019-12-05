@@ -35,13 +35,32 @@ export default class App extends React.Component {
     const { currentUser } = firebase.auth();
     firebase.database().ref('/users/' + currentUser.uid + '/seeks')
       .once('value').then((seeksSnapshot) => {
-      console.log("Snapshot: ", seeksSnapshot)
-      activeSeeks = Object.values(seeksSnapshot)
+      console.log("Curr user: ", currentUser);
+      console.log("Snapshot val: ", seeksSnapshot.val());
+      const activeSeekIDs = seeksSnapshot.val();//Object.values(seeksSnapshot);
+      console.log("ids: ", activeSeekIDs);
       // TODO; Given seek ids in snapshot, fetch actual seek objects
-      //seekPromises = activeSeeks.map( (seekID) => {
-       // return
-      //}
-      this.setState({ activeSeeks: activeSeeks });
+
+      // Create promises to fetch seeks
+      const seekPromises = activeSeekIDs.map( (seekID) => {
+        console.log("seekID: ", seekID);
+        return firebase.database().ref('/seeks/' + seekID + '/seeks')
+          .once('value').then((seek) => {
+            console.log("seek: ", seek);
+            this.state.activeSeeks.push(seek)
+        });
+      });
+
+      // Wait for all promises to complete
+      Promise.all(seekPromises)
+      .then(videos => {
+        console.log("Done");
+        // do something with the data
+      })
+      .catch(err => {
+        // handle error
+      })
+      // this.setState({ activeSeeks: activeSeeks });
     });
   }
 
@@ -113,7 +132,9 @@ export default class App extends React.Component {
 
       headerTitle:(
         <View style={{flexDirection: 'row'}}>
-          <Text style={{fontSize: 18}}>Coins: 3</Text>
+          <Text style={{fontSize: 18}}>
+            {"Coins: " + navigation.getParam('coins')}
+          </Text>
         </View>
       )
     }
@@ -128,6 +149,7 @@ export default class App extends React.Component {
       title: "", //or whatever the default value is
       items: [], //default value, 
       currentUser: currentUser,
+      coins: this.state.coins,
     });
 
     // Get currency
@@ -302,7 +324,7 @@ export default class App extends React.Component {
                 <Text style={ styles.text }>×</Text>
               </TouchableOpacity>
             </ImageBackground>
-            <Text style={styles.bubbleLabel}>green lace shirt</Text>
+            <Text style={styles.bubbleLabel}>light brown hoo..</Text>
           </View>
 
           <View>
@@ -315,7 +337,7 @@ export default class App extends React.Component {
                 <Text style={ styles.text }>×</Text>
               </TouchableOpacity>
             </ImageBackground>
-            <Text style={styles.bubbleLabel}>green lace shirt</Text>
+            <Text style={styles.bubbleLabel}>stretchy leather..</Text>
           </View>
 
         </ScrollView>
