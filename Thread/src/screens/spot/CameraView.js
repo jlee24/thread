@@ -23,7 +23,8 @@ export default class CameraExample extends React.Component {
 
    static navigationOptions = ({ navigation }) => {
     return {
-          headerShown: false
+          headerShown: false,
+          tabBarVisible: false,
       };
     };
 
@@ -81,7 +82,7 @@ export default class CameraExample extends React.Component {
           <TouchableOpacity style={styles.toggleButton}
           onPress={() => {
             this.props.navigation.navigate('ItemView')}}>
-          <Ionicons name="ios-arrow-back" size={50} color="white"/>
+          <Ionicons name="ios-arrow-back" size={44} color="white"/>
           </TouchableOpacity>
 
             <TouchableOpacity style={styles.toggleButton} onPress={this.toggleFlash}>
@@ -148,18 +149,17 @@ const styles = StyleSheet.create({
     zIndex: 3,
     backgroundColor: 'black',
     flexDirection: 'row',
-    height: '10%',
+    height: 90,
     justifyContent: 'space-between',
     paddingBottom: 0,
-    paddingTop: 44,
     width: '100%',
     position: 'absolute',
-    top: 0,
+    top: 44,
     left: 0,
     opacity: .5
     },
   camera: {
-    backgroundColor: '#7adbc9',
+    backgroundColor: 'green',
     height: '100%',
     justifyContent: 'space-between',
   },
@@ -170,12 +170,14 @@ const styles = StyleSheet.create({
 
   toggleButton: {
     alignItems: 'center',
-    height: 50,
+    height: 90,
     justifyContent: 'center',
-    marginBottom: 20,
-    marginTop: 20,
+    paddingTop: 10,
     paddingLeft: 30,
     paddingRight: 30,
+    paddingBottom: 10,
+    borderWidth: 10,
+    borderColor: 'red'
   },
   });
 

@@ -255,6 +255,7 @@ export default class App extends React.Component {
           {/* Question and Search Bar */}
           <View style={this.state.query.length == 0 ? styles.searchContainer : styles.searchContainerWithResults}>
             <Text style={styles.question}>What are you seeking?</Text>
+            <Button onPress={() => navigate('CameraView')} title="Spot"/>
             {/* Remove */}
             <Searchbar
               style={styles.searchbar}

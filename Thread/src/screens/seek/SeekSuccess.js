@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { LayoutAnimation, RefreshControl } from "react-native";
 import { Button, StyleSheet, Text, View } from 'react-native';
 
+import SubmitButton from "../../components/SubmitButton";
+
 export default class App extends React.Component {
 render() {
         const { navigate } = this.props.navigation;
@@ -10,8 +12,8 @@ render() {
         <View style={styles.container}>
             <Text style={styles.header}>{"Your seek, "}{JSON.stringify(post_title)}{", has been submitted!"}</Text>
             <Text style={styles.basic}>{"We\'ll ping you when it\'s been spotted."}</Text>
-            <Button style={styles.home}
-              title="Back to home"
+            <SubmitButton 
+              caption="Back to home"
               onPress={() => navigate('SeekStart')}
             />
         </View>
