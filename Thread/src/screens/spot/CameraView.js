@@ -176,8 +176,6 @@ const styles = StyleSheet.create({
     paddingLeft: 30,
     paddingRight: 30,
     paddingBottom: 10,
-    borderWidth: 10,
-    borderColor: 'red'
   },
   });
 
