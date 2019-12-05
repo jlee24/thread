@@ -26,7 +26,7 @@ function ShopPreviewPanel(props) {
         </TouchableOpacity>
         <TouchableOpacity 
           style={styles.spotButton}
-          onPress={() => props.navigation.navigate('StoreView')}
+          onPress={() => props.navigation.navigate('StoreView', {'shop': props.shop.name})}
         >
           <Image
             source={require('../../assets/images/spot-button.png')}
