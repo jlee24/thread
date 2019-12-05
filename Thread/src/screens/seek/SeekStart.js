@@ -7,7 +7,7 @@ import {
   StatusBar,
 } from "react-native";
 
-import { ImageBackground, TouchableOpacity, Button, FlatList, Image, StyleSheet, Text, View, TextInput, Alert } from 'react-native';
+import { ScrollView, ImageBackground, TouchableOpacity, Button, FlatList, Image, StyleSheet, Text, View, TextInput, Alert } from 'react-native';
 
 import UploadIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Searchbar } from 'react-native-paper';
@@ -93,6 +93,7 @@ export default class App extends React.Component {
     error: null,
     currentUser: null,
     activeSeeks: [],
+    coins: 3,
   };
 
 
@@ -108,7 +109,13 @@ export default class App extends React.Component {
           }
         )}
         title="Next"
-        style={styles.headerbutton} />)
+        style={styles.headerbutton} />),
+
+      headerTitle:(
+        <View style={{flexDirection: 'row'}}>
+          <Text style={{fontSize: 18}}>Coins: 3</Text>
+        </View>
+      )
     }
   }
 
@@ -122,6 +129,22 @@ export default class App extends React.Component {
       items: [], //default value, 
       currentUser: currentUser,
     });
+
+    // Get currency
+    userId = currentUser.uid;
+    firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
+      coins = (snapshot.val() && snapshot.val().coins) || 3;
+    }).then(() => this.setState({coins}));
+
+    this.props.navigation.addListener(
+        'willFocus',
+        () => {
+          userId = currentUser.uid;
+          firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
+            coins = (snapshot.val() && snapshot.val().coins) || 3;
+          }).then(() => this.setState({coins}));
+        }
+    )
   }
 
   arrayholder = require('../../../assets/database.json');
@@ -131,8 +154,10 @@ export default class App extends React.Component {
     this.props.navigation.setParams({
       title: search
     });
-
-    if (this.state.quotaLeft) {
+    if (search === '') {
+      this.setState({ data: [] });
+    }
+    else if (this.state.quotaLeft) {
       var newData = [];
       search = search.toLowerCase();
       if (search.includes('graphic t') || search.includes('dress') || search.includes('shirt') || search.includes('hood') || search.includes('jeans')) {
@@ -231,46 +256,57 @@ export default class App extends React.Component {
         <View style={styles.container}>
           {/* Story Bubbles */}
 
-          <View style={styles.seekBubbles}>
+          <ScrollView 
+            style={styles.seekBubbles}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+          >
             { this.state.activeSeeks.length > 0 ? 
               activeStoryBubbles(this.state.activeSeeks) : null 
             }
+
+            <View>
+              <ImageBackground
+                source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/greenlacenohalo.png" }}
+                style={ styles.imageWrapper }>
+                <TouchableOpacity 
+                  style={ styles.button } 
+                  onPress={ () => { alert("Your green lace shirt has not yet been spotted. We will notify you once it is!") }} >
+                  <Text style={ styles.text }>×</Text>
+                </TouchableOpacity>
+              </ImageBackground>
+              <Text style={styles.bubbleLabel}>green lace shirt</Text>
+            </View>
+
+            <View>
+              <ImageBackground
+                source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hoodiehalo.png" }}
+                style={ styles.imageWrapper }>
+                <TouchableOpacity 
+                  style={ styles.button } 
+
+                  onPress={() =>
+                    this.props.navigation.navigate('StoryViewHoodie', {
+                      spot: {
+                        image: "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/brown.png",
+                        title: "Light brown hoodie",
+                        size: "L",
+                        price: "5.99",
+                        username: "coolbeans24",
+                        location: "Goodwill Silicon Valley",
+                        description: "On the racks below the Women\'s Clothing sign. I hope it's what you're looking for!"
+                      }
+                    })
+                  }
+                >
+                <Text style={ styles.text }>×</Text>
+              </TouchableOpacity>
+            </ImageBackground>
+            <Text style={styles.bubbleLabel}>green lace shirt</Text>
+          </View>
+
+          <View>
             <ImageBackground
-              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/greenlacenohalo.png" }}
-              style={ styles.imageWrapper }>
-              <TouchableOpacity 
-                style={ styles.button } 
-                onPress={ () => { alert("Your green lace shirt has not yet been spotted. We will notify you once it is!") }} >
-                <Text style={ styles.text }>×</Text>
-              </TouchableOpacity>
-            </ImageBackground>
-
-
-           <ImageBackground
-              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hoodiehalo.png" }}
-              style={ styles.imageWrapper }>
-              <TouchableOpacity 
-                style={ styles.button } 
-
-                onPress={() =>
-                  this.props.navigation.navigate('StoryViewHoodie', {
-                    spot: {
-                      image: "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/brown.png",
-                      title: "Light brown hoodie",
-                      size: "L",
-                      price: "5.99",
-                      username: "coolbeans24",
-                      location: "Goodwill Silicon Valley",
-                      description: "On the racks below the Women\'s Clothing sign. I hope it's what you're looking for!"
-                    }
-                  })
-                }
-              >
-                <Text style={ styles.text }>×</Text>
-              </TouchableOpacity>
-            </ImageBackground>
-
-          <ImageBackground
               source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/leatherhalo.png" }}
               style={ styles.imageWrapper }>
               <TouchableOpacity 
@@ -279,20 +315,25 @@ export default class App extends React.Component {
                 <Text style={ styles.text }>×</Text>
               </TouchableOpacity>
             </ImageBackground>
-            
-
-            <View style={ styles.spacer }/>
-            <View style={ styles.currencyContainer }>
-                <CurrencyIcon amount={3}/>
-            </View>
+            <Text style={styles.bubbleLabel}>green lace shirt</Text>
           </View>
+
+        </ScrollView>
 
           {/* Question and Search Bar */}
           <View style={this.state.query.length == 0 ? styles.searchContainer : styles.searchContainerWithResults}>
-            <Text style={styles.question}>What are you seeking?</Text>
+
+            {query.length === 0 ?
+            <Image
+              style={ styles.logo}
+              source={require("../../../assets/images/logo.png")}
+            />:null}
+
+            <Button onPress={() => navigate('CameraView')} title="Spot"/>
+            {/* Remove */}
             <Searchbar
               style={styles.searchbar}
-              placeholder="e.g. miguel graphic tee"
+              placeholder="What clothes are you seeking?"
               onChangeText={this.updateSearch}
               value={query}
             />
@@ -364,18 +405,42 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  seekBubbleHeaderText: {
+    zIndex: 5,
+    position: 'absolute',
+    top: 18,
+    left: 32,
+    color: 'black'
+  },
   seekBubbles: {
+    backgroundColor: '#FAFAFA',
     width: '100%',
     flexDirection: 'row',
     position: 'absolute',
-    top: 32,
-    left: 32,
+    top: 0,
+    left: 0,
+    paddingTop: 20,//48,
+    paddingLeft: 32,
+    paddingBottom: 20,
+    borderBottomWidth: 2,
+    borderColor: '#E7E3E3',
+  },
+  bubbleLabel: {
+    marginTop: 4,
+    fontSize: 10,
+    color: 'black',
   },
   spacer: {
     width: 12,
   },
   currencyContainer: {
     marginTop: 20,
+  },
+  logo: {
+    width: 200,
+    height: 80,
+    resizeMode: 'contain',
+    backgroundColor: 'rgba(0,0,0,0)',
   },
   searchContainer: {
     backgroundColor: '#fff',
@@ -399,7 +464,7 @@ const styles = StyleSheet.create({
   },
   searchbar: {
     marginTop: 15,
-    width: '80%',
+    width: '86%',
     borderRadius: 10,
   },
   resultsContainer: {
@@ -478,5 +543,4 @@ const styles = StyleSheet.create({
     color:'white',
     lineHeight:42
   }
-
 });

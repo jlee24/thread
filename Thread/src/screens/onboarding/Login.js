@@ -31,6 +31,7 @@ export default class Login extends React.Component {
           style={styles.textInput}
           onChangeText={email => this.setState({ email })}
           value={this.state.email}
+          theme={{colors: {primary: "#50CDB6", underlineColor: "#50CDB6"}}}
         />
         <TextInput
           secureTextEntry
@@ -39,13 +40,17 @@ export default class Login extends React.Component {
           style={styles.textInput}
           onChangeText={password => this.setState({ password })}
           value={this.state.password}
+          theme={{colors: {primary: "#50CDB6", underlineColor: "#50CDB6"}}}
         />
         <Button mode="contained"
+                color="#50CDB6"
+                contentStyle={{height: 40}}
                 onPress={this.handleLogin}
                 style={styles.button}>
           Login
         </Button>
         <Button
+          color="#50CDB6"
           onPress={() => this.props.navigation.navigate('SignUp')}
           style={styles.button}>
           Don&#39;t have an account? Sign Up
@@ -61,9 +66,12 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   welcome: {
-    fontSize: 20,
+    fontSize: 25,
     fontFamily: 'roboto-regular',
     marginBottom: 10,
+    width: '80%',
+    textAlign: 'center',
+    color: "#50CDB6"
   },
   textInput: {
     height: 60,
