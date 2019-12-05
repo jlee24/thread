@@ -93,7 +93,13 @@ export default class App extends React.Component {
           }
         )}
         title="Next"
-        style={styles.headerbutton} />)
+        style={styles.headerbutton} />),
+
+      headerTitle:(
+        <View style={{flexDirection: 'row'}}>
+          <Text style={{fontSize: 18}}>Coins: 3</Text>
+        </View>
+      )
     }
   }
 
@@ -211,55 +217,75 @@ export default class App extends React.Component {
         /* Outermost View */
         <View style={styles.container}>
           {/* Story Bubbles */}
+          {true ?
+            <View style={styles.seekBubbles}>
+              <View>
+                <ImageBackground
+                  source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hoodiehalo.png" }}
+                  style={ styles.imageWrapper }>
+                  <TouchableOpacity
+                    style={ styles.button }
+                    onPress={ () => { navigate('StoryViewHoodie') }}>
+                    <Text style={ styles.text }>×</Text>
+                  </TouchableOpacity>
+                </ImageBackground>
+                <Text style={styles.bubbleLabel}>soft light brown..</Text>
+              </View>
+              <View>
+                <ImageBackground
+                  source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/leatherhalo.png" }}
+                  style={ styles.imageWrapper }>
+                  <TouchableOpacity
+                    style={ styles.button }
+                    onPress={ () => { navigate('StoryViewPants') }}>
+                    <Text style={ styles.text }>×</Text>
+                  </TouchableOpacity>
+                </ImageBackground>
+                <Text style={styles.bubbleLabel}>stretchy leather..</Text>
+              </View>
 
-          <View style={styles.seekBubbles}>
+              <View>
+                <ImageBackground
+                  source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/greenlacenohalo.png" }}
+                  style={ styles.imageWrapper }>
+                  <TouchableOpacity
+                    style={ styles.button }
+                    onPress={ () => { alert("Your green lace shirt has not yet been spotted. We will notify you once it is!") }} >
+                    <Text style={ styles.text }>×</Text>
+                  </TouchableOpacity>
+                </ImageBackground>
+                <Text style={styles.bubbleLabel}>green lace shirt</Text>
+              </View>
 
-           <ImageBackground
-              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hoodiehalo.png" }}
-              style={ styles.imageWrapper }>
-              <TouchableOpacity
-                style={ styles.button }
-                onPress={ () => { navigate('StoryViewHoodie') }}>
-                <Text style={ styles.text }>×</Text>
-              </TouchableOpacity>
-            </ImageBackground>
-
-          <ImageBackground
-              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/leatherhalo.png" }}
-              style={ styles.imageWrapper }>
-              <TouchableOpacity
-                style={ styles.button }
-                onPress={ () => { navigate('StoryViewPants') }}>
-                <Text style={ styles.text }>×</Text>
-              </TouchableOpacity>
-            </ImageBackground>
-
-
-            <ImageBackground
-              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/greenlacenohalo.png" }}
-              style={ styles.imageWrapper }>
-              <TouchableOpacity
-                style={ styles.button }
-                onPress={ () => { alert("Your green lace shirt has not yet been spotted. We will notify you once it is!") }} >
-                <Text style={ styles.text }>×</Text>
-              </TouchableOpacity>
-            </ImageBackground>
-
-
-            <View style={ styles.spacer }/>
-            <View style={ styles.currencyContainer }>
-                <CurrencyIcon amount={this.state.coins}/>
-            </View>
-          </View>
+              <View>
+                <ImageBackground
+                  source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/running_shorts.png" }}
+                  style={ styles.imageWrapper }>
+                  <TouchableOpacity
+                    style={ styles.button }
+                    onPress={ () => { alert("Your running shorts have not yet been spotted. We will notify you once it is!") }} >
+                    <Text style={ styles.text }>×</Text>
+                  </TouchableOpacity>
+                </ImageBackground>
+                <Text style={styles.bubbleLabel}>running shorts</Text>
+              </View>
+            </View> : null
+          }
 
           {/* Question and Search Bar */}
           <View style={this.state.query.length == 0 ? styles.searchContainer : styles.searchContainerWithResults}>
-            <Text style={styles.question}>What are you seeking?</Text>
+
+            {query.length === 0 ?
+            <Image
+              style={ styles.logo}
+              source={require("../../../assets/images/logo.png")}
+            />:null}
+
             <Button onPress={() => navigate('CameraView')} title="Spot"/>
             {/* Remove */}
             <Searchbar
               style={styles.searchbar}
-              placeholder="e.g. miguel graphic tee"
+              placeholder="What clothes are you seeking?"
               onChangeText={this.updateSearch}
               value={query}
             />
@@ -331,18 +357,42 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  seekBubbleHeaderText: {
+    zIndex: 5,
+    position: 'absolute',
+    top: 18,
+    left: 32,
+    color: 'black'
+  },
   seekBubbles: {
+    backgroundColor: '#FAFAFA',
     width: '100%',
     flexDirection: 'row',
     position: 'absolute',
-    top: 32,
-    left: 32,
+    top: 0,
+    left: 0,
+    paddingTop: 20,//48,
+    paddingLeft: 32,
+    paddingBottom: 20,
+    borderBottomWidth: 2,
+    borderColor: '#E7E3E3',
+  },
+  bubbleLabel: {
+    marginTop: 4,
+    fontSize: 10,
+    color: 'black',
   },
   spacer: {
     width: 12,
   },
   currencyContainer: {
     marginTop: 20,
+  },
+  logo: {
+    width: 200,
+    height: 80,
+    resizeMode: 'contain',
+    backgroundColor: 'rgba(0,0,0,0)',
   },
   searchContainer: {
     backgroundColor: '#fff',
@@ -366,7 +416,7 @@ const styles = StyleSheet.create({
   },
   searchbar: {
     marginTop: 15,
-    width: '80%',
+    width: '86%',
     borderRadius: 10,
   },
   resultsContainer: {
@@ -445,5 +495,4 @@ const styles = StyleSheet.create({
     color:'white',
     lineHeight:42
   }
-
 });

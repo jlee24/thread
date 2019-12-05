@@ -44,9 +44,14 @@ const styles = StyleSheet.create({
   input: {
     maxHeight: 40,
     backgroundColor: "white",
+    shadowColor: '#777777',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 1,
   },
   inputContainer: {
-    backgroundColor: "rgba(256, 0, 0, 0)"
+    backgroundColor: "rgba(256, 0, 0, 0)",
   },
   resultsContainer: {
     backgroundColor: "rgba(256, 0, 0, 0)"
