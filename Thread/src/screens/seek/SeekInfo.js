@@ -248,24 +248,6 @@ render() {
 
           <View style={styles.textinput}>
             <TextInput
-              label = "Desired Fit"
-              placeholder = "i.e. baggy, snug, slim"
-              theme={{colors: {primary: "#50CDB6", underlineColor: "#50CDB6"}}}
-              onFocus={(event: Event) => {this._scrollToInput(findNodeHandle(event.target))}}
-              onChangeText={fit => this.setState({ fit: fit.trim() })}/>
-            { (this.state.fit === null || this.state.fit.length >= 2) ? null :
-              <HelperText
-                type="info"
-                padding="none"
-                visible={this.state.fit.length < 2}
-              >
-                Specifying a fit can be helpful for spotters to keep in mind.
-              </HelperText>
-            }
-          </View>
-
-          <View style={styles.textinput}>
-            <TextInput
               label = "Price Cap"
               placeholder = "$5.50"
               theme={{colors: {primary: "#50CDB6", underlineColor: "#50CDB6"}}}

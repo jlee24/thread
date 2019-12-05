@@ -2,8 +2,10 @@
   "expo": {
     "name": "Thread",
     "slug": "Thread",
+    "description": "Get your look, together.",
     "privacy": "public",
     "sdkVersion": "35.0.0",
+    "owner" : "isabellezhou",
     "platforms": [
       "ios",
       "android",
