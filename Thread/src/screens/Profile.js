@@ -16,7 +16,7 @@ export default class Profile extends React.Component {
     sizeNumber: [],
     profilePhoto: '',
   };
-  // defaultPhotoURI = "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/profile_photo_placeholder.png";
+  defaultPhotoURI = "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/profile_photo_placeholder.png";
 
   componentDidMount() {
     const { currentUser } = firebase.auth()

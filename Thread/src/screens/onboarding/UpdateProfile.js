@@ -16,15 +16,12 @@ export default class BuildProfile extends React.Component {
   state = {
     selectedIndexesLetter: [],
     selectedIndexesNumber: [],
-    selectedIndexesShoe: [],
     username: '',
     currentUser: null
   }
 
   buttonsLetter = ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL', '0X', '1X', '2X', '3X', '4X', '5X'];
   buttonsNumber = ['00', '0', '2', '4', '6', '8', '10', '12', '14', '16', '18', '20', '22', '24', '26', '28', '30', '32'];
-  buttonsShoe = ['4', '4.5', '5', '5.5', '6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12', '12.5'];
-
 
   writeUserData(user) {
     const userId = user.uid;
@@ -35,7 +32,6 @@ export default class BuildProfile extends React.Component {
       email: email,
       sizeLetter: this.state.selectedIndexesLetter.map(x => this.buttonsLetter[x]),
       sizeNumber: this.state.selectedIndexesNumber.map(x => this.buttonsNumber[x]),
-      sizeShoe: this.state.selectedIndexesShoe.map(x => this.buttonsShoe[x]),
     })
     .then(() => this.props.navigation.navigate('Profile'))
 
@@ -54,11 +50,9 @@ export default class BuildProfile extends React.Component {
       username = (snapshot.val() && snapshot.val().username) || '';
       selectedIndexesLetter = (snapshot.val() && snapshot.val().sizeLetter.map(x => buttonsLetter.indexOf(x))) || [];
       selectedIndexesNumber = (snapshot.val() && snapshot.val().sizeNumber.map(x => buttonsNumber.indexOf(x))) || [];
-      selectedIndexesShoe = (snapshot.val() && snapshot.val().sizeShoe.map(x => buttonsShoe.indexOf(x))) || [];
     }).then(() => this.setState({ username: username,
                           selectedIndexesLetter: selectedIndexesLetter,
                           selectedIndexesNumber: selectedIndexesNumber,
-                          selectedIndexesShoe: selectedIndexesShoe,
                         }));
   }
 
@@ -98,7 +92,6 @@ export default class BuildProfile extends React.Component {
   render() {
     const { selectedIndexesLetter } = this.state;
     const { selectedIndexesNumber } = this.state
-    const { selectedIndexesShoe } = this.state
 
     return (
       <View style={styles.container}>
