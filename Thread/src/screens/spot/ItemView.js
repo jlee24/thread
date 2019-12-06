@@ -97,10 +97,11 @@ const styles = StyleSheet.create({
   },
   header: {
     width: '100%',
-    height: 50,
+    height: 40,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
+    marginTop: 10
   },
   subheader: {
     width: '50%',
@@ -125,21 +126,19 @@ const styles = StyleSheet.create({
     width: '80%',
   },
   username: {
-    marginTop: 5,
     fontWeight: 'bold',
     fontSize: 16,
     width: '85%',
   },
   title1: {
     color: "#121212",
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: "ibm-plex-sans-regular",
     width: '80%',
   },
   subtitle: {
-    color: '#50CDB6',
     width: '80%',
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: 'bold',
   },
   data: {
@@ -151,23 +150,23 @@ const styles = StyleSheet.create({
   },
   bodyText: {
     width: '80%',
-    fontSize: 18
+    fontSize: 16
   },
   desc: {
     width: '80%',
-    fontSize: 18,
+    fontSize: 16,
     marginBottom: 10,
     fontStyle: 'italic'
   },
   image: {
     width: '100%', 
-    height: 400,
+    height: 350,
     marginTop: 10,
     marginBottom: 10
   },
   icon: {
-    height: 36,
-    width: 36,
+    height: 24,
+    width: 24,
     marginRight: 5
   }
 
