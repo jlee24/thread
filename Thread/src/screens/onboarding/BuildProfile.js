@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {
   AsyncStorage,
+  Alert,
   Image,
   ImageBackground,
   StyleSheet,
@@ -95,7 +96,12 @@ export default class BuildProfile extends React.Component {
       seeks: [],
       profilePhoto: this.state.profilePhotoURI,
     })
-    .then(() => this.props.navigation.navigate('TabNavigator'))
+    .then(() => {
+      this.props.navigation.navigate('TabNavigator');
+      Alert.alert('Welcome to Thread!', ' Here’s 3 coins on us. \n Spend 2 to seek, Earn 1 to spot.',
+                  [{text: 'Get Started'}],
+                  {cancelable: true});
+    })
 
   }
 
