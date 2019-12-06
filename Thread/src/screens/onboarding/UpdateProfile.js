@@ -16,6 +16,8 @@ import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import * as firebase from 'firebase';
+import SubmitButton from "../../components/SubmitButton";
+import IconButton from "../../components/IconButton";
 
 
 export default class BuildProfile extends React.Component {
@@ -172,13 +174,10 @@ export default class BuildProfile extends React.Component {
                     : null }
                   </TouchableOpacity>
                 </View>
-                <Button
-                  icon="camera"
-                  color="#50CDB6"
-                  mode="contained"
-                  onPress={ this.uploadFromLibrary }>
-                  Upload Profile Photo
-                </Button>
+                <IconButton
+                  onPress={ this.uploadFromLibrary }
+                  caption="Upload "
+                  source={require('../../../assets/images/photo-camera.png')}/>
               </View>
 
               <Text style={styles.q1}>
@@ -253,14 +252,10 @@ export default class BuildProfile extends React.Component {
             </View>
 
             <View style={styles.submit}>
-              <Button
-                color="#50CDB6"
-                mode="contained"
-                labelStyle={{fontSize: 18}}
-                style={{width: 200, height: 70, justifyContent: 'center'}}
-                onPress={() => this.writeUserData(this.state.currentUser)}>
-                  Update!
-              </Button>
+              <SubmitButton
+                caption="Update!"
+                
+                onPress={() => this.writeUserData(this.state.currentUser)}/>
               <Text style={{fontSize: 16, marginBottom: 10, marginLeft: 10, marginTop: 20, textAlign: 'center'}}>
                 (You can change your size preferences whenever in your profile.)
               </Text>

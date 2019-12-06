@@ -102,12 +102,8 @@ export default class Profile extends React.Component {
               </View>
             </View>
             <View style={{width: 200, marginTop:10, justifyContent: 'center'}}>
-              <Button color = "#7adbc9"
-                mode = "contained"
-                uppercase = "false"
-                onPress={() => this.props.navigation.navigate('UpdateProfile')}>
-                Edit My Sizes
-              </Button>
+              <SubmitButton caption="Edit My Sizes"
+                onPress={() => this.props.navigation.navigate('UpdateProfile')}/>
             </View>
           </View>
 

@@ -1,6 +1,6 @@
 'use strict';
 import React, { PureComponent } from 'react';
-import { AppRegistry, StyleSheet, Text, TouchableOpacity, View, FlatList, Image, Button } from 'react-native';
+import { AppRegistry, StyleSheet, Text, TouchableOpacity, View, FlatList, Image, Button, ScrollView } from 'react-native';
 import ShopHeader from "../../components/ShopHeader";
 import SubmitButton from "../../components/SubmitButton";
 import IconButton from "../../components/IconButton";
@@ -57,6 +57,7 @@ shops = require('../../../assets/thriftShops.json');
     const { path } = this.state;
 
     return (
+      <ScrollView>
       <View style={styles.container}>
 
       <View style={styles.header}>
@@ -78,6 +79,7 @@ shops = require('../../../assets/thriftShops.json');
 
             <IconButton caption="Spotted!" source={require('../../../assets/images/photo-camera.png')} onPress={() => navigate('CameraView')} />
       </View>
+      </ScrollView>
     );
   }
 

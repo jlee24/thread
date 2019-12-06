@@ -117,6 +117,7 @@ export default class Photo extends React.Component {
                   this.setModalVisible(!this.state.modalVisible)
                   navigate('SpotSuccess', {'uri': photo_uri})}}
                   caption= "Submit" />
+              <View style={styles.spacer}></View>
           </View>
         </Modal>
 
