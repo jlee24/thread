@@ -1,12 +1,13 @@
 'use strict';
 import React, { PureComponent } from 'react';
-import { AppRegistry, StyleSheet, Text, TouchableOpacity, View, FlatList, Image, Button, Modal, ScrollView } from 'react-native';
+import { AsyncStorage, AppRegistry, StyleSheet, Text, TouchableOpacity, View, FlatList, Image, Button, Modal, ScrollView } from 'react-native';
 import ShopHeader from "../../components/ShopHeader";
 import { Ionicons, MaterialIcons} from '@expo/vector-icons';
 import { Searchbar, TextInput } from 'react-native-paper';
 import SubmitButton from "../../components/SubmitButton";
+import * as firebase from 'firebase';
 
-export default class Photo extends React.Component {
+  export default class Photo extends React.Component {
 
     static navigationOptions = ({ navigation }) => {
     return {
@@ -23,8 +24,18 @@ export default class Photo extends React.Component {
     location: '',
     description: '',
     modalVisible: false,
-    barsVisible: true
+    barsVisible: true,
+    uri: this.props.navigation.getParam('uri'),
+    seekId: '',
   }
+
+ /* componentDidMount() {
+    firebase.database().ref('users/' + firebase.auth().currentUser.uid).once('value').then(function(snapshot) {
+      username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
+    }).then( () => {
+      this.setState({ username });
+    });
+  }*/
 
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
@@ -34,6 +45,43 @@ export default class Photo extends React.Component {
     this.setState({barsVisible: visible});
   }
 
+  uploadImage = async(uri) => {
+    const name = await AsyncStorage.getItem('name');
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    let splitURI = uri.split('/');
+    let filename = splitURI[splitURI.length - 1];
+    var ref = firebase.storage().ref().child(name+'/'+filename);
+    let task = ref.put(blob);
+    return {task, ref};
+  };
+
+  writeSpotData = async (photo_uri) => {
+    let res = await this.uploadImage(photo_uri);
+    await res.task;
+    let url = await res.ref.getDownloadURL();
+    this.setState({uri: url});
+
+    var newSpot = firebase.database().ref('spots/').push();
+    var curr_user = firebase.auth().currentUser;
+    newSpot.set({
+      'seekId': this.props.navigation.getParam('seekId'),
+      'userId': curr_user.uid,
+      'size': this.state.size,
+      'price': this.state.price,
+      'location': this.state.location,
+      'description': this.state.description,
+      'img': this.state.uri,
+    }).then(() => this.props.navigation.navigate('SpotSuccess', {'uri': this.state.uri}));
+
+    /*var spotId = firebase.database().ref('seeks/' + this.state.seekId + '/spots').push();
+    spotId.set({
+        spotId: this.
+        // get the ID of the spot
+      }
+    )
+    .then(() => this.props.navigation.navigate('SpotSuccess', {'uri': uri}))*/
+  }
   render() {
     const { navigate } = this.props.navigation;
     const photo_uri = this.props.navigation.getParam('uri');
@@ -107,10 +155,10 @@ export default class Photo extends React.Component {
 
 
               <TextInput 
-              label = "Where in the store did you find this item?"
+              label = "Where did you find it?"
               onChangeText={location => this.setState({ location })}
               multiline={true}
-              placeholder = {"i.e. Middle rack under “Women’s Tops” sign"}
+              placeholder = 'i.e. Middle rack under “Women’s Tops” sign'
               theme={{colors: {primary: "#50CDB6", underlineColor: "#50CDB6"}}}
               style={styles.longinput} />
 
@@ -127,8 +175,9 @@ export default class Photo extends React.Component {
 
               <SubmitButton
                   onPress={() => {
-                  this.setModalVisible(!this.state.modalVisible)
-                  navigate('SpotSuccess', {'uri': photo_uri})}}
+                  this.setModalVisible(!this.state.modalVisible);
+                  this.writeSpotData(photo_uri);
+                }}
                   caption= "Submit" />
               <View style={styles.spacer}></View>
             </ScrollView>
