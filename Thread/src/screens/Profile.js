@@ -19,6 +19,8 @@ export default class Profile extends React.Component {
     sizeNumber: [],
     profilePhoto: this.defaultPhotoURI,
     selectedIndex: 0,
+    myLikes: ['http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/brown.png', 'http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/pants.png'],
+    mySpots: [],
   };
   updateIndex = this.updateIndex.bind(this)
 
@@ -45,20 +47,16 @@ export default class Profile extends React.Component {
 
   renderItem(item) {
     return (
-        <TouchableOpacity
-                 style={{flex:1/3, //here you can use flex:1 also
-                 aspectRatio:1}}>
-                <Image style={{flex: 1}} resizeMode='cover' source={{ uri:  item.photoUrl[0].photoUrl}}></Image>
-        </TouchableOpacity>
+        <Image style={styles.galleryImg} resizeMode='cover' source={{ uri:  item}}></Image>
     )
   }
 
   render() {
     const { selectedIndex } = this.state
 
-    const mySpotsTab = () => <Text>My Spots</Text>
     const myLikesTab = () => <Text>My Likes</Text>
-    const buttons = [{ element: mySpotsTab }, { element: myLikesTab }]
+    const mySpotsTab = () => <Text>My Spots</Text>
+    const buttons = [{ element: myLikesTab }, { element: mySpotsTab }]
 
     const maxIdx = this.state.sizeLetter.length-1;
     letterText = this.state.sizeLetter.map(function(letter, key) {
@@ -101,20 +99,12 @@ export default class Profile extends React.Component {
                 <Text> Size (Number)</Text>
               </View>
             </View>
-            <View style={{width: '100%', height: 100, flexDirection: 'column', marginTop:10, alignItems: 'center', justifyContent: 'space-around'}}>
-              
-              <SubmitButton caption="Edit My Sizes"
-                onPress={() => this.props.navigation.navigate('UpdateProfile')}/>
-              
-              <Button
-              color="#50CDB6"
-              onPress={() => 
-                  firebase.auth().signOut().then(function() {
-                    console.log('Sign Out')
-                  })
-                }
-              style={styles.button}>
-              Sign Out
+            <View style={{width: 200, marginTop:10, justifyContent: 'center'}}>
+              <Button color = "#7adbc9"
+                mode = "contained"
+                uppercase = "false"
+                onPress={() => this.props.navigation.navigate('UpdateProfile')}>
+                Edit My Sizes
               </Button>
             </View>
           </View>
@@ -129,9 +119,16 @@ export default class Profile extends React.Component {
             selectedButtonStyle={{backgroundColor: "#e0e0e0"}}
             containerStyle={{width: '100%', height: 50, marginLeft:0}} />
             { this.state.selectedIndex === 0 ?
-              <Text style={{margin: 10}}> No Spots yet!</Text>
-               :
-              <Text style={{margin: 10}}> No Likes yet!</Text>
+              <View>
+                <FlatList
+                   numColumns={3}
+                   data={this.state.myLikes}
+                   renderItem={({ item }) => this.renderItem(item)}
+                   keyExtractor={item => this.state.myLikes.indexOf(item)}
+                />
+              </View>
+              :
+              <Text> My Spots </Text>
             }
             {/*<FlatList
                numColumns={3}
@@ -183,7 +180,6 @@ const styles = StyleSheet.create({
     width:'30%',
     height:50,
     flexDirection: 'column',
-    marginTop: 20,
     marginBottom: 10,
     marginLeft: 20,
     marginRight: 20,
@@ -207,33 +203,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: "ibm-plex-sans-regular",
   },
-  top: {
-    width: "100%",
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  spacer: {
-      height: 12,
-  },
-  spacerSmall: {
-      height: 6,
-  },
-  sideSpacer: {
-      width: 20,
-  },
-  sideSpacerSmall: {
-      width: 10,
-  },
-  imageWrapper:{
-     width:85,
-     height:85,
-     borderRadius:0,
-  },
-  divider: {
-    backgroundColor: '#d3d3d3',
-    height: 2,
-    width: "100%",
-  },
-  button: {
-    marginBottom: 15
-  },
+  galleryImg: {
+    flex: 1/3,
+    aspectRatio: 1,
+    marginRight: 3
+  }
 })
