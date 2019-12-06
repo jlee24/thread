@@ -122,7 +122,7 @@ export default class App extends React.Component {
            onPress={() => {
               numCoins = navigation.getParam('currentCoins');
               if (numCoins < 2) {
-                Alert.alert('Need More Coins?', 'You need at least 2 to post a seek, but your current balance is ' + numCoins + '.',
+                Alert.alert('Not Enough Coins', 'You need at least 2 coins to post a seek, but your current balance is ' + numCoins + '. Go spot to earn more!',
                 [{text: 'Go Spot', onPress: () => navigation.navigate('SpotStackNavigation')},
                 {text: 'Cancel', style: 'cancel'},],
                 {cancelable: true})
