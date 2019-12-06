@@ -12,7 +12,8 @@ constructor(props){
  
     this.state={
       imageURL : 'http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/unliked.png',
-      liked : false
+      liked : false,
+      spot : props.navigation.getParam('spot')
     }
  
   }
@@ -39,13 +40,14 @@ constructor(props){
 
 
 render() {
+    const spot = this.state.spot;
     return (
 
         <View style = { styles.container } >
 
         <ImageBackground
           style= { styles.backgroundImage } 
-          source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/brown.png" }}>
+          source={{ uri: spot.image }}>
 
 
           <View style= { styles.header }>
@@ -53,13 +55,13 @@ render() {
               <View style={ styles.spacer }/>
 
               <Text style = { styles.logoDescription }>
-              Soft light brown hoodie
+                {spot.title}
               </Text>
               <Text style = { styles.logoDescriptionBold }>
-                Goodwill Silicon Valley
+                {spot.location} 
               </Text>
               <Text style = { styles.logoText }>
-                Size L, $17.99
+                {"Size " + spot.size + ", " + spot.price}
               </Text>
 
               <View style={ styles.spacer }/>

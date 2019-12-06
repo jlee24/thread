@@ -7,7 +7,7 @@ import {
   StatusBar,
 } from "react-native";
 
-import { ImageBackground, TouchableOpacity, Button, FlatList, Image, StyleSheet, Text, View, TextInput, Alert } from 'react-native';
+import { ScrollView, ImageBackground, TouchableOpacity, Button, FlatList, Image, StyleSheet, Text, View, TextInput, Alert } from 'react-native';
 
 import UploadIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Searchbar } from 'react-native-paper';
@@ -28,6 +28,40 @@ export default class App extends React.Component {
     if (status !== 'granted') {
       alert('Sorry, we need camera roll or camera permissions to make this work!');
     }
+  }
+
+  updateActiveSeeks = async () => {
+    // fetch seeks of current user
+    const { currentUser } = firebase.auth();
+    firebase.database().ref('/users/' + currentUser.uid + '/seeks')
+      .once('value').then((seeksSnapshot) => {
+      console.log("Curr user: ", currentUser);
+      console.log("Snapshot val: ", seeksSnapshot.val());
+      const activeSeeks = seeksSnapshot.val();//Object.values(seeksSnapshot);
+      //console.log("ids: ", activeSeekIDs);
+      // TODO; Given seek ids in snapshot, fetch actual seek objects
+
+      // Create promises to fetch seeks
+      /*const seekPromises = activeSeekIDs.map( (seekID) => {
+        console.log("seekID: ", seekID);
+        return firebase.database().ref('/seeks/' + seekID + '/seeks')
+          .once('value').then((seek) => {
+            console.log("seek: ", seek);
+            this.state.activeSeeks.push(seek)
+        });
+      });*/
+
+      // Wait for all promises to complete
+      /*Promise.all(seekPromises)
+      .then(videos => {
+        console.log("Done");
+        // do something with the data
+      })
+      .catch(err => {
+        // handle error
+      })*/
+      //this.setState({ activeSeeks: activeSeeks });
+    });
   }
 
   uploadImage = async(uri) => {
@@ -77,6 +111,7 @@ export default class App extends React.Component {
     quotaLeft: true,
     error: null,
     currentUser: null,
+    activeSeeks: [],
     coins: 3,
   };
 
@@ -97,7 +132,9 @@ export default class App extends React.Component {
 
       headerTitle:(
         <View style={{flexDirection: 'row'}}>
-          <Text style={{fontSize: 18}}>Coins: 3</Text>
+          <Text style={{fontSize: 18}}>
+            {"Coins: " + navigation.getParam('coins')}
+          </Text>
         </View>
       )
     }
@@ -105,12 +142,14 @@ export default class App extends React.Component {
 
   componentDidMount() {
     const { currentUser } = firebase.auth();
+    this.updateActiveSeeks();
     this.setState({ currentUser });
     //if updating title
     this.props.navigation.setParams({
       title: "", //or whatever the default value is
-      items: [], //default value,
+      items: [], //default value, 
       currentUser: currentUser,
+      coins: this.state.coins,
     });
 
     // Get currency
@@ -143,7 +182,7 @@ export default class App extends React.Component {
     else if (this.state.quotaLeft) {
       var newData = [];
       search = search.toLowerCase();
-      if (search.includes('graphic') || search.includes('dress') || search.includes('sweater') || search.includes('hood') || search.includes('jeans')) {
+      if (search.includes('graphic t') || search.includes('dress') || search.includes('shirt') || search.includes('hood') || search.includes('jeans')) {
         fetch('https://www.googleapis.com/customsearch/v1?key=AIzaSyCcWSCBiwLVf2Y108sfDkpIEOsPHYB1u3E&cx=008952763162707324316:33prtpoq7jm&searchType=image&q=' + search)
           .then((response) => response.json())
           .then((responseJson) => {
@@ -213,12 +252,41 @@ export default class App extends React.Component {
     const { query } = this.state;
     const { selectedItems } = this.state
 
+    function activeStoryBubbles(activeSeeks) {
+      console.log("called in ftn:", activeSeeks)
+      return activeSeeks.map( (seek, idx) => {
+        return (
+            <ImageBackground
+              key={idx}
+              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/greenlacenohalo.png" }}
+              style={ styles.imageWrapper }>
+              <TouchableOpacity 
+                style={ styles.button } 
+                onPress={ () => {
+                  alert("Your green lace shirt has not yet been spotted. We will notify you once it is!")
+                }} 
+              >
+                <Text style={ styles.text }>×</Text>
+              </TouchableOpacity>
+            </ImageBackground>
+        )
+      })
+    }
+
 		return (
         /* Outermost View */
         <View style={styles.container}>
           {/* Story Bubbles */}
-          {true ?
-            <View style={styles.seekBubbles}>
+
+          <ScrollView 
+            style={styles.seekBubbles}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+          >
+            { this.state.activeSeeks.length > 0 ? 
+              activeStoryBubbles(this.state.activeSeeks) : null 
+            }
+
               <View>
                 <ImageBackground
                   source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hoodiehalo.png" }}
@@ -268,9 +336,9 @@ export default class App extends React.Component {
                   </TouchableOpacity>
                 </ImageBackground>
                 <Text style={styles.bubbleLabel}>running shorts</Text>
-              </View>
-            </View> : null
-          }
+            </View>
+
+        </ScrollView>
 
           {/* Question and Search Bar */}
           <View style={this.state.query.length == 0 ? styles.searchContainer : styles.searchContainerWithResults}>

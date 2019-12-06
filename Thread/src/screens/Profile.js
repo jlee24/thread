@@ -105,8 +105,20 @@ export default class Profile extends React.Component {
               <Button color = "#7adbc9"
                 mode = "contained"
                 uppercase = "false"
+                style={{marginBottom: 12}}
                 onPress={() => this.props.navigation.navigate('UpdateProfile')}>
                 Edit My Sizes
+              </Button>
+              <Button color = "#7adbc9"
+                mode = "contained"
+                uppercase = "false"
+                onPress={() => 
+                  firebase.auth().signOut().then(function() {
+                    console.log('Signed Out')
+                  })
+                }
+              >
+                Sign out 
               </Button>
             </View>
           </View>
@@ -121,9 +133,9 @@ export default class Profile extends React.Component {
             selectedButtonStyle={{backgroundColor: "#e0e0e0"}}
             containerStyle={{width: '100%', height: 50, marginLeft:0}} />
             { this.state.selectedIndex === 0 ?
-              <Text> My Spots </Text>
+              <Text style={{margin: 10}}> No Spots yet!</Text>
                :
-              <Text> My Likes </Text>
+              <Text style={{margin: 10}}> No Likes yet!</Text>
             }
             {/*<FlatList
                numColumns={3}
@@ -175,6 +187,7 @@ const styles = StyleSheet.create({
     width:'30%',
     height:50,
     flexDirection: 'column',
+    marginTop: 20,
     marginBottom: 10,
     marginLeft: 20,
     marginRight: 20,

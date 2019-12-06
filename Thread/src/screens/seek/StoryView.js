@@ -9,61 +9,6 @@ render() {
 
         <View style = { styles.container } >
 
-        <ImageBackground
-          style= { styles.backgroundImage } 
-          source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/clothes.jpeg" }}>
-
-        <View style= { styles.header }>
-        <View style={ styles.spacer }/>
-          <Text style = { styles.logoDescription }>
-            Goodwill Silicon Valley
-          </Text>
-          <Text style = { styles.logoText }>
-            Size M, $13.89
-          </Text>
-          <View style={ styles.spacer }/>
-          <ImageBackground
-              source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/unliked.png" }}
-              style={ styles.imageWrapper }>
-              <TouchableOpacity 
-                style={ styles.button } 
-                onPress={ () => { alert("Added to Your Likes") }}>
-                <Text style={ styles.text }>×</Text>
-              </TouchableOpacity>
-            </ImageBackground>
-          <View style={ styles.spacer }/>
-        </View>
-
-        <Drawer
-          initialDrawerSize={0.24}
-          renderContainerView={() => 
-            <View style={{height: 150}}>
-              
-            </View>
-          }
-          renderDrawerView={() => 
-            // <ShopsPreview shops={this.getShopsPreviewData()}/>
-            // add limited size container
-            // onRelease
-            <Text style = { styles.logoDescriptionBlack }>
-              Nice green blouse with lace design spotted by coolgirl96:
-              "The shade of green is a little closer to neon but otherwise seems exactly like what you are looking for!"
-            </Text>
-
-          }
-          renderInitDrawerView={() => (
-            <View style={styles.handle}>
-              <Image
-                style={styles.scrollIndicator}
-                source={{uri: "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/scrollIndicator.png" }}
-              />
-            </View>
-          )}
-
-        />
-
-        
-        </ImageBackground>
       </View>
     );
   }
