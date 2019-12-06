@@ -137,7 +137,7 @@ export default class App extends React.Component {
           <AutocompleteSearchBar
             data={this.state.shops}
             onItemSelection={this.onShopSearchSelection}
-            placeholder={'e.g. Goodwill of Silicon Valley'}
+            placeholder={'e.g. Goodwill Boutique'}
           />
         </View>
         {/* Preview panel */}

@@ -60,7 +60,9 @@ export default class App extends React.Component {
                   style={styles.data}
                   
                   renderItem={({ item }) =>
-                  <TouchableOpacity onPress={() =>
+                  <TouchableOpacity 
+                    style={styles.itemWrapper}
+                    onPress={() =>
                         navigate('ItemView', {
                         title: item.title,
                         username: item.username,
@@ -108,16 +110,21 @@ const styles = StyleSheet.create({
     marginTop: '10%',
   },
   results: {
-    width: '80%',
+    width: '88%',
     alignItems: 'center',
     justifyContent: 'center',
     height: '80%',
   },
   name: {
     textAlign: 'center',
+    width: 150,
     marginBottom: 15,
     marginTop: 5,
     fontSize: 16
+  },
+  itemWrapper: {
+    marginRight: 4,
+    marginBottom: 4,
   },
   subtitle1: {
     color: "#121212",

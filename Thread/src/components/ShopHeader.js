@@ -29,12 +29,13 @@ const styles = StyleSheet.create({
   },
   title1: {
     color: "#121212",
-    fontSize: 24,
+    fontSize: 20,
+    fontWeight: '400',
     fontFamily: "ibm-plex-sans-regular",
     width: '80%',
   },
   subtitle: {
-    color: '#7adbc9',
+    color: '#50CDB6',
     width: '80%',
     fontSize: 16,
     fontWeight: 'bold',

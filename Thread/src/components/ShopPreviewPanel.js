@@ -54,19 +54,21 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   shopName: {
-    fontSize: 20, 
+    fontSize: 18, 
     fontWeight: '400',
     marginBottom: 8,
   },
   distance: {
     fontSize: 16, 
-    marginTop: 4,
+    marginTop: 2,
     marginBottom: 8,
+    textAlign: 'right',
   },
   hours: {
     fontSize: 16, 
     color: 'grey',
     marginBottom: 8,
+    textAlign: 'right',
   },
   numSpots: {
     fontSize: 16, 
