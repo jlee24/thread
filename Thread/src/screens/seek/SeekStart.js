@@ -112,7 +112,7 @@ export default class App extends React.Component {
     error: null,
     currentUser: null,
     activeSeeks: [],
-    coins: 0,
+    coins: 3,
   };
 
 
@@ -286,6 +286,57 @@ export default class App extends React.Component {
             { this.state.activeSeeks.length > 0 ? 
               activeStoryBubbles(this.state.activeSeeks) : null 
             }
+
+              <View>
+                <ImageBackground
+                  source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hoodiehalo.png" }}
+                  style={ styles.imageWrapper }>
+                  <TouchableOpacity
+                    style={ styles.button }
+                    onPress={ () => { navigate('StoryViewHoodie') }}>
+                    <Text style={ styles.text }>×</Text>
+                  </TouchableOpacity>
+                </ImageBackground>
+                <Text style={styles.bubbleLabel}>soft light brown..</Text>
+              </View>
+              <View>
+                <ImageBackground
+                  source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/leatherhalo.png" }}
+                  style={ styles.imageWrapper }>
+                  <TouchableOpacity
+                    style={ styles.button }
+                    onPress={ () => { navigate('StoryViewPants') }}>
+                    <Text style={ styles.text }>×</Text>
+                  </TouchableOpacity>
+                </ImageBackground>
+                <Text style={styles.bubbleLabel}>stretchy leather..</Text>
+              </View>
+
+              <View>
+                <ImageBackground
+                  source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/greenlacenohalo.png" }}
+                  style={ styles.imageWrapper }>
+                  <TouchableOpacity
+                    style={ styles.button }
+                    onPress={ () => { alert("Your green lace shirt has not yet been spotted. We will notify you once it is!") }} >
+                    <Text style={ styles.text }>×</Text>
+                  </TouchableOpacity>
+                </ImageBackground>
+                <Text style={styles.bubbleLabel}>green lace shirt</Text>
+              </View>
+
+              <View>
+                <ImageBackground
+                  source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/running_shorts.png" }}
+                  style={ styles.imageWrapper }>
+                  <TouchableOpacity
+                    style={ styles.button }
+                    onPress={ () => { alert("Your running shorts have not yet been spotted. We will notify you once it is!") }} >
+                    <Text style={ styles.text }>×</Text>
+                  </TouchableOpacity>
+                </ImageBackground>
+                <Text style={styles.bubbleLabel}>running shorts</Text>
+            </View>
 
         </ScrollView>
 
