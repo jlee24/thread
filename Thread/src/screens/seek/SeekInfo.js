@@ -153,9 +153,9 @@ render() {
         <KeyboardAwareScrollView
             innerRef={ref => {
             this.scroll = ref
-            extraScrollHeight = 100
+            extraScrollHeight = 0
             enableOnAndroid = true
-
+            enableAutomaticScroll = true
           }}
         style={styles.scrollview}>
         <View style={styles.container}>

@@ -26,7 +26,7 @@ export default class App extends React.Component {
     var keys = [];
     var paths = [];
 
-    firebase.database().ref('seeks').orderByChild('store').equalTo(shopName)
+    firebase.database().ref('/seeks').orderByChild('store').equalTo(shopName)
       .once('value')
       .then(snapshot => {
         const activeSeeks = snapshot.val();
