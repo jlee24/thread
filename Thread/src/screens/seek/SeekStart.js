@@ -194,7 +194,7 @@ export default class App extends React.Component {
     else if (this.state.quotaLeft) {
       var newData = [];
       search = search.toLowerCase();
-      if (search.includes('graphic t') || search.includes('dress') || search.includes('shirt') || search.includes('hood') || search.includes('jeans')) {
+      if (search.includes('graphic t') || search.includes('jacket') || search.includes('shirt') || search.includes('hood') || search.includes('jeans')) {
         fetch('https://www.googleapis.com/customsearch/v1?key=AIzaSyCcWSCBiwLVf2Y108sfDkpIEOsPHYB1u3E&cx=008952763162707324316:33prtpoq7jm&searchType=image&q=' + search)
           .then((response) => response.json())
           .then((responseJson) => {
