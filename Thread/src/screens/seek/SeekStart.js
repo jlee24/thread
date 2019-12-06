@@ -394,6 +394,7 @@ export default class App extends React.Component {
                   extraData={this.state}
                   renderItem={({ item }) =>
                     <TouchableOpacity
+                      style={styles.itemWrapper}
                       onPress={() => this.changeSelection(item)}
                     >
                       <Item
@@ -402,7 +403,6 @@ export default class App extends React.Component {
                         style={[
                           item.selected ? styles.selectedBorder : styles.notSelectedBorder
                         ]}/>
-                       <Text style={styles.name}>{item.name}</Text>
                     </TouchableOpacity>
                   }
                   keyExtractor={item => item.id}
@@ -492,7 +492,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   results: {
-    width: '80%',
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -500,7 +500,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-    marginLeft: 40,
+    marginLeft: 30,
     marginBottom: 24,
   },
   selectedItem: {
@@ -532,7 +532,7 @@ const styles = StyleSheet.create({
     color: "#2B8FFF",
   },
   name: {
-    width: 164,
+    width: 140,
     textAlign: 'center',
     marginBottom: 10,
     marginTop: 5,
@@ -561,5 +561,9 @@ const styles = StyleSheet.create({
     fontSize:40,
     color:'white',
     lineHeight:42
-  }
+  },
+  itemWrapper: {
+    marginRight: 4,
+    marginBottom: 4,
+  },
 });

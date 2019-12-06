@@ -24,8 +24,8 @@ function Item(props) {
 
 const styles = StyleSheet.create({
   item: {
-    width: 164,
-    height: 164,
+    width: 150,
+    height: 150,
     alignItems: 'center',
     justifyContent: 'center',
     borderColor: '#7adbc9',
@@ -39,12 +39,12 @@ const styles = StyleSheet.create({
     left: 0,
   },
   unselectedImage: {
-    width: 164,
-    height: 164,
+    width: 150,
+    height: 150,
   },
   selectedImage: {
-    width: 164,
-    height: 164,
+    width: 150,
+    height: 150,
     borderColor: '#7adbc9',
     borderWidth: 4,
   },
