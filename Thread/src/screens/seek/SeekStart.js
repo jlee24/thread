@@ -318,7 +318,7 @@ export default class App extends React.Component {
                   style={ styles.imageWrapper }>
                   <TouchableOpacity
                     style={ styles.button }
-                    onPress={ () => { alert("Your green lace shirt has not yet been spotted. We will notify you once it is!") }} >
+                    onPress={ () => { Alert.alert("No Spots Yet", "Your green lace shirt hasn't been spotted yet. We'll notify you once it is!") }} >
                     <Text style={ styles.text }>×</Text>
                   </TouchableOpacity>
                 </ImageBackground>
@@ -331,7 +331,7 @@ export default class App extends React.Component {
                   style={ styles.imageWrapper }>
                   <TouchableOpacity
                     style={ styles.button }
-                    onPress={ () => { alert("Your running shorts have not yet been spotted. We will notify you once it is!") }} >
+                    onPress={ () => { Alert.alert("No Spots Yet", "Your running shorts haven't been spotted yet. We'll notify you when they are!") }} >
                     <Text style={ styles.text }>×</Text>
                   </TouchableOpacity>
                 </ImageBackground>

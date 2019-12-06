@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground, TouchableOpacity, Image, Platform, StyleSheet, Text, View, Button } from 'react-native';
+import { Alert, ImageBackground, TouchableOpacity, Image, Platform, StyleSheet, Text, View, Button } from 'react-native';
 import Drawer from 'react-native-draggable-view'
 
 var liked
@@ -12,8 +12,7 @@ constructor(props){
  
     this.state={
       imageURL : 'http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/unliked.png',
-      liked : false,
-      spot : props.navigation.getParam('spot')
+      liked : false
     }
  
   }
@@ -24,15 +23,17 @@ constructor(props){
       liked : currentState.liked, 
     }));
     
-    if (!liked) {
-      alert("Added to Your Likes")
+    if (!this.state.liked) {
+      Alert.alert("Added to Your Likes", "Soft light brown hoodie was added to Your Likes.")
       this.setState({
-        imageURL : 'http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/liked.png'
+        imageURL : 'http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/liked.png',
+        liked: !this.state.liked
       
       });
     } else {
       this.setState({
         imageURL : 'http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/unliked.png',
+        liked: !this.state.liked
       });
     }
     
@@ -40,14 +41,13 @@ constructor(props){
 
 
 render() {
-    const spot = this.state.spot;
     return (
 
         <View style = { styles.container } >
 
         <ImageBackground
           style= { styles.backgroundImage } 
-          source={{ uri: spot.image }}>
+          source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/brown.png" }}>
 
 
           <View style= { styles.header }>
@@ -55,13 +55,13 @@ render() {
               <View style={ styles.spacer }/>
 
               <Text style = { styles.logoDescription }>
-                {spot.title}
+              Soft light brown hoodie
               </Text>
               <Text style = { styles.logoDescriptionBold }>
-                {spot.location} 
+                Goodwill Silicon Valley
               </Text>
               <Text style = { styles.logoText }>
-                {"Size " + spot.size + ", " + spot.price}
+                Size L, $17.99
               </Text>
 
               <View style={ styles.spacer }/>
@@ -100,7 +100,7 @@ render() {
               Spotted by izhou:
             </Text>
             <Text style = { styles.quote }>
-                "Extremely soft inner fleece lining."
+                "On the racks right below the Women's Tops sign. Super soft fleece lining."
             </Text>
             <View style={ styles.spacer }/>
           </View>
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
         left: 12,
     },
     quote:{
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: '400',
         color: 'white',
         left: 12,
@@ -161,8 +161,9 @@ const styles = StyleSheet.create({
       position: 'absolute',
       top: 0,
       left: 0,
+      paddingHorizontal: 14,
+      paddingVertical: 2,
       flexDirection: 'row',
-      right: 200,
     },
     button:{
       width:45,
@@ -176,13 +177,13 @@ const styles = StyleSheet.create({
       height: 12,
     },
     sideSpacer: {
-      width: 150,
+      width: 90,
     },
     imageWrapper:{
-       flex: 1,
-       width:45,
-       height:45,
-       borderRadius:15,
+      flex: 1,
+      width:45,
+      height:45,
+      borderRadius:15,
     },
     text:{
       fontSize:40,
@@ -204,6 +205,8 @@ const styles = StyleSheet.create({
       width: '100%',
     },
     previewPanelContainer: {
+      paddingHorizontal: 14,
+      paddingVertical: 2,
       zIndex: 3,
       position: 'absolute',
       bottom: 0,
