@@ -13,6 +13,8 @@ import {
 import { Button, TextInput } from 'react-native-paper';
 import { ButtonGroup } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
+import SubmitButton from "../../components/SubmitButton";
+import IconButton from "../../components/IconButton";
 
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
@@ -172,13 +174,10 @@ export default class BuildProfile extends React.Component {
                     : null }
                   </TouchableOpacity>
                 </View>
-                <Button
-                  icon="camera"
-                  color="#50CDB6"
-                  mode="contained"
-                  onPress={ this.uploadFromLibrary }>
-                  Upload Profile Photo
-                </Button>
+                <IconButton
+                  caption="Upload"
+                  source={require('../../../assets/images/photo-camera.png')}
+                  onPress={ this.uploadFromLibrary }/>
               </View>
 
               <Text style={styles.q1}>
@@ -279,14 +278,9 @@ export default class BuildProfile extends React.Component {
             </View>
 
             <View style={styles.submit}>
-              <Button
-                mode="contained"
-                color="#50CDB6"
-                labelStyle={{fontSize: 18}}
-                style={{width: 200, height: 70, justifyContent: 'center'}}
-                onPress={() => this.writeUserData(this.state.currentUser)}>
-                  Done for now!
-              </Button>
+              <SubmitButton
+                caption="Done for now"
+                onPress={() => this.writeUserData(this.state.currentUser)}/>
               <Text style={{fontSize: 16, marginBottom: 10, marginLeft: 10, marginTop: 20, textAlign: 'center'}}>
                 (You can change your size preferences whenever in your profile.)
               </Text>

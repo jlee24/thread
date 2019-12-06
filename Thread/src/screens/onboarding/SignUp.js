@@ -1,7 +1,8 @@
 import React from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native'
 import { TextInput, Button } from 'react-native-paper';
-import * as firebase from 'firebase'
+import * as firebase from 'firebase';
+import SubmitButton from "../../components/SubmitButton";
 
 
 export default class SignUp extends React.Component {
@@ -45,13 +46,8 @@ export default class SignUp extends React.Component {
             value={this.state.password}
             theme={{colors: {primary: "#50CDB6", underlineColor: "#50CDB6"}}}
           />
-          <Button mode="contained"
-                  color="#50CDB6"
-                  contentStyle={{height: 40}}
-                  onPress={this.handleSignUp}
-                  style={styles.button}>
-            Sign Up
-          </Button>
+          <SubmitButton caption="Sign Up"
+                  onPress={this.handleSignUp}/>
           <Button
             color="#50CDB6"
             style={styles.button}
