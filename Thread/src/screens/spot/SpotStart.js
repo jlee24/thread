@@ -202,8 +202,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    paddingHorizontal: 12,
-    paddingVertical: 24,
+    paddingHorizontal: 20,
+    paddingVertical: 16,
     borderBottomWidth: 2,
     borderColor: '#E7E3E3',
   },
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
     marginTop: 'auto',
     marginBottom: 8,
     color: 'black',
-    fontSize: 18,
+    fontSize: 16,
     textAlign: 'center',
   },
   map: {
@@ -223,6 +223,6 @@ const styles = StyleSheet.create({
   },
   callout: {
     backgroundColor: 'white',
-    padding: 4,
+    padding: 2,
   },
 });

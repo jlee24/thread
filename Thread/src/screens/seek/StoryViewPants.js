@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground, TouchableOpacity, Image, Platform, StyleSheet, Text, View, Button } from 'react-native';
+import { Alert, ImageBackground, TouchableOpacity, Image, Platform, StyleSheet, Text, View, Button } from 'react-native';
 import Drawer from 'react-native-draggable-view'
 
 var liked
@@ -23,15 +23,17 @@ constructor(props){
       liked : currentState.liked, 
     }));
     
-    if (!liked) {
-      alert("Added to Your Likes")
+    if (!this.state.liked) {
+      Alert.alert("Added to Your Likes", "Stretchy leather leggings was added to Your Likes.")
       this.setState({
-        imageURL : 'http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/liked.png'
+        imageURL : 'http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/liked.png',
+        liked: !this.state.liked
       
       });
     } else {
       this.setState({
         imageURL : 'http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/unliked.png',
+        liked: !this.state.liked
       });
     }
     
@@ -98,7 +100,7 @@ render() {
               Spotted by coolgirl94:
             </Text>
             <Text style = { styles.quote }>
-                "A little fraying on the left ankle hem."
+                "Near the front of the store next to the scarf displays. Pretty stretchy, hope it's what you're looking for."
             </Text>
             <View style={ styles.spacer }/>
           </View>
@@ -143,7 +145,7 @@ const styles = StyleSheet.create({
         left: 12,
     },
     quote:{
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: '400',
         color: 'white',
         left: 12,
@@ -159,8 +161,9 @@ const styles = StyleSheet.create({
       position: 'absolute',
       top: 0,
       left: 0,
+      paddingHorizontal: 14,
+      paddingVertical: 2,
       flexDirection: 'row',
-      right: 200,
     },
     button:{
       width:45,
@@ -174,13 +177,13 @@ const styles = StyleSheet.create({
       height: 12,
     },
     sideSpacer: {
-      width: 150,
+      width: 90,
     },
     imageWrapper:{
-       flex: 1,
-       width:45,
-       height:45,
-       borderRadius:15,
+      flex: 1,
+      width:45,
+      height:45,
+      borderRadius:15,
     },
     text:{
       fontSize:40,
@@ -202,6 +205,8 @@ const styles = StyleSheet.create({
       width: '100%',
     },
     previewPanelContainer: {
+      paddingHorizontal: 14,
+      paddingVertical: 2,
       zIndex: 3,
       position: 'absolute',
       bottom: 0,

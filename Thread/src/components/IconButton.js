@@ -17,22 +17,23 @@ const styles = StyleSheet.create({
     width: 150,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 15,
+    marginTop: 10,
     marginBottom: 10,
-    marginLeft: 15,
-    marginRight: 15,
+    marginLeft: 12,
+    marginRight: 12,
     height: 42,
     flexDirection: 'row'
   },
   buttontext: {
     color: 'white',
-    fontSize: 22,
+    fontSize: 18,
     fontFamily: "ibm-plex-sans-regular"
   },
   icon: {
     height: 25,
     width: 25,
-    marginLeft: 5
+    marginLeft: 5,
+    marginBottom: 2
   }
 });
 

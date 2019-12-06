@@ -37,11 +37,11 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#FFFFFF',
     width: '100%',
-    height: 180,
-    paddingTop: 28,
+    height: 160,
+    paddingTop: 22,
     paddingBottom: 20,
-    paddingLeft: 40,
-    paddingRight: 40,
+    paddingLeft: 30,
+    paddingRight: 30,
   },
   toolbar: {
     width: '100%',
@@ -51,20 +51,22 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    marginBottom: 12,
+    marginBottom: 4,
   },
   shopName: {
     fontSize: 20, 
+    fontWeight: '400',
     marginBottom: 8,
   },
   distance: {
     fontSize: 16, 
+    marginTop: 4,
     marginBottom: 8,
   },
   hours: {
     fontSize: 16, 
     color: 'grey',
-    marginBottom: 12,
+    marginBottom: 8,
   },
   numSpots: {
     fontSize: 16, 
