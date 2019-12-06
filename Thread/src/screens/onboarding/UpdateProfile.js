@@ -156,6 +156,7 @@ export default class BuildProfile extends React.Component {
                 autoCapitalize="none"
                 value={this.state.username}
                 style={{width: '90%', alignSelf: 'center'}}
+                theme={{colors: {primary: "#50CDB6", underlineColor: "#50CDB6"}}}
                 onChangeText={username => this.setState({ username })}
               />
 
