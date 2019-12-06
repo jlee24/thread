@@ -144,26 +144,38 @@ export default class App extends React.Component {
     const { currentUser } = firebase.auth();
     this.updateActiveSeeks();
     this.setState({ currentUser });
+
+    // check if we're returning to this screen after
+    console.log("clearSeekStart")
+    console.log(this.props.navigation.getParam('clearSeekStart'))
+    if (this.props.navigation.getParam('clearSeekStart')) {
+      console.log("clearSeekStart2")
+      console.log(this.mySearchBar);
+      this.mySearchBar.clear();
+      this.setState({selectedItems: []});
+    }
+
     //if updating title
     this.props.navigation.setParams({
       title: "", //or whatever the default value is
-      items: [], //default value, 
+      items: [], //default value,
       currentUser: currentUser,
       coins: this.state.coins,
     });
 
+
     // Get currency
     userId = currentUser.uid;
     firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
-      coins = (snapshot.val() && snapshot.val().coins) || 3;
-    }).then(() => this.setState({coins}));
+      coins = (snapshot.val() && snapshot.val().coins);
+    }).then(() => {this.setState({coins}); this.props.navigation.setParams({coins : coins})});
 
     this.props.navigation.addListener(
         'willFocus',
         () => {
           userId = currentUser.uid;
           firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
-            coins = (snapshot.val() && snapshot.val().coins) || 3;
+            coins = (snapshot.val() && snapshot.val().coins);
           }).then(() => this.setState({coins}));
         }
     )
@@ -260,11 +272,11 @@ export default class App extends React.Component {
               key={idx}
               source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/greenlacenohalo.png" }}
               style={ styles.imageWrapper }>
-              <TouchableOpacity 
-                style={ styles.button } 
+              <TouchableOpacity
+                style={ styles.button }
                 onPress={ () => {
                   alert("Your green lace shirt has not yet been spotted. We will notify you once it is!")
-                }} 
+                }}
               >
                 <Text style={ styles.text }>×</Text>
               </TouchableOpacity>
@@ -278,13 +290,13 @@ export default class App extends React.Component {
         <View style={styles.container}>
           {/* Story Bubbles */}
 
-          <ScrollView 
+          <ScrollView
             style={styles.seekBubbles}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
           >
-            { this.state.activeSeeks.length > 0 ? 
-              activeStoryBubbles(this.state.activeSeeks) : null 
+            { this.state.activeSeeks.length > 0 ?
+              activeStoryBubbles(this.state.activeSeeks) : null
             }
 
               <View>
@@ -350,6 +362,7 @@ export default class App extends React.Component {
             />:null}
 
             <Searchbar
+              ref={(ref) => this.mySearchBar = ref}
               style={styles.searchbar}
               theme={{colors: {primary: "gray"}}}
               placeholder="What are you seeking?"

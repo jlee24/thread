@@ -12,9 +12,9 @@ render() {
         <View style={styles.container}>
             <Text style={styles.header}>{"Your seek, "}{JSON.stringify(post_title)}{", has been submitted!"}</Text>
             <Text style={styles.basic}>{"We\'ll ping you when it\'s been spotted."}</Text>
-            <SubmitButton 
+            <SubmitButton
               caption="Back to home"
-              onPress={() => navigate('SeekStart')}
+              onPress={() => navigate('SeekStart', {'clearSeekStart': true})}
             />
         </View>
         );

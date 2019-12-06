@@ -25,7 +25,6 @@ export default class App extends React.Component {
     // Form items
     description: null,
     size: null,
-    fit: null,
     price: null,
     store: null,
     submitting: false,
@@ -38,7 +37,7 @@ export default class App extends React.Component {
 
   checkForErrors() {
     console.log("Checking for errors");
-    values = [this.state.description, this.state.size, this.state.fit, this.state.price, this.state.store];
+    values = [this.state.description, this.state.size, this.state.price, this.state.store];
     if (values.includes(null)) {
       this.setState({errorsRemaining: true, errorMessage: 'More information means a more successful seek! Please fill out all fields.'});
       return true;
@@ -72,7 +71,6 @@ export default class App extends React.Component {
       'title': this.props.navigation.getParam('title'),
       'description': this.state.description,
       'size': this.state.size,
-      'fit': this.state.fit,
       'price': this.state.price,
       'store': this.state.store,
       'refImages': this.state.selectedItems,
