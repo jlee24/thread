@@ -13,7 +13,7 @@ import * as firebase from 'firebase';
 export default class App extends React.Component {
 
   state = {
-    shopNames: ['Goodwill of Silicon Valley', 'Goodwill Boutique', 'The Shop', 'Fillmore & 5th'],
+    shopNames: ['the shop', 'fillmore & 5th', 'goodwill boutique', 'goodwill of silicon valley'],
     currentUser: null,
     userId: '',
     username: '',
@@ -264,7 +264,7 @@ render() {
               placeholder = "Goodwill of Silicon Valley"
               theme={{colors: {primary: "#50CDB6", underlineColor: "#50CDB6"}}}
               onFocus={(event: Event) => {this._scrollToInput(findNodeHandle(event.target))}}
-              onChangeText={store => this.setState({ store: store.trim() })}/>
+              onChangeText={store => this.setState({ store: store.trim().toLowerCase() })}/>
             { (this.state.store === null || this.state.shopNames.includes(this.state.store)) ? null :
               <HelperText
                 type="error"
