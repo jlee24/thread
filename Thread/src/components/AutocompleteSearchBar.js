@@ -57,8 +57,8 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(256, 0, 0, 0)"
   },
   scroll: {
-    marginLeft: -20,
-    maxWidth: 366,
+    marginLeft: -30,
+    maxWidth: 316,
     backgroundColor: "white"
   }
 });

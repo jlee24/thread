@@ -9,7 +9,7 @@ function Item(props) {
     return (
       <View style={styles.item}>
         <Image
-          style={styles.unselectedImage}
+          style={styles.image}
           source={{uri: props.info.refImages[0].path}}
         />
       </View>
@@ -18,29 +18,14 @@ function Item(props) {
 
 const styles = StyleSheet.create({
   item: {
-    width: 164,
-    height: 164,
+    width: 150,
+    height: 150,
     alignItems: 'center',
     justifyContent: 'center',
-    borderColor: '#7adbc9',
-    borderWidth: 2,
   },
-  checkmark: {
-    width: 36,
-    height: 36,
-    position: 'absolute',
-    top: 0,
-    left: 0,
-  },
-  unselectedImage: {
-    width: 164,
-    height: 164,
-  },
-  selectedImage: {
-    width: 164,
-    height: 164,
-    borderColor: '#7adbc9',
-    borderWidth: 4,
+  image: {
+    width: 150,
+    height: 150,
   },
 });
 
