@@ -283,10 +283,6 @@ export default class App extends React.Component {
             horizontal={true}
             showsHorizontalScrollIndicator={false}
           >
-            { this.state.activeSeeks.length > 0 ? 
-              activeStoryBubbles(this.state.activeSeeks) : null 
-            }
-
               <View>
                 <ImageBackground
                   source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hoodiehalo.png" }}
@@ -351,7 +347,8 @@ export default class App extends React.Component {
 
             <Searchbar
               style={styles.searchbar}
-              placeholder="What clothes are you seeking?"
+              theme={{colors: {primary: "gray"}}}
+              placeholder="What are you seeking?"
               onChangeText={this.updateSearch}
               value={query}
             />
@@ -437,15 +434,15 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    paddingTop: 20,//48,
-    paddingLeft: 32,
-    paddingBottom: 20,
+    paddingVertical: 16,//48,
+    paddingLeft: 30,
     borderBottomWidth: 2,
     borderColor: '#E7E3E3',
   },
   bubbleLabel: {
     marginTop: 4,
-    fontSize: 10,
+    marginLeft: 4,
+    fontSize: 8,
     color: 'black',
   },
   spacer: {
@@ -481,8 +478,8 @@ const styles = StyleSheet.create({
     width: '80%',
   },
   searchbar: {
-    marginTop: 15,
-    width: '86%',
+    marginTop: 14,
+    width: '85%',
     borderRadius: 10,
   },
   resultsContainer: {
@@ -551,10 +548,10 @@ const styles = StyleSheet.create({
     marginRight:15,
   },
   imageWrapper:{
-     width:78,
-     height:78,
+     width:70,
+     height:70,
      borderRadius:0,
-     marginRight:15,
+     marginRight:14,
   },
   text:{
     fontSize:40,
