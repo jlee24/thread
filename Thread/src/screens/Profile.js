@@ -101,24 +101,20 @@ export default class Profile extends React.Component {
                 <Text> Size (Number)</Text>
               </View>
             </View>
-            <View style={{width: 200, marginTop:10, justifyContent: 'center'}}>
-              <Button color = "#7adbc9"
-                mode = "contained"
-                uppercase = "false"
-                style={{marginBottom: 12}}
-                onPress={() => this.props.navigation.navigate('UpdateProfile')}>
-                Edit My Sizes
-              </Button>
-              <Button color = "#7adbc9"
-                mode = "contained"
-                uppercase = "false"
-                onPress={() => 
+            <View style={{width: '100%', height: 100, flexDirection: 'column', marginTop:10, alignItems: 'center', justifyContent: 'space-around'}}>
+              
+              <SubmitButton caption="Edit My Sizes"
+                onPress={() => this.props.navigation.navigate('UpdateProfile')}/>
+              
+              <Button
+              color="#50CDB6"
+              onPress={() => 
                   firebase.auth().signOut().then(function() {
-                    console.log('Signed Out')
+                    console.log('Sign Out')
                   })
                 }
-              >
-                Sign out 
+              style={styles.button}>
+              Sign Out
               </Button>
             </View>
           </View>
@@ -236,5 +232,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#d3d3d3',
     height: 2,
     width: "100%",
-  }
+  },
+  button: {
+    marginBottom: 15
+  },
 })
