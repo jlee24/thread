@@ -17,7 +17,7 @@ export default class Profile extends React.Component {
     username: '',
     sizeLetter: [],
     sizeNumber: [],
-    profilePhoto: this.defaultPhotoURI,
+    profilePhoto: "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/profile_photo_placeholder.png",
     selectedIndex: 0,
     myLikes: ['http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/brown.png', 'http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/pants.png'],
     mySpots: [],
@@ -35,7 +35,7 @@ export default class Profile extends React.Component {
       username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
       sizeLetter = (snapshot.val() && snapshot.val().sizeLetter) || [];
       sizeNumber = (snapshot.val() && snapshot.val().sizeNumber) || [];
-      profilePhoto = (snapshot.val() && snapshot.val().profilePhoto) || defaultPhotoURI;
+      profilePhoto = (snapshot.val() && snapshot.val().profilePhoto) || "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/profile_photo_placeholder.png";
     }).then(() => this.setState({
                     username: username,
                     sizeLetter: sizeLetter,
