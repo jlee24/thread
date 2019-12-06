@@ -283,6 +283,10 @@ export default class App extends React.Component {
             horizontal={true}
             showsHorizontalScrollIndicator={false}
           >
+            { this.state.activeSeeks.length > 0 ? 
+              activeStoryBubbles(this.state.activeSeeks) : null 
+            }
+
               <View>
                 <ImageBackground
                   source={{ uri:"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hoodiehalo.png" }}
