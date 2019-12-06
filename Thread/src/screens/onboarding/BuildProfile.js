@@ -78,7 +78,6 @@ export default class BuildProfile extends React.Component {
 
   buttonsLetter = ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL', '0X', '1X', '2X', '3X', '4X', '5X'];
   buttonsNumber = ['00', '0', '2', '4', '6', '8', '10', '12', '14', '16', '18', '20', '22', '24', '26', '28', '30', '32'];
-  // buttonsShoe = ['4', '4.5', '5', '5.5', '6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12', '12.5'];
 
 
   writeUserData = (user) => {
@@ -90,7 +89,6 @@ export default class BuildProfile extends React.Component {
       email: email,
       sizeLetter: this.state.selectedIndexesLetter.map(x => this.buttonsLetter[x]),
       sizeNumber: this.state.selectedIndexesNumber.map(x => this.buttonsNumber[x]),
-      // sizeShoe: this.state.selectedIndexesShoe.map(x => this.buttonsShoe[x]),
       coins: 3,
       likes: [],
       seeks: [],
@@ -98,7 +96,7 @@ export default class BuildProfile extends React.Component {
     })
     .then(() => {
       this.props.navigation.navigate('TabNavigator');
-      Alert.alert('Welcome to Thread!', ' Here’s 3 coins on us. \n Spend 2 to seek, Earn 1 to spot.',
+      Alert.alert('Welcome to Thread!', ' Here’s 3 coins on us. \n Spend 2 to seek, Earn 1 when you spot.',
                   [{text: 'Get Started'}],
                   {cancelable: true});
     })
@@ -116,9 +114,6 @@ export default class BuildProfile extends React.Component {
     } else if (sizeType == 'number') {
       selectedIndexes = this.state.selectedIndexesNumber;
     }
-    // else {
-    //   selectedIndexes = this.state.selectedIndexesShoe;
-    // }
 
     if (num == 1) {
       selectedIndex = selectedIndex + 5;
@@ -140,9 +135,6 @@ export default class BuildProfile extends React.Component {
     } else if (sizeType == 'number') {
       this.setState({selectedIndexesNumber: selectedIndexes});
     }
-    // else {
-    //   this.setState({selectedIndexesShoe: selectedIndexes});
-    // }
   }
 
   render() {
@@ -162,6 +154,7 @@ export default class BuildProfile extends React.Component {
                 autoCapitalize="none"
                 value={this.state.username}
                 style={{width: '90%', alignSelf: 'center'}}
+                theme={{colors: {primary: "#50CDB6", underlineColor: "#50CDB6"}}}
                 onChangeText={username => this.setState({ username })}
               />
 
@@ -207,6 +200,7 @@ export default class BuildProfile extends React.Component {
                   Component={TouchableOpacity}
                   selectedIndexes={selectedIndexesLetter.filter((idx) => (idx >= 5 & idx < 10)).map(x => x-5)}
                   buttons={this.buttonsLetter.slice(5,10)}
+                  selectedButtonStyle={{backgroundColor: "#50CDB6"}}
                   containerStyle={styles.container5Elems} />
               </View>
               <View style={styles.group3Elems}>
@@ -215,6 +209,7 @@ export default class BuildProfile extends React.Component {
                   Component={TouchableOpacity}
                   selectedIndexes={selectedIndexesLetter.filter((idx) => idx >= 10).map(x => x-10)}
                   buttons={this.buttonsLetter.slice(10,13)}
+                  selectedButtonStyle={{backgroundColor: "#50CDB6"}}
                   containerStyle={styles.container3Elems} />
               </View>
 
@@ -226,6 +221,7 @@ export default class BuildProfile extends React.Component {
                   onPress={(selectedIndex) => this.updateSelectedIndexes(selectedIndex, 0, 'number')}
                   selectedIndexes={selectedIndexesNumber.filter((idx) => idx < 5)}
                   buttons={this.buttonsNumber.slice(0,5)}
+                  selectedButtonStyle={{backgroundColor: "#50CDB6"}}
                   containerStyle={styles.container5Elems} />
               </View>
               <View style={styles.group5Elems}>
@@ -233,6 +229,7 @@ export default class BuildProfile extends React.Component {
                   onPress={(selectedIndex) => this.updateSelectedIndexes(selectedIndex, 1, 'number')}
                   selectedIndexes={selectedIndexesNumber.filter((idx) => (idx >= 5 & idx < 10)).map(x => x-5)}
                   buttons={this.buttonsNumber.slice(5,10)}
+                  selectedButtonStyle={{backgroundColor: "#50CDB6"}}
                   containerStyle={styles.container5Elems}  />
               </View>
               <View style={styles.group5Elems}>
@@ -240,6 +237,7 @@ export default class BuildProfile extends React.Component {
                   onPress={(selectedIndex) => this.updateSelectedIndexes(selectedIndex, 2, 'number')}
                   selectedIndexes={selectedIndexesNumber.filter((idx) => (idx >= 10 & idx < 15)).map(x => x-10)}
                   buttons={this.buttonsNumber.slice(10,15)}
+                  selectedButtonStyle={{backgroundColor: "#50CDB6"}}
                   containerStyle={styles.container5Elems}  />
               </View>
               <View style={styles.group3Elems}>
@@ -247,40 +245,9 @@ export default class BuildProfile extends React.Component {
                   onPress={(selectedIndex) => this.updateSelectedIndexes(selectedIndex, 3, 'number')}
                   selectedIndexes={selectedIndexesNumber.filter((idx) => idx >= 15).map(x => x-15)}
                   buttons={this.buttonsNumber.slice(15,18)}
+                  selectedButtonStyle={{backgroundColor: "#50CDB6"}}
                   containerStyle={styles.container3Elems} />
               </View>
-
-              {/*<Text style={styles.q1}>
-                What shoe size(s) usually fit?
-              </Text>
-              <View style={styles.group5Elems}>
-                <ButtonGroup
-                  onPress={(selectedIndex) => this.updateSelectedIndexes(selectedIndex, 0, 'shoe')}
-                  selectedIndexes={selectedIndexesShoe.filter((idx) => idx < 5)}
-                  buttons={this.buttonsShoe.slice(0,5)}
-                  containerStyle={styles.container5Elems} />
-              </View>
-              <View style={styles.group5Elems}>
-                <ButtonGroup
-                  onPress={(selectedIndex) => this.updateSelectedIndexes(selectedIndex, 1, 'shoe')}
-                  selectedIndexes={selectedIndexesShoe.filter((idx) => (idx >= 5 & idx < 10)).map(x => x-5)}
-                  buttons={this.buttonsShoe.slice(5,10)}
-                  containerStyle={styles.container5Elems}  />
-              </View>
-              <View style={styles.group5Elems}>
-                <ButtonGroup
-                  onPress={(selectedIndex) => this.updateSelectedIndexes(selectedIndex, 2, 'shoe')}
-                  selectedIndexes={selectedIndexesShoe.filter((idx) => (idx >= 10 & idx < 15)).map(x => x-10)}
-                  buttons={this.buttonsShoe.slice(10,15)}
-                  containerStyle={styles.container5Elems}  />
-              </View>
-              <View style={styles.group3Elems}>
-                <ButtonGroup
-                  onPress={(selectedIndex) => this.updateSelectedIndexes(selectedIndex, 3, 'shoe')}
-                  selectedIndexes={selectedIndexesShoe.filter((idx) => idx >= 15).map(x => x-15)}
-                  buttons={this.buttonsShoe.slice(15,18)}
-                  containerStyle={styles.container3Elems} />
-              </View>*/}
             </View>
 
             <View style={styles.submit}>
