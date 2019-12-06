@@ -11,7 +11,6 @@ import {
   TouchableOpacity
 } from "react-native";
 
-import Emoji from 'react-native-emoji';
 import { Button, TextInput } from 'react-native-paper';
 import { ButtonGroup } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
