@@ -46,7 +46,8 @@ export default class App extends React.Component {
         const { navigate } = this.props.navigation;
         const { activeSeeksAtShop } = this.state;
         const { shop } = this.state;
-        const { paths } = this.state
+        const { paths } = this.state;
+        const { keys } = this.state;
 
     		return (
       		<View style={styles.container}>
@@ -72,7 +73,8 @@ export default class App extends React.Component {
                         store: item.store,
                         price: item.price,
                         path: paths[activeSeeksAtShop.indexOf(item)],
-                        shop: shop
+                        shop: shop,
+                        seekId: keys[activeSeeksAtShop.indexOf(item)]
                           })}>
                       <Text style={styles.username}> {item.username} </Text>
                       <Item info={item}/>

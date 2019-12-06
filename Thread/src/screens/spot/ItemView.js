@@ -13,7 +13,7 @@ shops = require('../../../assets/thriftShops.json');
 
 
   state = {
-    itemID: '',
+    seekId: '',
     title: '',
     username: '',
     description: '',
@@ -25,8 +25,7 @@ shops = require('../../../assets/thriftShops.json');
   }
 
   componentDidMount() {
-
-    const itemID = this.props.navigation.getParam('itemID');
+    const seekId = this.props.navigation.getParam('seekId');
     const title = this.props.navigation.getParam('title');
     const username = this.props.navigation.getParam('username');
     const description = this.props.navigation.getParam('description');
@@ -39,6 +38,7 @@ shops = require('../../../assets/thriftShops.json');
     const shop = this.props.navigation.getParam('shop');
     const seeks = this.props.navigation.getParam('seeks');
 
+    this.setState({seekId});
     this.setState({title});
     this.setState({username});
     this.setState({description});
@@ -51,6 +51,7 @@ shops = require('../../../assets/thriftShops.json');
     this.setState({shop});
     
   }
+
 
   render() {
     const { navigate } = this.props.navigation;
@@ -80,7 +81,7 @@ shops = require('../../../assets/thriftShops.json');
             <Text style={styles.bodyText}>Price cap: {this.state.price}</Text>
             <Text style={styles.bodyText}>Size: {this.state.size}</Text>
 
-            <IconButton caption="Spotted!" source={require('../../../assets/images/photo-camera.png')} onPress={() => navigate('CameraView')} />
+            <IconButton caption="Spotted!" source={require('../../../assets/images/photo-camera.png')} onPress={() => navigate('CameraView', {'seekId': this.state.seekId})} />
 
       </ScrollView>
     );

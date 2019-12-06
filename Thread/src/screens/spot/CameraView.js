@@ -4,6 +4,7 @@ import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 import { Ionicons, MaterialIcons} from '@expo/vector-icons';
 import * as FileSystem from 'expo-file-system';
+import * as firebase from 'firebase';
 
   const flashModeOrder = {
     off: 'on',
@@ -38,7 +39,8 @@ export default class CameraExample extends React.Component {
     whiteBalance: 'auto',
     ratio: '16:9',
     ratios: [],
-    newPhotos: false
+    newPhotos: false,
+    seekId: ''
   };
 
   toggleFlash = () => this.setState({ flash: flashModeOrder[this.state.flash] });
@@ -52,6 +54,9 @@ export default class CameraExample extends React.Component {
   async componentDidMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === 'granted' });
+    
+    const seekId = this.props.navigation.getParam('seekId');
+    this.setState({seekId});
   }
 
   takePicture = () => {
@@ -62,7 +67,7 @@ export default class CameraExample extends React.Component {
 
   onPictureSaved = async photo => {
     this.setState({ newPhotos: true });
-    this.props.navigation.navigate('Photo', {'uri': photo.uri});
+    this.props.navigation.navigate('Photo', {'uri': photo.uri, 'seekId': this.state.seekId});
   };
 
   render() {
