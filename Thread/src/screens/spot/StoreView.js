@@ -21,6 +21,10 @@ export default class App extends React.Component {
 
   componentDidMount() {
     const shopName = this.props.navigation.getParam('shop');
+    shopName = shopName.toLowerCase()
+      .split(' ')
+      .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+      .join(' ');
     this.setState({ shop: shopName });
     var activeSeeksAtShop = [];
     var keys = [];
@@ -59,9 +63,9 @@ export default class App extends React.Component {
                 <FlatList
                   data={activeSeeksAtShop}
                   style={styles.data}
-                  
+
                   renderItem={({ item }) =>
-                  <TouchableOpacity 
+                  <TouchableOpacity
                     style={styles.itemWrapper}
                     onPress={() =>
                         navigate('ItemView', {

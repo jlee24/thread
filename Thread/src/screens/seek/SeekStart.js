@@ -108,7 +108,7 @@ export default class App extends React.Component {
     query: '',
     data: [],
     selectedItems: [],
-    quotaLeft: true,
+    quotaLeft: false,
     error: null,
     currentUser: null,
     activeSeeks: [],
@@ -146,11 +146,7 @@ export default class App extends React.Component {
     this.setState({ currentUser });
 
     // check if we're returning to this screen after
-    console.log("clearSeekStart")
-    console.log(this.props.navigation.getParam('clearSeekStart'))
     if (this.props.navigation.getParam('clearSeekStart')) {
-      console.log("clearSeekStart2")
-      console.log(this.mySearchBar);
       this.mySearchBar.clear();
       this.setState({selectedItems: []});
     }

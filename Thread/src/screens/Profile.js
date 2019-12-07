@@ -30,6 +30,7 @@ export default class Profile extends React.Component {
 
   componentDidMount() {
     const { currentUser } = firebase.auth()
+    this.setState({ currentUser });
     userId = currentUser.uid;
     firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
       username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
@@ -42,8 +43,18 @@ export default class Profile extends React.Component {
                     sizeNumber: sizeNumber,
                     profilePhoto: profilePhoto,
                   }));
-    this.setState({ currentUser });
+
+    var mySpots = [];
+    firebase.database().ref('spots').orderByChild('userId').equalTo(userId)
+    .once('value').then(snapshot => {
+      spotsByUser = snapshot.val()
+      for (var s in spotsByUser) {
+        mySpots.push(spotsByUser[s].img);
+      }
+      this.setState({mySpots})
+    }).catch(error => console.log(error));
   }
+
 
   renderItem(item) {
     return (
@@ -126,9 +137,20 @@ export default class Profile extends React.Component {
                    renderItem={({ item }) => this.renderItem(item)}
                    keyExtractor={item => this.state.myLikes.indexOf(item)}
                 />
+              </View> :
+              <View>
+              { this.state.mySpots.length === 0 ?
+                <Text> You haven&#39;t spotted yet! </Text> :
+                <View>
+                  <FlatList
+                     numColumns={3}
+                     data={this.state.mySpots}
+                     renderItem={({ item }) => this.renderItem(item)}
+                     keyExtractor={item => this.state.mySpots.indexOf(item)}
+                  />
+                </View>
+              }
               </View>
-              :
-              <Text> My Spots </Text>
             }
             {/*<FlatList
                numColumns={3}
