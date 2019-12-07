@@ -45,7 +45,7 @@ import * as firebase from 'firebase';
     this.setState({barsVisible: visible});
   }
 
-  uploadImage = async(uri) => {
+  /*uploadImage = async(uri) => {
     const name = await AsyncStorage.getItem('name');
     const response = await fetch(uri);
     const blob = await response.blob();
@@ -54,13 +54,13 @@ import * as firebase from 'firebase';
     var ref = firebase.storage().ref().child(name+'/'+filename);
     let task = ref.put(blob);
     return {task, ref};
-  };
+  };*/
 
   writeSpotData = async (photo_uri) => {
-    let res = await this.uploadImage(photo_uri);
+    /*let res = await this.uploadImage(photo_uri);
     await res.task;
     let url = await res.ref.getDownloadURL();
-    this.setState({uri: url});
+    this.setState({uri: photo_uri});*/
 
     var newSpot = firebase.database().ref('spots/').push();
     var curr_user = firebase.auth().currentUser;
@@ -71,7 +71,7 @@ import * as firebase from 'firebase';
       'price': this.state.price,
       'location': this.state.location,
       'description': this.state.description,
-      'img': this.state.uri,
+      'img': photo_uri,
     }).then(() => this.props.navigation.navigate('SpotSuccess', {'uri': this.state.uri}));
 
     /*var spotId = firebase.database().ref('seeks/' + this.state.seekId + '/spots').push();

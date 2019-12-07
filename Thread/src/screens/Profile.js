@@ -78,7 +78,7 @@ export default class Profile extends React.Component {
 
     return (
       <View style={styles.container}>
-        <View style={{width: '90%', height: 150, flexDirection: 'row'}}>
+        <View style={{width: '90%', height: 150, flexDirection: 'row', marginTop: 10}}>
           {/*"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/greenlacenohalo.png"*/}
           <View style={styles.profilePhotoContainer}>
             <Image
