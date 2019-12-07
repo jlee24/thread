@@ -17,7 +17,7 @@ export default class Profile extends React.Component {
     username: '',
     sizeLetter: [],
     sizeNumber: [],
-    profilePhoto: this.defaultPhotoURI,
+    profilePhoto: "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/profile_photo_placeholder.png",
     selectedIndex: 0,
     myLikes: ['http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/brown.png', 'http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/pants.png'],
     mySpots: [],
@@ -36,7 +36,7 @@ export default class Profile extends React.Component {
       username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
       sizeLetter = (snapshot.val() && snapshot.val().sizeLetter) || [];
       sizeNumber = (snapshot.val() && snapshot.val().sizeNumber) || [];
-      profilePhoto = (snapshot.val() && snapshot.val().profilePhoto) || defaultPhotoURI;
+      profilePhoto = (snapshot.val() && snapshot.val().profilePhoto) || "http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/hifi_photos/profile_photo_placeholder.png";
     }).then(() => this.setState({
                     username: username,
                     sizeLetter: sizeLetter,
@@ -89,7 +89,7 @@ export default class Profile extends React.Component {
 
     return (
       <View style={styles.container}>
-        <View style={{width: '90%', height: 150, flexDirection: 'row'}}>
+        <View style={{width: '90%', height: 150, flexDirection: 'row', marginTop: 10}}>
           {/*"http://web.stanford.edu/class/cs147/projects/HumanCenteredAI/Thread/greenlacenohalo.png"*/}
           <View style={styles.profilePhotoContainer}>
             <Image
@@ -110,12 +110,19 @@ export default class Profile extends React.Component {
                 <Text> Size (Number)</Text>
               </View>
             </View>
-            <View style={{width: 200, marginTop:10, justifyContent: 'center'}}>
-              <Button color = "#7adbc9"
-                mode = "contained"
-                uppercase = "false"
-                onPress={() => this.props.navigation.navigate('UpdateProfile')}>
-                Edit My Sizes
+            <View style={{width: '100%', height: 100, flexDirection: 'column', marginTop:10, alignItems: 'center', justifyContent: 'space-around'}}>
+              <SubmitButton caption="Edit Sizes"
+                onPress={() => this.props.navigation.navigate('UpdateProfile')}/>
+
+            <Button
+              color="#50CDB6"
+              onPress={() => 
+                  firebase.auth().signOut().then(function() {
+                    console.log('Sign Out')
+                  })
+                }
+              style={styles.button}>
+              Sign Out
               </Button>
             </View>
           </View>
@@ -229,5 +236,8 @@ const styles = StyleSheet.create({
     flex: 1/3,
     aspectRatio: 1,
     marginRight: 3
-  }
+  },
+  button: {
+    marginBottom: 15
+  },
 })
