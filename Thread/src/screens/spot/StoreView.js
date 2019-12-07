@@ -20,11 +20,7 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    shopName = this.props.navigation.getParam('shop');
-    const shopName = shopName.toLowerCase()
-      .split(' ')
-      .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-      .join(' ');
+    const shopName = this.props.navigation.getParam('shop');
     this.setState({ shop: shopName });
     var activeSeeksAtShop = [];
     var keys = [];
