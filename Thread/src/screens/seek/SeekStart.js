@@ -108,7 +108,7 @@ export default class App extends React.Component {
     query: '',
     data: [],
     selectedItems: [],
-    quotaLeft: false,
+    quotaLeft: true,
     error: null,
     currentUser: null,
     activeSeeks: [],
